@@ -1,8 +1,35 @@
 body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    background-color:#0f1a33;
+    color: #e2e8f0;
+}
+main {
     align-items: center;
+}
+.center-col {
+    display:flex;
+    justify-content: space-around;
+    padding:0px, 100px, 0px, 100px;
+}
+.nav-bar {
+    color:#64748b;
+}
+.nav-bar ul{
+    list-style-type:none;
+}
+.menu {
+    font-size:1.5rem;
+}
+.content {
+
+}
+a {
+    text-decoration: none;
+    color: #e2e8f0;
+}
+a:hover {
+    text-decoration:underline;
+    color:#e2e8f0;
 }
 .masthead {
     display:flex;
