@@ -1,0 +1,12 @@
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/bin/Debug/net7.0/Formula.deps.json
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/bin/Debug/net7.0/Formula.dll
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/bin/Debug/net7.0/Formula.pdb
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.GeneratedMSBuildEditorConfig.editorconfig
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.AssemblyInfoInputs.cache
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.AssemblyInfo.cs
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.csproj.CoreCompileInputs.cache
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.sourcelink.json
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.dll
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/refint/Formula.dll
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/Formula.pdb
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/Debug/net7.0/ref/Formula.dll

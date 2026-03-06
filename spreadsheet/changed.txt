@@ -1,0 +1,6 @@
+{
+  "Cells": {
+    "C1": {}
+  },
+  "Version": "default"
+}

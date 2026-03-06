@@ -1,0 +1,319 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/SpreadsheetTests/SpreadsheetTests.csproj": {}
+  },
+  "projects": {
+    "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/DependencyGraph.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/DependencyGraph.csproj",
+        "projectName": "DependencyGraph",
+        "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/DependencyGraph.csproj",
+        "packagesPath": "/Users/roscoe/.nuget/packages/",
+        "outputPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/roscoe/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/Formula.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/Formula.csproj",
+        "projectName": "Formula",
+        "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/Formula.csproj",
+        "packagesPath": "/Users/roscoe/.nuget/packages/",
+        "outputPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/roscoe/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/Spreadsheet.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/Spreadsheet.csproj",
+        "projectName": "Spreadsheet",
+        "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/Spreadsheet.csproj",
+        "packagesPath": "/Users/roscoe/.nuget/packages/",
+        "outputPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/roscoe/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/DependencyGraph.csproj": {
+                "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/DependencyGraph.csproj"
+              },
+              "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/Formula.csproj": {
+                "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/Formula.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/SpreadsheetTests/SpreadsheetTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/SpreadsheetTests/SpreadsheetTests.csproj",
+        "projectName": "SpreadsheetTests",
+        "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/SpreadsheetTests/SpreadsheetTests.csproj",
+        "packagesPath": "/Users/roscoe/.nuget/packages/",
+        "outputPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/SpreadsheetTests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/roscoe/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/Spreadsheet.csproj": {
+                "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/Spreadsheet.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[2.2.10, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[2.2.10, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.5.0, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "by0GZeL+DiI=",
+  "success": true,
+  "projectFilePath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Spreadsheet/Spreadsheet.csproj",
+  "expectedPackageFiles": [
+    "/Users/roscoe/.nuget/packages/microsoft.netcore.app.ref/7.0.20/microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
+    "/Users/roscoe/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.20/microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512"
+  ],
+  "logs": []
+}

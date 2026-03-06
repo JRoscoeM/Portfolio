@@ -1,0 +1,12 @@
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/bin/Debug/net7.0/DependencyGraph.deps.json
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/bin/Debug/net7.0/DependencyGraph.dll
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/bin/Debug/net7.0/DependencyGraph.pdb
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.GeneratedMSBuildEditorConfig.editorconfig
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.AssemblyInfoInputs.cache
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.AssemblyInfo.cs
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.csproj.CoreCompileInputs.cache
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.sourcelink.json
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.dll
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/refint/DependencyGraph.dll
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/DependencyGraph.pdb
+/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/DependencyGraph/obj/Debug/net7.0/ref/DependencyGraph.dll

@@ -1,0 +1,103 @@
+{
+  "version": 3,
+  "targets": {
+    "net7.0": {
+      "FormulaEvaluator/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/FormulaEvaluator.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FormulaEvaluator.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FormulaEvaluator/1.0.0": {
+      "type": "project",
+      "path": "../FormulaEvaluator/FormulaEvaluator.csproj",
+      "msbuildProject": "../FormulaEvaluator/FormulaEvaluator.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net7.0": [
+      "FormulaEvaluator >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/roscoe/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/PS1App/PS1App.csproj",
+      "projectName": "PS1App",
+      "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/PS1App/PS1App.csproj",
+      "packagesPath": "/Users/roscoe/.nuget/packages/",
+      "outputPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/PS1App/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/roscoe/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "projectReferences": {
+            "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/FormulaEvaluator/FormulaEvaluator.csproj": {
+              "projectPath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/FormulaEvaluator/FormulaEvaluator.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net7.0": {
+        "targetAlias": "net7.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[7.0.17, 7.0.17]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[7.0.17, 7.0.17]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[7.0.17, 7.0.17]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>chileMine.png</file>
+        <file>WorldMap.png</file>
+        <file>saltLakePollution1.jpg</file>
+        <file>saltLakePollution2.png</file>
+        <file>saltLakePollution3.png</file>
+        <file>saltLakePollution4.png</file>
+        <file>saltLakePollution5.png</file>
+        <file>saltLakePollution6.png</file>
+        <file>DRCBackground_Placeholder.png</file>
+        <file>miningIcon.png</file>
+        <file>ChinaMineMaze.png</file>
+        <file>buildBackground.png</file>
+        <file>metal-detector.png</file>
+        <file>magnesium.png</file>
+        <file>copperBar.png</file>
+        <file>paperwork.png</file>
+        <file>cobalt.png</file>
+        <file>HighResDrcMine.png</file>
+        <file>acidPondSLC.png</file>
+        <file>airPollutionSLC.png</file>
+        <file>cityPollutionSLC.png</file>
+        <file>linkShrinkSLC.png</file>
+        <file>litterSLC.png</file>
+        <file>waterPolluteSLC.png</file>
+        <file>computerCase.png</file>
+        <file>builtComputer.png</file>
+        <file>cpu.png</file>
+        <file>gpu.png</file>
+        <file>motherboard.png</file>
+        <file>ram.png</file>
+        <file>dirtPile.png</file>
+        <file>dirtBG.jpg</file>
+        <file>chinamine.png</file>
+        <file>miningman.png</file>
+        <file>neodymium.png</file>
+        <file>winningOption4.png</file>
+        <file>losingOption4.png</file>
+        <file>losingResult0.png</file>
+        <file>losingResult1.png</file>
+        <file>Resources.qrc</file>
+        <file>winningResult3.png</file>
+        <file>winningResult0.png</file>
+        <file>winningResult1.png</file>
+    </qresource>
+    <qresource prefix="/font">
+        <file>Quantico-Regular.ttf</file>
+        <file>Electrolize-Regular.ttf</file>
+    </qresource>
+</RCC>
