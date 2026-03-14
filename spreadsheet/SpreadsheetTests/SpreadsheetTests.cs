@@ -51,11 +51,10 @@ public class GradingTests
 
     [TestMethod, Timeout(2000)]
     [TestCategory("2")]
-    [ExpectedException(typeof(InvalidNameException))]
     public void IsValidTest2()
     {
         AbstractSpreadsheet ss = new Spreadsheet(s => s[0] != 'A', s => s, "");
-        ss.SetContentsOfCell("A1", "x");
+        Assert.Throws<InvalidNameException>(() => ss.SetContentsOfCell("A1", "x"));
     }
 
     [TestMethod, Timeout(2000)]
@@ -68,11 +67,11 @@ public class GradingTests
 
     [TestMethod, Timeout(2000)]
     [TestCategory("4")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void IsValidTest4()
     {
         AbstractSpreadsheet ss = new Spreadsheet(s => s[0] != 'A', s => s, "");
-        ss.SetContentsOfCell("B1", "= A1 + C1");
+        Assert.Throws<FormulaFormatException>(() => ss.SetContentsOfCell("B1", "= A1 + C1"));
+
     }
 
     // Tests Normalize
@@ -401,19 +400,17 @@ public class GradingTests
     // Reading/writing spreadsheets
     [TestMethod, Timeout(2000)]
     [TestCategory("29")]
-    [ExpectedException(typeof(SpreadsheetReadWriteException))]
     public void SaveTest1()
     {
         AbstractSpreadsheet ss = new Spreadsheet();
-        ss.Save(Path.GetFullPath("/missing/save.txt"));
+        Assert.Throws<SpreadsheetReadWriteException>(() => ss.Save(Path.GetFullPath("/missing/save.txt")));
     }
 
     [TestMethod, Timeout(2000)]
     [TestCategory("30")]
-    [ExpectedException(typeof(SpreadsheetReadWriteException))]
     public void SaveTest2()
     {
-        AbstractSpreadsheet ss = new Spreadsheet(Path.GetFullPath("/missing/save.txt"), s => true, s => s, "");
+        Assert.Throws<SpreadsheetReadWriteException>(() => new Spreadsheet(Path.GetFullPath("/missing/save.txt"), s => true, s => s, ""));
     }
 
     [TestMethod, Timeout(2000)]
@@ -429,7 +426,6 @@ public class GradingTests
 
     [TestMethod, Timeout(2000)]
     [TestCategory("32")]
-    [ExpectedException(typeof(SpreadsheetReadWriteException))]
     public void SaveTest4()
     {
         using (StreamWriter writer = new StreamWriter("save2.txt"))
@@ -439,17 +435,16 @@ public class GradingTests
             writer.WriteLine("a");
             writer.WriteLine("test!");
         }
-        AbstractSpreadsheet ss = new Spreadsheet("save2.txt", s => true, s => s, "");
+        Assert.Throws<SpreadsheetReadWriteException>(() => new Spreadsheet("save2.txt", s => true, s => s, ""));
     }
 
     [TestMethod, Timeout(2000)]
     [TestCategory("33")]
-    [ExpectedException(typeof(SpreadsheetReadWriteException))]
     public void SaveTest5()
     {
         AbstractSpreadsheet ss = new Spreadsheet();
         ss.Save("save3.txt");
-        ss = new Spreadsheet("save3.txt", s => true, s => s, "version");
+        Assert.Throws<SpreadsheetReadWriteException>(() => ss = new Spreadsheet("save3.txt", s => true, s => s, "version"));
     }
 
 

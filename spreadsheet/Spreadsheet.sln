@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.6.33927.249
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11520.95 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyGraph", "DependencyGraph\DependencyGraph.csproj", "{8DF976AB-9525-48FA-9AB2-815C181F354F}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spreadsheet", "Spreadsheet\Spreadsheet.csproj", "{5614FCAF-2A5F-465C-8A8D-19F31CBD081D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpreadsheetTests", "SpreadsheetTests\SpreadsheetTests.csproj", "{CDF5F130-C1E0-4142-A1A5-A8D53BE83BF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorFrontend", "BlazorFrontend\BlazorFrontend.csproj", "{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{CDF5F130-C1E0-4142-A1A5-A8D53BE83BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF5F130-C1E0-4142-A1A5-A8D53BE83BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF5F130-C1E0-4142-A1A5-A8D53BE83BF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

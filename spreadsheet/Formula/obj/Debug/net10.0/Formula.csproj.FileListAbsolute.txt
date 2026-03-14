@@ -1,0 +1,12 @@
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\bin\Debug\net10.0\Formula.deps.json
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\bin\Debug\net10.0\Formula.dll
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\bin\Debug\net10.0\Formula.pdb
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.AssemblyInfoInputs.cache
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.AssemblyInfo.cs
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.csproj.CoreCompileInputs.cache
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.sourcelink.json
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.dll
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\refint\Formula.dll
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\Formula.pdb
+C:\Users\rosco\Documents\Portfolio\spreadsheet\Formula\obj\Debug\net10.0\ref\Formula.dll

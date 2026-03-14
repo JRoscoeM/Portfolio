@@ -41,9 +41,9 @@ public class GradingTests
     // Validator tests
     [TestMethod(), Timeout(2000)]
     [TestCategory("4")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestValidatorFalse()
     {
+        Assert.Throws<FormulaFormatException>(() => new Formula("2+x1", s => s, s => false));
         Formula f = new Formula("2+x1", s => s, s => false);
     }
 
@@ -56,18 +56,16 @@ public class GradingTests
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("6")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestValidatorX2()
     {
-        Formula f = new Formula("2+y1", s => s, s => (s == "x"));
+        Assert.Throws<FormulaFormatException>(() => new Formula("2+y1", s => s, s => (s == "x")));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("7")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestValidatorX3()
     {
-        Formula f = new Formula("2+x1", s => s, s => (s == "x"));
+        Assert.Throws<FormulaFormatException>(() => new Formula("2+x1", s => s, s => (s == "x")));
     }
 
 
@@ -100,82 +98,72 @@ public class GradingTests
     // Tests of syntax errors detected by the constructor
     [TestMethod(), Timeout(2000)]
     [TestCategory("11")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestSingleOperator()
     {
-        Formula f = new Formula("+");
+        Assert.Throws<FormulaFormatException>(() => new Formula("+"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("12")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestExtraOperator()
     {
-        Formula f = new Formula("2+5+");
+        Assert.Throws<FormulaFormatException>(() => new Formula("2+5+"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("13")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestExtraCloseParen()
     {
-        Formula f = new Formula("2+5*7)");
+        Assert.Throws<FormulaFormatException>(() => new Formula("2+5*7)"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("14")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestExtraOpenParen()
     {
-        Formula f = new Formula("((3+5*7)");
+        Assert.Throws<FormulaFormatException>(() => new Formula("((3+5*7)"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("15")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestNoOperator()
     {
-        Formula f = new Formula("5x");
+        Assert.Throws<FormulaFormatException>(() => new Formula("5x"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("16")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestNoOperator2()
     {
-        Formula f = new Formula("5+5x");
+        Assert.Throws<FormulaFormatException>(() => new Formula("5+5x"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("17")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestNoOperator3()
     {
-        Formula f = new Formula("5+7+(5)8");
+        Assert.Throws<FormulaFormatException>(() => new Formula("5+7+(5)8"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("18")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestNoOperator4()
     {
-        Formula f = new Formula("5 5");
+        Assert.Throws<FormulaFormatException>(() => new Formula("5 5"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("19")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestDoubleOperator()
     {
-        Formula f = new Formula("5 + + 3");
+        Assert.Throws<FormulaFormatException>(() => new Formula("5 + + 3"));
     }
 
     [TestMethod(), Timeout(2000)]
     [TestCategory("20")]
-    [ExpectedException(typeof(FormulaFormatException))]
     public void TestEmpty()
     {
-        Formula f = new Formula("");
+        Assert.Throws<FormulaFormatException>(() => new Formula(""));
     }
 
     // Some more complicated formula evaluations

@@ -1,0 +1,25 @@
+﻿@page "/"
+@using SS
+@using SpreadsheetUtilities
+
+
+<PageTitle>Home</PageTitle>
+@code {
+    private Spreadsheet spreadsheet = new Spreadsheet();
+}
+<table class="table">
+    <tbody>
+        @for (int i = 0; i < 100; i++)
+        {
+            <tr>
+                @foreach (char col in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                {
+                    var cellName = $"{col}{i}";
+                    <td>
+                        <input value="@spreadsheet.GetCellContents(cellName)" @onchange="@(e => spreadsheet.SetContentsOfCell(cellName, e.Value.ToString()))"/>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

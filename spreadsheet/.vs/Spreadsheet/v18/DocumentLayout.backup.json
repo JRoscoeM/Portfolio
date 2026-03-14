@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\rosco\\Documents\\Portfolio\\spreadsheet\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}|BlazorFrontend\\BlazorFrontend.csproj|c:\\users\\rosco\\documents\\portfolio\\spreadsheet\\blazorfrontend\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F3C6AADD-42F2-40AF-8CFC-FAA009DB9E82}|BlazorFrontend\\BlazorFrontend.csproj|solutionrelative:blazorfrontend\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5614FCAF-2A5F-465C-8A8D-19F31CBD081D}|Spreadsheet\\Spreadsheet.csproj|c:\\users\\rosco\\documents\\portfolio\\spreadsheet\\spreadsheet\\spreadsheet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5614FCAF-2A5F-465C-8A8D-19F31CBD081D}|Spreadsheet\\Spreadsheet.csproj|solutionrelative:spreadsheet\\spreadsheet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Spreadsheet.cs",
+              "DocumentMoniker": "C:\\Users\\rosco\\Documents\\Portfolio\\spreadsheet\\Spreadsheet\\Spreadsheet.cs",
+              "RelativeDocumentMoniker": "Spreadsheet\\Spreadsheet.cs",
+              "ToolTip": "C:\\Users\\rosco\\Documents\\Portfolio\\spreadsheet\\Spreadsheet\\Spreadsheet.cs",
+              "RelativeToolTip": "Spreadsheet\\Spreadsheet.cs",
+              "ViewState": "AgIAAPoAAAAAAAAAAAAwwBIBAABwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T00:38:49.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\rosco\\Documents\\Portfolio\\spreadsheet\\BlazorFrontend\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "BlazorFrontend\\Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\rosco\\Documents\\Portfolio\\spreadsheet\\BlazorFrontend\\Pages\\Home.razor",
+              "RelativeToolTip": "BlazorFrontend\\Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-13T00:37:19.339Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

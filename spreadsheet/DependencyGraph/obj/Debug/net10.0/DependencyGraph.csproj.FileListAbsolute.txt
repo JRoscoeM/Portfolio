@@ -1,0 +1,12 @@
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\bin\Debug\net10.0\DependencyGraph.deps.json
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\bin\Debug\net10.0\DependencyGraph.dll
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\bin\Debug\net10.0\DependencyGraph.pdb
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.AssemblyInfoInputs.cache
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.AssemblyInfo.cs
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.csproj.CoreCompileInputs.cache
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.sourcelink.json
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.dll
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\refint\DependencyGraph.dll
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\DependencyGraph.pdb
+C:\Users\rosco\Documents\Portfolio\spreadsheet\DependencyGraph\obj\Debug\net10.0\ref\DependencyGraph.dll

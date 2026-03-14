@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fL6mn3HrI2c=",
+  "dgSpecHash": "RD6sApYcAh4=",
   "success": true,
-  "projectFilePath": "/Users/roscoe/Documents/RiderProjects/spreadsheet-JRoscoeM/Spreadsheet/Formula/Formula.csproj",
-  "expectedPackageFiles": [
-    "/Users/roscoe/.nuget/packages/microsoft.netcore.app.ref/7.0.20/microsoft.netcore.app.ref.7.0.20.nupkg.sha512",
-    "/Users/roscoe/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.20/microsoft.aspnetcore.app.ref.7.0.20.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\rosco\\Documents\\Portfolio\\spreadsheet\\Formula\\Formula.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
