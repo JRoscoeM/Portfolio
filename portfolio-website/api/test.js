@@ -1,16 +1,16 @@
-import { neon } from "@neondatabase/serverless";
+// import { neon } from "@neondatabase/serverless";
 
-export default async function handler(req, res) {
-  const sql = neon(process.env.DATABASE_URL);
+// export default async function handler(req, res) {
+//   const sql = neon(process.env.DATABASE_URL);
 
-  if (req.method === "POST") {
-    await sql`INSERT INTO messages (text) VALUES ('Hello from Vercel!')`;
-  }
+//   if (req.method === "POST") {
+//     await sql`INSERT INTO messages (text) VALUES ('Hello from Vercel!')`;
+//   }
 
-  const rows = await sql`SELECT * FROM messages ORDER BY id DESC LIMIT 5`;
+//   const rows = await sql`SELECT * FROM messages ORDER BY id DESC LIMIT 5`;
 
-  res.status(200).json(rows);
-}
+//   res.status(200).json(rows);
+// }
 
 // import { neon } from "@neondatabase/serverless";
 
@@ -23,3 +23,18 @@ export default async function handler(req, res) {
 //     res.status(500).json({ success: false, error: err.message });
 //   }
 // }
+
+const { neon } = require("@neondatabase/serverless");
+
+module.exports = async function handler(req, res) {
+  try {
+    const sql = neon(process.env.DATABASE_URL);
+
+    const result = await sql`SELECT 1 as test`;
+
+    return res.status(200).json(result);
+  } catch (err) {
+    console.error("ERROR:", err);
+    return res.status(500).json({ error: err.message });
+  }
+};
