@@ -30,11 +30,15 @@ module.exports = async function handler(req, res) {
   try {
     const sql = neon(process.env.DATABASE_URL);
 
-    const result = await sql`SELECT 1 as test`;
+    const tables = await sql`
+      SELECT table_name
+      FROM information_schema.tables
+      WHERE table_schema = 'public'
+    `;
 
-    return res.status(200).json(result);
+    return res.status(200).json(tables);
   } catch (err) {
-    console.error("ERROR:", err);
+    console.error(err);
     return res.status(500).json({ error: err.message });
   }
 };
