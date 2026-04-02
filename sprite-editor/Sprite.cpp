@@ -1,3 +1,7 @@
+#ifdef __arm64__
+#include <arm_acle.h>
+#endif
+
 #include <QPainter>
 #include <QMouseEvent>
 #include <QPixmap>

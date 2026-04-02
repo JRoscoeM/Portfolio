@@ -33,3 +33,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Resources.qrc
+
+macx-clang {
+    QMAKE_CXXFLAGS += -Wno-error=implicit-function-declaration
+}

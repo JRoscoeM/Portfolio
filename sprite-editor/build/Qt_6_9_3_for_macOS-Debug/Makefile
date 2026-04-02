@@ -17,7 +17,7 @@ CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefau
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -mmacosx-version-min=12 -Wall -Wextra $(DEFINES)
 CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -mmacosx-version-min=12 -Wall -Wextra $(DEFINES)
-INCPATH       = -I../../../A7 -I. -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -F/Users/roscoe/Qt/6.9.3/macos/lib
+INCPATH       = -I../../../sprite-editor -I. -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -F/Users/roscoe/Qt/6.9.3/macos/lib
 QMAKE         = /Users/roscoe/Qt/6.9.3/macos/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = A71.0.0
-DISTDIR = /Users/roscoe/Documents/Portfolio\ Projects/SpriteReal/a5-sprite-editor-f25-jeniene-saoit/A7/build/Qt_6_9_3_for_macOS-Debug/.tmp/A71.0.0
+DISTDIR = /Users/roscoe/Documents/Portfolio/sprite-editor/build/Qt_6_9_3_for_macOS-Debug/.tmp/A71.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -mmacosx-version-min=12 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/roscoe/Qt/6.9.3/macos/lib
 LIBS          = $(SUBLIBS) -F/Users/roscoe/Qt/6.9.3/macos/lib -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtCore -framework IOKit -framework DiskArbitration -framework UniformTypeIdentifiers -framework OpenGL   
@@ -291,6 +291,7 @@ DIST          = /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/spec_pre.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/qt_config.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang/qmake.conf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/spec_post.prf \
+		../../.qmake.stash \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/exclusive_builds.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/mac/sdk.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/toolchain.prf \
@@ -338,12 +339,12 @@ TARGET        = A7.app/Contents/MacOS/A7
 EXPORT_QMAKE_MAC_SDK = macosx
 EXPORT_QMAKE_MAC_SDK_VERSION = 26.2
 EXPORT_QMAKE_XCODE_DEVELOPER_PATH = /Applications/Xcode.app/Contents/Developer
-EXPORT__QMAKE_STASH_ = 
+EXPORT__QMAKE_STASH_ = /Users/roscoe/Documents/Portfolio/sprite-editor/build/Qt_6_9_3_for_macOS-Debug/.qmake.stash
 EXPORT_VALID_ARCHS = x86_64 arm64
 EXPORT_DEFAULT_ARCHS = arm64
 EXPORT_ARCHS = $(filter $(EXPORT_VALID_ARCHS), $(if $(ARCHS), $(ARCHS), $(if $(EXPORT_DEFAULT_ARCHS), $(EXPORT_DEFAULT_ARCHS), $(EXPORT_VALID_ARCHS))))
 EXPORT_ARCH_ARGS = $(foreach arch, $(if $(EXPORT_ARCHS), $(EXPORT_ARCHS), $(EXPORT_VALID_ARCHS)), -arch $(arch))
-EXPORT__PRO_FILE_ = /Users/roscoe/Documents/Portfolio Projects/SpriteReal/a5-sprite-editor-f25-jeniene-saoit/A7/A7.pro
+EXPORT__PRO_FILE_ = /Users/roscoe/Documents/Portfolio/sprite-editor/A7.pro
 
 
 include /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/mac/sdk.mk
@@ -572,6 +573,7 @@ Makefile: ../../A7.pro /Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang/qmake.con
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/qt_config.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang/qmake.conf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/exclusive_builds.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/mac/sdk.prf \
 		/Users/roscoe/Qt/6.9.3/macos/mkspecs/features/toolchain.prf \
@@ -825,6 +827,7 @@ Makefile: ../../A7.pro /Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang/qmake.con
 /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/qt_config.prf:
 /Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang/qmake.conf:
 /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/exclusive_builds.prf:
 /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/mac/sdk.prf:
 /Users/roscoe/Qt/6.9.3/macos/mkspecs/features/toolchain.prf:
@@ -896,6 +899,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r A7.app
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -962,7 +966,7 @@ moc_FrameEditor.cpp: ../../FrameEditor.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers/QGraphicsScene \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
 		/Users/roscoe/Qt/6.9.3/macos/libexec/moc
-	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I'/Users/roscoe/Documents/Portfolio Projects/SpriteReal/a5-sprite-editor-f25-jeniene-saoit/A7' -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../FrameEditor.h -o moc_FrameEditor.cpp
+	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I/Users/roscoe/Documents/Portfolio/sprite-editor -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../FrameEditor.h -o moc_FrameEditor.cpp
 
 moc_FramePreview.cpp: ../../FramePreview.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers/QWidget \
@@ -972,7 +976,7 @@ moc_FramePreview.cpp: ../../FramePreview.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers/QPainter \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers/qpainter.h \
 		/Users/roscoe/Qt/6.9.3/macos/libexec/moc
-	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I'/Users/roscoe/Documents/Portfolio Projects/SpriteReal/a5-sprite-editor-f25-jeniene-saoit/A7' -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../FramePreview.h -o moc_FramePreview.cpp
+	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I/Users/roscoe/Documents/Portfolio/sprite-editor -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../FramePreview.h -o moc_FramePreview.cpp
 
 moc_Sprite.cpp: ../../Sprite.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers/QWidget \
@@ -1005,7 +1009,7 @@ moc_Sprite.cpp: ../../Sprite.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers/QStack \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers/qstack.h \
 		/Users/roscoe/Qt/6.9.3/macos/libexec/moc
-	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I'/Users/roscoe/Documents/Portfolio Projects/SpriteReal/a5-sprite-editor-f25-jeniene-saoit/A7' -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../Sprite.h -o moc_Sprite.cpp
+	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I/Users/roscoe/Documents/Portfolio/sprite-editor -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../Sprite.h -o moc_Sprite.cpp
 
 moc_mainwindow.cpp: ../../mainwindow.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers/QMainWindow \
@@ -1061,7 +1065,7 @@ moc_mainwindow.cpp: ../../mainwindow.h \
 		/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
 		../../FramePreview.h \
 		/Users/roscoe/Qt/6.9.3/macos/libexec/moc
-	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I'/Users/roscoe/Documents/Portfolio Projects/SpriteReal/a5-sprite-editor-f25-jeniene-saoit/A7' -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../mainwindow.h -o moc_mainwindow.cpp
+	/Users/roscoe/Qt/6.9.3/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/roscoe/Qt/6.9.3/macos/mkspecs/macx-clang -I/Users/roscoe/Documents/Portfolio/sprite-editor -I/Users/roscoe/Qt/6.9.3/macos/lib/QtWidgets.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtGui.framework/Headers -I/Users/roscoe/Qt/6.9.3/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/roscoe/Qt/6.9.3/macos/lib ../../mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
