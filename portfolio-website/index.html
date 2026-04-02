@@ -8,6 +8,31 @@
   </head>
 
   <body>
+    <button onclick="sendMessage()">Add Message</button>
+    <ul id="messages"></ul>
+    
+    <script>
+      async function sendMessage() {
+        await fetch('/api/test', { method: 'POST' });
+        loadMessages();
+      }
+
+      async function loadMessages() {
+        const res = await fetch('/api/test');
+        const data = await res.json();
+
+        const list = document.getElementById('messages');
+        list.innerHTML = '';
+
+        data.forEach(row => {
+          const li = document.createElement('li');
+          li.textContent = row.text;
+          list.appendChild(li);
+        });
+      }
+
+      loadMessages();
+    </script>
     <div class="root-container">
       <header class="left-side">
         <div class="menu">
