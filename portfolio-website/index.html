@@ -14,12 +14,15 @@
     <script>
       async function sendMessage() {
         await fetch('/api/test', { method: 'POST' });
+        console.log("Send Message was called");
         loadMessages();
       }
 
       async function loadMessages() {
         const res = await fetch('/api/test');
         const data = await res.json();
+
+        console.log("Load Message was called");
 
         const list = document.getElementById('messages');
         list.innerHTML = '';
