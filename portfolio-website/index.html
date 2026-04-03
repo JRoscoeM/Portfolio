@@ -8,34 +8,56 @@
   </head>
 
   <body>
-    <button onclick="sendMessage()">Add Message</button>
-    <ul id="messages"></ul>
-    
+    <button id="addBtn">Add Message</button>
+  <ul id="messages"></ul>
     <script>
-      async function sendMessage() {
-        await fetch('/api/test', { method: 'POST' });
-        console.log("Send Message was called");
-        loadMessages();
-      }
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const button = document.getElementById("addBtn");
+      const list = document.getElementById("messages");
+
+      button.addEventListener("click", async () => {
+        try {
+          const response = await fetch("/api/test", {
+            method: "POST"
+          });
+
+          console.log("POST status:", response.status);
+
+          await loadMessages();
+
+        } catch (error) {
+          console.error("POST failed:", error);
+        }
+      });
 
       async function loadMessages() {
-        const res = await fetch('/api/test');
-        const data = await res.json();
+        try {
+          const response = await fetch("/api/test");
 
-        console.log("Load Message was called");
+          console.log("GET status:", response.status);
 
-        const list = document.getElementById('messages');
-        list.innerHTML = '';
+          const text = await response.text();
+          console.log("Raw response:", text);
 
-        data.forEach(row => {
-          const li = document.createElement('li');
-          li.textContent = row.text;
-          list.appendChild(li);
-        });
+          const data = JSON.parse(text);
+
+          list.innerHTML = "";
+
+          data.forEach(row => {
+            const li = document.createElement("li");
+            li.textContent = row.text;
+            list.appendChild(li);
+          });
+
+        } catch (error) {
+          console.error("GET failed:", error);
+        }
       }
 
       loadMessages();
-    </script>
+    });
+  </script>
     <div class="root-container">
       <header class="left-side">
         <div class="menu">
