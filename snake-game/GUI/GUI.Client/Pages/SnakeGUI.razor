@@ -1,0 +1,72 @@
+﻿@page "/snake"
+@rendermode InteractiveServer
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas
+@using Blazor.Extensions.Canvas.Canvas2D
+@using System.Numerics
+@using System.Diagnostics
+@using System.Text.Json
+@using System.Net.Sockets
+@using GUI.Client
+@using GUI.Client.Models
+@using GUI.Client.Controllers
+@inject IJSRuntime JsRuntime;
+
+<PageTitle> Snake </PageTitle>
+
+<label for="userName">Enter Your Name:</label>
+<input @ref="usernameTextbox" @onchange="HandleName" maxlength="16" type="text" />
+<label>PortNumber: @portNumber</label>
+<button @onclick="RequestConnection">Connect</button>
+<button @onclick="RequestDisconnection">Disconnect</button>
+
+<div class="alert alert-warning alert-dismissible fade show @PopupClass" role="alert">
+    <strong>Error: @errorMessage</strong>
+
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" @ref="errorButton" @onclick="() => ToggleWarning(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+<img @ref="backgroundImage" id="bgImage" src="images/Background.png" alt="image" style="display:none;" />
+<img @ref="wallImage" id="wallImage" src="images/WallSprite.png" alt="image" style="display:none;" />
+
+<div id="snakeCanvas" style="position: fixed; width: 100%; height: 100%">
+    <BECanvas Width="1000" Height="1000" @ref="canvasReference"></BECanvas>
+</div>
+
+<style>
+    .active {
+        display: block;
+    }
+
+    .inactive {
+        display: none;
+    }
+
+    .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+        .popup .hidden {
+            visibility: hidden;
+            width: 160px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+        }
+
+        .popup .show {
+            visibility: visible;
+        }
+</style>

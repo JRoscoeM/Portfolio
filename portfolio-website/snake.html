@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Snake + Spotify | Roscoe Moedl</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="snake-page">
+    <header class="snake-hero">
+      <nav class="snake-topbar">
+        <a href="/index.html" class="snake-home-link">Back to portfolio</a>
+        <span class="snake-topbar-status">Phase 1 portfolio prototype</span>
+      </nav>
+
+      <div class="snake-hero-copy">
+        <p class="eyebrow">Multiplayer concept</p>
+        <h1>Snake rooms with a shared Spotify vibe.</h1>
+        <p class="hero-summary">
+          This project turns my original networked C# Snake game into a portfolio-hosted room experience.
+          The website handles room setup, player identity, and music state while a dedicated real-time game
+          service will eventually run the authoritative multiplayer loop.
+        </p>
+        <div class="hero-actions">
+          <a href="#room-console" class="primary-action">Launch room console</a>
+          <a href="#architecture" class="secondary-action">See architecture</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="snake-main">
+      <section class="snake-grid">
+        <article class="snake-panel snake-panel-intro">
+          <h2>What is shipping in this phase</h2>
+          <p>
+            The portfolio now owns the lobby layer: room creation, join flow, persistence-ready API contracts,
+            Spotify host connection status, and the product story for the game.
+          </p>
+          <ul class="snake-list">
+            <li>Portfolio route dedicated to Snake + Spotify</li>
+            <li>Room creation and join prototype backed by Vercel APIs</li>
+            <li>High score and match history API surface for Neon</li>
+            <li>Audit of the legacy C# codebase for extraction planning</li>
+          </ul>
+        </article>
+
+        <article class="snake-panel snake-panel-status">
+          <h2>Current backend stance</h2>
+          <div class="metric-row">
+            <span class="metric-label">Frontend shell</span>
+            <span class="metric-value">Vercel static + serverless</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Durable data</span>
+            <span class="metric-value">Neon-ready</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Realtime loop</span>
+            <span class="metric-value">Separate .NET service planned</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Spotify v1</span>
+            <span class="metric-value">Host-controlled listening</span>
+          </div>
+        </article>
+      </section>
+
+      <section id="room-console" class="snake-console">
+        <div class="snake-console-header">
+          <div>
+            <p class="eyebrow">Room console</p>
+            <h2>Prototype the control plane</h2>
+          </div>
+          <p class="console-note">The playable browser client is the next milestone. This console already exercises the room and score APIs.</p>
+        </div>
+
+        <div class="console-grid">
+          <article class="snake-panel">
+            <h3>Create a room</h3>
+            <form id="create-room-form" class="snake-form">
+              <label>
+                Host name
+                <input id="host-name" name="hostName" maxlength="24" placeholder="Roscoe" required />
+              </label>
+              <label>
+                Room name
+                <input id="room-name" name="roomName" maxlength="40" placeholder="Late night ladder" required />
+              </label>
+              <label>
+                Music mode
+                <select id="music-mode" name="musicMode">
+                  <option value="host-control">Host controls playback</option>
+                  <option value="ambient-only">Ambient presence only</option>
+                </select>
+              </label>
+              <button type="submit" class="primary-action primary-action-button">Create room</button>
+            </form>
+          </article>
+
+          <article class="snake-panel">
+            <h3>Join a room</h3>
+            <form id="join-room-form" class="snake-form">
+              <label>
+                Player name
+                <input id="player-name" name="playerName" maxlength="24" placeholder="Player two" required />
+              </label>
+              <label>
+                Room id
+                <input id="room-id" name="roomId" maxlength="12" placeholder="SNAKE-1234" required />
+              </label>
+              <button type="submit" class="secondary-action secondary-action-button">Join room</button>
+            </form>
+          </article>
+
+          <article class="snake-panel">
+            <h3>Spotify room state</h3>
+            <div id="spotify-status" class="spotify-status">
+              <p class="spotify-line">Connection: checking…</p>
+              <p class="spotify-line">Room mode: host-controlled listening</p>
+            </div>
+            <button id="refresh-status" class="ghost-button" type="button">Refresh status</button>
+          </article>
+        </div>
+
+        <div class="console-grid console-grid-lower">
+          <article class="snake-panel">
+            <h3>Latest room response</h3>
+            <pre id="room-output" class="snake-output">Waiting for room activity…</pre>
+          </article>
+
+          <article class="snake-panel">
+            <h3>Recent high scores</h3>
+            <div id="scoreboard" class="scoreboard">Loading scores…</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="architecture" class="snake-architecture">
+        <p class="eyebrow">Architecture direction</p>
+        <h2>How the portfolio and game service split responsibilities</h2>
+        <div class="architecture-grid">
+          <article class="snake-panel">
+            <h3>Portfolio frontend</h3>
+            <p>Public marketing page, room UX, player identity, Spotify auth/session setup, and persistent history views.</p>
+          </article>
+          <article class="snake-panel">
+            <h3>Neon persistence</h3>
+            <p>Stores room metadata, host linkage, track snapshots, match history, and leaderboard data. No real-time tick traffic.</p>
+          </article>
+          <article class="snake-panel">
+            <h3>Realtime game service</h3>
+            <p>Owns the authoritative simulation loop, collision resolution, food spawning, and player movement state.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/snake.js"></script>
+  </body>
+</html>
