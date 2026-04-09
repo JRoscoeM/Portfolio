@@ -1,4 +1,4 @@
-﻿// <author> Roscoe Moedl and Kennis Borrowman </author>
+﻿// <author> Roscoe Moedl </author>
 // <date>March 26th, 2025</date>
 
 using System.Net;

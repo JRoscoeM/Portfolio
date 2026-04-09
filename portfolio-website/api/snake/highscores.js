@@ -1,27 +1,11 @@
-const { neon } = require("@neondatabase/serverless");
+const { getSql } = require("./db");
 
-function getSql() {
-  if (!process.env.DATABASE_URL) {
-    return null;
-  }
-
-  return neon(process.env.DATABASE_URL);
-}
-
-async function ensureTable(sql) {
-  if (!sql) {
-    return;
-  }
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS snake_high_scores (
-      id BIGSERIAL PRIMARY KEY,
-      player_name TEXT NOT NULL,
-      score INTEGER NOT NULL,
-      room_id TEXT,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `;
+function buildPrototypeScores() {
+  return [
+    { playerName: "Roscoe", score: 18, roomId: "SNAKE-DEMO", createdAt: "2026-04-08T19:25:00.000Z" },
+    { playerName: "John", score: 14, roomId: "SNAKE-DEMO", createdAt: "2026-04-08T19:18:00.000Z" },
+    { playerName: "Guest", score: 9, roomId: "SNAKE-ALFA", createdAt: "2026-04-07T22:06:00.000Z" },
+  ];
 }
 
 module.exports = async function handler(req, res) {
@@ -29,50 +13,105 @@ module.exports = async function handler(req, res) {
     const sql = getSql();
 
     if (req.method === "POST") {
-      const { playerName, score, roomId = null } = req.body || {};
+      const { playerId, playerName, score, roomId = null, matchId = null } = req.body || {};
 
-      if (!playerName || Number.isNaN(Number(score))) {
-        return res.status(400).json({ error: "playerName and numeric score are required." });
+      if (!playerId || !playerName || Number.isNaN(Number(score))) {
+        return res.status(400).json({ error: "playerId, playerName, and numeric score are required." });
       }
 
-      await ensureTable(sql);
-
       if (sql) {
+        if (!matchId) {
+          return res.status(400).json({ error: "matchId is required when saving scores to Neon." });
+        }
+
         await sql`
-          INSERT INTO snake_high_scores (player_name, score, room_id)
-          VALUES (${playerName}, ${Number(score)}, ${roomId})
+          INSERT INTO snake_match_players (
+            match_id,
+            player_id,
+            display_name,
+            final_score,
+            max_score,
+            placement
+          )
+          VALUES (
+            ${matchId}::uuid,
+            ${playerId}::uuid,
+            ${playerName},
+            ${Number(score)},
+            ${Number(score)},
+            NULL
+          )
         `;
       }
 
-      return res.status(200).json({ ok: true, source: sql ? "neon" : "prototype" });
+      return res.status(200).json({
+        ok: true,
+        source: sql ? "neon" : "prototype",
+        savedScore: {
+          playerName,
+          score: Number(score),
+          roomId,
+          createdAt: new Date().toISOString(),
+        },
+      });
     }
 
     if (req.method === "GET") {
-      await ensureTable(sql);
-
       if (!sql) {
+        const prototypeScores = buildPrototypeScores();
+
         return res.status(200).json({
-          scores: [
-            { playerName: "Roscoe", score: 18 },
-            { playerName: "Kennis", score: 14 },
-            { playerName: "Guest", score: 9 },
-          ],
+          scores: prototypeScores.map(({ playerName, score }) => ({ playerName, score })),
+          recentMatches: prototypeScores,
           source: "prototype",
         });
       }
 
-      const rows = await sql`
-        SELECT player_name, score
-        FROM snake_high_scores
-        ORDER BY score DESC, created_at DESC
+      const scoreRows = await sql`
+        SELECT
+          player_id,
+          display_name,
+          MAX(max_score) AS top_score
+        FROM snake_match_players
+        GROUP BY player_id, display_name
+        ORDER BY top_score DESC, display_name ASC
         LIMIT 8
       `;
 
+      const recentMatchRows = await sql`
+        SELECT
+          m.id,
+          m.room_id,
+          m.status,
+          m.started_at,
+          m.ended_at,
+          winner.display_name AS winner_name,
+          m.summary
+        FROM snake_matches m
+        LEFT JOIN snake_players winner ON winner.id = m.winner_player_id
+        ORDER BY m.started_at DESC
+        LIMIT 20
+      `;
+
+      const scores = scoreRows.map((row) => ({
+        playerId: row.player_id,
+        playerName: row.display_name,
+        score: row.top_score,
+      }));
+
+      const recentMatches = recentMatchRows.map((row) => ({
+        matchId: row.id,
+        roomId: row.room_id,
+        status: row.status,
+        startedAt: row.started_at,
+        endedAt: row.ended_at,
+        winnerName: row.winner_name,
+        summary: row.summary,
+      }));
+
       return res.status(200).json({
-        scores: rows.map((row) => ({
-          playerName: row.player_name,
-          score: row.score,
-        })),
+        scores,
+        recentMatches,
         source: "neon",
       });
     }

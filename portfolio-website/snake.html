@@ -130,8 +130,41 @@
           </article>
 
           <article class="snake-panel">
+            <h3>Current room snapshot</h3>
+            <div id="room-summary" class="room-summary">
+              <p class="empty-state">Create or join a room to see the active lobby state.</p>
+            </div>
+          </article>
+
+          <article class="snake-panel">
             <h3>Recent high scores</h3>
             <div id="scoreboard" class="scoreboard">Loading scores…</div>
+          </article>
+        </div>
+
+        <div class="console-grid console-grid-lower console-grid-history">
+          <article class="snake-panel">
+            <h3>Log a match result</h3>
+            <form id="score-form" class="snake-form">
+              <label>
+                Player name
+                <input id="score-player-name" name="playerName" maxlength="24" placeholder="Roscoe" required />
+              </label>
+              <label>
+                Score
+                <input id="score-value" name="score" type="number" min="0" max="999" placeholder="18" required />
+              </label>
+              <label>
+                Room id
+                <input id="score-room-id" name="roomId" maxlength="12" placeholder="SNAKE-1234" />
+              </label>
+              <button type="submit" class="primary-action primary-action-button">Save match result</button>
+            </form>
+          </article>
+
+          <article class="snake-panel">
+            <h3>Recent match activity</h3>
+            <div id="match-history" class="match-history">Loading recent activity…</div>
           </article>
         </div>
       </section>
@@ -152,6 +185,42 @@
             <h3>Realtime game service</h3>
             <p>Owns the authoritative simulation loop, collision resolution, food spawning, and player movement state.</p>
           </article>
+        </div>
+      </section>
+
+      <section id="docs" class="snake-docs">
+        <p class="eyebrow">Project docs</p>
+        <h2>Readme, architecture, and system references</h2>
+        <div class="docs-grid">
+          <a class="snake-panel docs-link-panel" href="/SNAKE_README.md">
+            <p class="docs-kicker">Start here</p>
+            <h3>Technical project readme</h3>
+            <p>System overview, request flow, component boundaries, Neon role, and the next missing backend pieces.</p>
+          </a>
+
+          <a class="snake-panel docs-link-panel" href="/SNAKE_SPOTIFY_PLAN.md">
+            <p class="docs-kicker">Plan</p>
+            <h3>Official integration plan</h3>
+            <p>The product vision, implementation goals, assumptions, and phased rollout for Snake + Spotify.</p>
+          </a>
+
+          <a class="snake-panel docs-link-panel" href="/tasklist.md">
+            <p class="docs-kicker">Status</p>
+            <h3>Task list and current phase</h3>
+            <p>A working execution board tracking what is done, in progress, blocked, and next.</p>
+          </a>
+
+          <a class="snake-panel docs-link-panel" href="/schema.sql">
+            <p class="docs-kicker">Data</p>
+            <h3>Neon PostgreSQL schema</h3>
+            <p>The canonical table structure for players, rooms, matches, and Spotify-linked room metadata.</p>
+          </a>
+
+          <a class="snake-panel docs-link-panel" href="/SNAKE_LEGACY_AUDIT.md">
+            <p class="docs-kicker">Legacy</p>
+            <h3>C# migration notes</h3>
+            <p>A deployable summary of the older Snake codebase, what may be reusable, and what must be separated or replaced.</p>
+          </a>
         </div>
       </section>
     </main>

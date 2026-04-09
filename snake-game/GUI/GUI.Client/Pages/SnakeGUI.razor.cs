@@ -1,4 +1,4 @@
-﻿// <author> Roscoe Moedl and Kennis Borrowman </author>
+﻿// <author> Roscoe Moedl </author>
 // <date>April 11th 2025, 2025</date>
 
 using Blazor.Extensions;

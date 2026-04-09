@@ -1,4 +1,4 @@
-﻿// <author> Kennis Borrowman and Roscoe Moedl</author>
+﻿// <author> Roscoe Moedl</author>
 // <date>April 11th, 2025</date>
 
 using System.Text.Json.Serialization;
