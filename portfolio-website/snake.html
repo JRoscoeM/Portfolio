@@ -11,7 +11,7 @@
     <header class="snake-hero">
       <nav class="snake-topbar">
         <a href="/index.html" class="snake-home-link">Back to portfolio</a>
-        <span class="snake-topbar-status">Phase 1 portfolio prototype</span>
+        <span class="snake-topbar-status">Phase 1 v1 Hosted Snake Game</span>
       </nav>
 
       <div class="snake-hero-copy">
@@ -24,26 +24,12 @@
         </p>
         <div class="hero-actions">
           <a href="#room-console" class="primary-action">Launch room console</a>
-          <a href="#architecture" class="secondary-action">See architecture</a>
         </div>
       </div>
     </header>
 
     <main class="snake-main">
       <section class="snake-grid">
-        <article class="snake-panel snake-panel-intro">
-          <h2>What is shipping in this phase</h2>
-          <p>
-            The portfolio now owns the lobby layer: room creation, join flow, persistence-ready API contracts,
-            Spotify host connection status, and the product story for the game.
-          </p>
-          <ul class="snake-list">
-            <li>Portfolio route dedicated to Snake + Spotify</li>
-            <li>Room creation and join prototype backed by Vercel APIs</li>
-            <li>High score and match history API surface for Neon</li>
-            <li>Audit of the legacy C# codebase for extraction planning</li>
-          </ul>
-        </article>
 
         <article class="snake-panel snake-panel-status">
           <h2>Current backend stance</h2>
@@ -72,7 +58,6 @@
             <p class="eyebrow">Room console</p>
             <h2>Prototype the control plane</h2>
           </div>
-          <p class="console-note">The playable browser client is the next milestone. This console already exercises the room and score APIs.</p>
         </div>
 
         <div class="console-grid">
@@ -185,42 +170,6 @@
             <h3>Realtime game service</h3>
             <p>Owns the authoritative simulation loop, collision resolution, food spawning, and player movement state.</p>
           </article>
-        </div>
-      </section>
-
-      <section id="docs" class="snake-docs">
-        <p class="eyebrow">Project docs</p>
-        <h2>Readme, architecture, and system references</h2>
-        <div class="docs-grid">
-          <a class="snake-panel docs-link-panel" href="/SNAKE_README.md">
-            <p class="docs-kicker">Start here</p>
-            <h3>Technical project readme</h3>
-            <p>System overview, request flow, component boundaries, Neon role, and the next missing backend pieces.</p>
-          </a>
-
-          <a class="snake-panel docs-link-panel" href="/SNAKE_SPOTIFY_PLAN.md">
-            <p class="docs-kicker">Plan</p>
-            <h3>Official integration plan</h3>
-            <p>The product vision, implementation goals, assumptions, and phased rollout for Snake + Spotify.</p>
-          </a>
-
-          <a class="snake-panel docs-link-panel" href="/tasklist.md">
-            <p class="docs-kicker">Status</p>
-            <h3>Task list and current phase</h3>
-            <p>A working execution board tracking what is done, in progress, blocked, and next.</p>
-          </a>
-
-          <a class="snake-panel docs-link-panel" href="/schema.sql">
-            <p class="docs-kicker">Data</p>
-            <h3>Neon PostgreSQL schema</h3>
-            <p>The canonical table structure for players, rooms, matches, and Spotify-linked room metadata.</p>
-          </a>
-
-          <a class="snake-panel docs-link-panel" href="/SNAKE_LEGACY_AUDIT.md">
-            <p class="docs-kicker">Legacy</p>
-            <h3>C# migration notes</h3>
-            <p>A deployable summary of the older Snake codebase, what may be reusable, and what must be separated or replaced.</p>
-          </a>
         </div>
       </section>
     </main>
