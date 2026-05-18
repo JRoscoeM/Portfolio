@@ -1,0 +1,19 @@
+<div class="recipe-cards">
+    {% for recipe in recipes %}
+    <div class="recipe-box">
+        <h2><a href="/recipe/{{ recipe.id }}/">{{ recipe.title }}</a></h2>
+        {% if recipe.photo %}
+        <img src="{{ recipe.photo.url }}" alt="Photo of {{ recipe.title }}">
+        {% endif %}
+        <p>{{ recipe.description|truncatewords:20 }}</p>
+        <p>Tags: </p>
+        <ul>
+            {% for tag in recipe.tags.all %}
+                <li><a href="/s?q=tag:{{ tag.name }}">{{ tag.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% empty %}
+    <p>No recipes yet.</p>
+    {% endfor %}
+</div>        

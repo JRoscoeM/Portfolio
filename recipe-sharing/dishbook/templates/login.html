@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Sign in - Dishbook</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <div class="main-page-container">
+        <div class="top">
+            <div><a href="/">Dishbook</a></div>
+            <div><a href="/s">Search</a></div>
+        </div>
+
+        <h1>Sign in</h1>
+
+        {% if error %}
+        <p>Incorrect username or password.</p>
+        {% endif %}
+
+        <form action="/login" method="post" class="login-form">
+            {% csrf_token %}
+            <p>
+                <label for="username">Username</label><br>
+                <input id="username" type="text" name="username">
+            </p>
+            <p>
+                <label for="password">Password</label><br>
+                <input id="password" type="password" name="password">
+            </p>
+            <button>Sign in</button>
+        </form>
+    </div>
+</body>
+
+</html>

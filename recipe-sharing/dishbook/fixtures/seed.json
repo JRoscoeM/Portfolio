@@ -1,0 +1,684 @@
+[
+  {
+    "model": "dishbook.tag",
+    "pk": 1,
+    "fields": {
+      "name": "breakfast"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 2,
+    "fields": {
+      "name": "vegetarian"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 3,
+    "fields": {
+      "name": "quick"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 4,
+    "fields": {
+      "name": "comfort"
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 1,
+    "fields": {
+      "title": "Avocado Toast",
+      "description": "Simple and delicious avocado toast with lemon, salt, and pepper.",
+      "prep_time_minutes": 5,
+      "cook_time_minutes": 5,
+      "serves": 1,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 2,
+    "fields": {
+      "title": "Tomato Soup",
+      "description": "A warm and comforting tomato soup for chilly days.",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 20,
+      "serves": 2,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        2,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 3,
+    "fields": {
+      "title": "Scrambled Eggs",
+      "description": "Soft scrambled eggs with butter and chives.",
+      "prep_time_minutes": 3,
+      "cook_time_minutes": 6,
+      "serves": 2,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 4,
+    "fields": {
+      "title": "Secret Garlic Noodles",
+      "description": "A private noodle recipe used for testing ownership and permissions.",
+      "prep_time_minutes": 8,
+      "cook_time_minutes": 12,
+      "serves": 2,
+      "author": 2,
+      "photo": "",
+      "is_public": false,
+      "tags": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 1,
+    "fields": {
+      "recipe": 1,
+      "order": 1,
+      "description": "Toast the bread until golden."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 2,
+    "fields": {
+      "recipe": 1,
+      "order": 2,
+      "description": "Mash the avocado with lemon juice, salt, and pepper, then spread on toast."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 3,
+    "fields": {
+      "recipe": 2,
+      "order": 1,
+      "description": "Heat the tomatoes and broth in a pot."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 4,
+    "fields": {
+      "recipe": 2,
+      "order": 2,
+      "description": "Blend until smooth and simmer before serving."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 5,
+    "fields": {
+      "recipe": 3,
+      "order": 1,
+      "description": "Crack the eggs into a bowl and whisk."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 6,
+    "fields": {
+      "recipe": 3,
+      "order": 2,
+      "description": "Cook gently with butter, stirring often, and top with chives."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 7,
+    "fields": {
+      "recipe": 4,
+      "order": 1,
+      "description": "Boil the noodles until tender."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 8,
+    "fields": {
+      "recipe": 4,
+      "order": 2,
+      "description": "Toss with garlic, soy sauce, and butter."
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 1,
+    "fields": {
+      "step": 1,
+      "amount": "2",
+      "unit": "slices",
+      "name": "bread"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 2,
+    "fields": {
+      "step": 2,
+      "amount": "1",
+      "unit": "",
+      "name": "avocado"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 3,
+    "fields": {
+      "step": 2,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "lemon juice"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 4,
+    "fields": {
+      "step": 3,
+      "amount": "2",
+      "unit": "cups",
+      "name": "tomatoes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 5,
+    "fields": {
+      "step": 3,
+      "amount": "1",
+      "unit": "cup",
+      "name": "vegetable broth"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 6,
+    "fields": {
+      "step": 5,
+      "amount": "4",
+      "unit": "",
+      "name": "eggs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 7,
+    "fields": {
+      "step": 6,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 8,
+    "fields": {
+      "step": 6,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "chives"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 9,
+    "fields": {
+      "step": 7,
+      "amount": "8",
+      "unit": "oz",
+      "name": "noodles"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 10,
+    "fields": {
+      "step": 8,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic"
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 5,
+    "fields": {
+      "title": "Chickpea Curry",
+      "description": "A cozy tomato-coconut curry with chickpeas and spinach.",
+      "prep_time_minutes": 12,
+      "cook_time_minutes": 25,
+      "serves": 4,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        2,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 6,
+    "fields": {
+      "title": "Sheet Pan Salmon",
+      "description": "Roasted salmon with lemony potatoes and green beans.",
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 22,
+      "serves": 4,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 7,
+    "fields": {
+      "title": "Blueberry Overnight Oats",
+      "description": "Creamy make-ahead oats with yogurt, blueberries, and maple syrup.",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 0,
+      "serves": 2,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 8,
+    "fields": {
+      "title": "Black Bean Quesadillas",
+      "description": "Crispy quesadillas stuffed with black beans, cheese, and salsa.",
+      "prep_time_minutes": 8,
+      "cook_time_minutes": 12,
+      "serves": 3,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        4,
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 9,
+    "fields": {
+      "title": "Apple Cinnamon Muffins",
+      "description": "Tender muffins packed with diced apples and warm cinnamon.",
+      "prep_time_minutes": 18,
+      "cook_time_minutes": 20,
+      "serves": 12,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 9,
+    "fields": {
+      "recipe": 5,
+      "order": 1,
+      "description": "Saute the onion with curry powder until fragrant, then stir in chickpeas and tomatoes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 10,
+    "fields": {
+      "recipe": 5,
+      "order": 2,
+      "description": "Pour in coconut milk, simmer until slightly thickened, and fold in spinach before serving."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 11,
+    "fields": {
+      "recipe": 6,
+      "order": 1,
+      "description": "Toss the potatoes with olive oil and roast until they begin to soften."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 12,
+    "fields": {
+      "recipe": 6,
+      "order": 2,
+      "description": "Add the salmon and green beans to the pan, season with lemon, and roast until the fish flakes easily."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 13,
+    "fields": {
+      "recipe": 7,
+      "order": 1,
+      "description": "Combine the oats, milk, yogurt, chia seeds, and maple syrup in a jar."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 14,
+    "fields": {
+      "recipe": 7,
+      "order": 2,
+      "description": "Top with blueberries and chill overnight before serving."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 15,
+    "fields": {
+      "recipe": 8,
+      "order": 1,
+      "description": "Spread the black beans, shredded cheese, and salsa over half of each tortilla."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 16,
+    "fields": {
+      "recipe": 8,
+      "order": 2,
+      "description": "Fold the tortillas and cook in a skillet until golden on both sides, then slice and serve."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 17,
+    "fields": {
+      "recipe": 9,
+      "order": 1,
+      "description": "Whisk the dry ingredients, then stir in the milk, eggs, melted butter, and diced apple."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 18,
+    "fields": {
+      "recipe": 9,
+      "order": 2,
+      "description": "Divide the batter into a muffin tin and bake until the tops spring back."
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 11,
+    "fields": {
+      "step": 9,
+      "amount": "1",
+      "unit": "",
+      "name": "onion"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 12,
+    "fields": {
+      "step": 9,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "curry powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 13,
+    "fields": {
+      "step": 9,
+      "amount": "2",
+      "unit": "cans",
+      "name": "chickpeas"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 14,
+    "fields": {
+      "step": 10,
+      "amount": "1",
+      "unit": "can",
+      "name": "coconut milk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 15,
+    "fields": {
+      "step": 10,
+      "amount": "3",
+      "unit": "cups",
+      "name": "spinach"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 16,
+    "fields": {
+      "step": 11,
+      "amount": "1 1/2",
+      "unit": "lb",
+      "name": "baby potatoes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 17,
+    "fields": {
+      "step": 11,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 18,
+    "fields": {
+      "step": 12,
+      "amount": "4",
+      "unit": "fillets",
+      "name": "salmon"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 19,
+    "fields": {
+      "step": 12,
+      "amount": "12",
+      "unit": "oz",
+      "name": "green beans"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 20,
+    "fields": {
+      "step": 13,
+      "amount": "1",
+      "unit": "cup",
+      "name": "rolled oats"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 21,
+    "fields": {
+      "step": 13,
+      "amount": "1",
+      "unit": "cup",
+      "name": "milk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 22,
+    "fields": {
+      "step": 13,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "yogurt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 23,
+    "fields": {
+      "step": 14,
+      "amount": "1",
+      "unit": "cup",
+      "name": "blueberries"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 24,
+    "fields": {
+      "step": 14,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "maple syrup"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 25,
+    "fields": {
+      "step": 15,
+      "amount": "1 1/2",
+      "unit": "cups",
+      "name": "black beans"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 26,
+    "fields": {
+      "step": 15,
+      "amount": "1",
+      "unit": "cup",
+      "name": "shredded cheese"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 27,
+    "fields": {
+      "step": 15,
+      "amount": "1/3",
+      "unit": "cup",
+      "name": "salsa"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 28,
+    "fields": {
+      "step": 16,
+      "amount": "6",
+      "unit": "",
+      "name": "flour tortillas"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 29,
+    "fields": {
+      "step": 17,
+      "amount": "2",
+      "unit": "cups",
+      "name": "flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 30,
+    "fields": {
+      "step": 17,
+      "amount": "1",
+      "unit": "cup",
+      "name": "milk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 31,
+    "fields": {
+      "step": 17,
+      "amount": "2",
+      "unit": "",
+      "name": "eggs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 32,
+    "fields": {
+      "step": 17,
+      "amount": "2",
+      "unit": "",
+      "name": "apples"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 33,
+    "fields": {
+      "step": 17,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "melted butter"
+    }
+  }
+]

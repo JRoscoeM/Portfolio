@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ author.get_full_name|default:author.username }} - Dishbook</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <div class="main-page-container">
+        {% include "header-partial.html" %}
+
+        <h1>{{ author.get_full_name|default:author.username }}</h1>
+
+        <div class="profile-intro">
+            <div>
+                {% if profile.photo %}
+                <img src="{{ profile.photo.url }}"
+                    alt="Profile photo of {{ author.get_full_name|default:author.username }}">
+                {% endif %}
+            </div>
+            <div>
+                <p><strong>Username:</strong> {{ author.username }}</p>
+                <p>{{ profile.bio }}</p>
+            </div>
+        </div>
+
+        <h2>Recipes</h2>
+        {% include "recipe-cards-partial.html" %}
+    </div>
+</body>
+
+</html>

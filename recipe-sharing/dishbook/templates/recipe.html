@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ recipe.title }} - Dishbook</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <div class="main-page-container recipe-page">
+        {% include "header-partial.html" %}
+
+        <section class="recipe-hero">
+            <div class="recipe-hero-copy">
+                <p class="eyebrow">Cook Something Great</p>
+                <h1>{{ recipe.title }}</h1>
+                <p>By <a href="/profile/{{ recipe.author.username }}/">{{ recipe.author.get_full_name|default:recipe.author.username }}</a></p>
+
+                <p class="tag-row">
+                    <strong>Tags:</strong>
+                    {% for tag in recipe.tags.all %}
+                    <span class="tag-pill">{{ tag.name }}</span>
+                    {% empty %}
+                    <span class="tag-pill tag-pill-muted">No tags yet</span>
+                    {% endfor %}
+                </p>
+
+                <p class="recipe-description">{{ recipe.description }}</p>
+
+                <div class="recipe-info-grid">
+                    <div class="recipe-stat">
+                        <span class="recipe-stat-label">Prep</span>
+                        <strong>{{ recipe.prep_time_minutes }} min</strong>
+                    </div>
+                    <div class="recipe-stat">
+                        <span class="recipe-stat-label">Cook</span>
+                        <strong>{{ recipe.cook_time_minutes }} min</strong>
+                    </div>
+                    <div class="recipe-stat">
+                        <span class="recipe-stat-label">Total</span>
+                        <strong>{{ recipe.total_time }} min</strong>
+                    </div>
+                    <div class="recipe-stat">
+                        <span class="recipe-stat-label">Serves</span>
+                        <strong id="recipe-serves-value">
+                            {% if scaled_recipe and scaled_recipe.scaled_serves_text %}
+                            {{ scaled_recipe.scaled_serves_text }}
+                            {% else %}
+                            {{ recipe.serves }}
+                            {% endif %}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            {% if recipe.photo %}
+            <div class="recipe-hero-media">
+                <img src="{{ recipe.photo.url }}" alt="Photo of {{ recipe.title }}">
+            </div>
+            {% endif %}
+        </section>
+
+        <section class="scaling-panel">
+            <div class="scaling-panel-header">
+                <div>
+                    <p class="eyebrow">Scale Recipe</p>
+                    <h2>Adjust this recipe before you cook</h2>
+                </div>
+                <a id="cook-view-link" class="cook-button" href="/recipe/{{ recipe.id }}/cook/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Start cooking</a>
+            </div>
+
+            <div class="scale-forms">
+                <form method="get" class="scale-card" id="servings-scale-form">
+                    <input type="hidden" name="scale_mode" value="servings">
+                    <label for="servings">Scale by portions</label>
+                    <p>Change the recipe yield and scale all measurable ingredients from the original serving size.</p>
+                    <div class="scale-form-row">
+                        <input id="servings" type="number" min="1" name="servings" value="{% if scale_context and scale_context.target_serves %}{{ scale_context.target_serves }}{% else %}{{ recipe.serves }}{% endif %}">
+                        <button type="submit">Update servings</button>
+                    </div>
+                </form>
+
+                <form method="get" class="scale-card" id="ingredient-scale-form">
+                    <input type="hidden" name="scale_mode" value="ingredient">
+                    <label for="ingredient_id">Scale by ingredient</label>
+                    <p>Match the recipe to a specific amount of one ingredient, like using a whole can or package.</p>
+                    <div class="scale-form-stack">
+                        <select id="ingredient_id" name="ingredient_id">
+                            <option value="">Choose an ingredient</option>
+                            {% if scaled_recipe %}
+                            {% for step in scaled_recipe.steps %}
+                            {% for ingredient in step.ingredients %}
+                            <option value="{{ ingredient.id }}"{% if scale_context and scale_context.anchor_ingredient_id == ingredient.id %} selected{% endif %}>{{ ingredient.name }}</option>
+                            {% endfor %}
+                            {% endfor %}
+                            {% else %}
+                            {% for step in recipe.steps.all %}
+                            {% for ingredient in step.ingredients.all %}
+                            <option value="{{ ingredient.id }}"{% if scale_context and scale_context.anchor_ingredient_id == ingredient.id %} selected{% endif %}>{{ ingredient.name }}</option>
+                            {% endfor %}
+                            {% endfor %}
+                            {% endif %}
+                        </select>
+                        <div class="scale-form-row">
+                            <input id="target_amount" type="text" name="target_amount" placeholder="Example: 14 or 1 1/2" value="{% if scale_context and scale_context.anchor_target_quantity %}{{ scale_context.anchor_target_quantity }}{% endif %}">
+                            <button type="submit">Match ingredient</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="scale-error" class="scale-error{% if not scale_error %} is-hidden{% endif %}">
+                {{ scale_error }}
+            </div>
+
+            <div id="scale-summary" class="scale-summary{% if not scale_context %} is-hidden{% endif %}">
+                <strong>Current scaling:</strong>
+                <span id="scale-summary-text">
+                    {% if scale_context.mode == "servings" %}
+                    scaled from {{ scale_context.original_serves }} servings to {{ scale_context.target_serves }} servings
+                    {% elif scale_context.mode == "ingredient" %}
+                    scaled to match {{ scale_context.anchor_target_quantity }} of {{ scale_context.anchor_name }}
+                    {% endif %}
+                </span>
+                {% if scaled_recipe and scaled_recipe.factor_text %}
+                <span id="scale-factor-chip" class="scale-summary-chip">factor ×{{ scaled_recipe.factor_text }}</span>
+                {% else %}
+                <span id="scale-factor-chip" class="scale-summary-chip is-hidden"></span>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="recipe-columns">
+            <div class="recipe-panel">
+                <div class="section-heading">
+                    <p class="eyebrow">Shop + Prep</p>
+                    <h2>Ingredients</h2>
+                </div>
+                <ul id="ingredient-list" class="ingredient-list">
+                    {% if scaled_recipe %}
+                    {% for step in scaled_recipe.steps %}
+                    {% for ingredient in step.ingredients %}
+                    <li>
+                        <span>{{ ingredient.display_text }}</span>
+                        {% if ingredient.original_quantity_text != ingredient.scaled_quantity_text %}
+                        <small>Original: {{ ingredient.original_quantity_text }} {{ ingredient.unit }}</small>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                    {% endfor %}
+                    {% else %}
+                    {% for step in recipe.steps.all %}
+                    {% for ingredient in step.ingredients.all %}
+                    <li>{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="recipe-panel">
+                <div class="section-heading">
+                    <p class="eyebrow">Make It</p>
+                    <h2>Steps</h2>
+                </div>
+                <ol id="step-list" class="step-list">
+                    {% if scaled_recipe %}
+                    {% for step in scaled_recipe.steps %}
+                    <li class="step-card">
+                        <div>
+                            <strong>Step {{ step.order }}</strong>
+                            <p>{{ step.description }}</p>
+                        </div>
+                        {% if step.ingredients %}
+                        <div class="step-ingredients">
+                            <span class="step-ingredients-label">Use in this step</span>
+                            <ul>
+                                {% for ingredient in step.ingredients %}
+                                <li>{{ ingredient.display_text }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    {% for step in recipe.steps.all %}
+                    <li class="step-card">
+                        <div>
+                            <strong>Step {{ step.order }}</strong>
+                            <p>{{ step.description }}</p>
+                        </div>
+                        {% if step.ingredients.all %}
+                        <div class="step-ingredients">
+                            <span class="step-ingredients-label">Use in this step</span>
+                            <ul>
+                                {% for ingredient in step.ingredients.all %}
+                                <li>{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ol>
+            </div>
+        </section>
+    </div>
+    {{ base_recipe_payload|json_script:"recipe-base-data" }}
+    <script src="/static/main.js"></script>
+</body>
+
+</html>

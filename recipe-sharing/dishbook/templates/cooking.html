@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cooking {{ recipe.title }} - Dishbook</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body class="cooking-body">
+    <main class="cooking-shell">
+        <section class="cooking-header">
+            <div>
+                <p class="eyebrow">Cooking View</p>
+                <h1>{{ recipe.title }}</h1>
+                {% if scale_context %}
+                <p class="cooking-summary">
+                    {% if scale_context.mode == "servings" %}
+                    Serving {{ scale_context.target_serves }} portions
+                    {% elif scale_context.mode == "ingredient" %}
+                    Matched to {{ scale_context.anchor_target_quantity }} of {{ scale_context.anchor_name }}
+                    {% endif %}
+                    {% if scaled_recipe and scaled_recipe.factor_text %}
+                    <span class="scale-summary-chip">factor ×{{ scaled_recipe.factor_text }}</span>
+                    {% endif %}
+                </p>
+                {% endif %}
+            </div>
+            <a class="cook-button cook-button-secondary" href="/recipe/{{ recipe.id }}/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Back to recipe</a>
+        </section>
+
+        <section class="cooking-steps">
+            {% if scaled_recipe %}
+            {% for step in scaled_recipe.steps %}
+            <article class="cooking-step-card">
+                <div class="cooking-step-number">Step {{ step.order }}</div>
+                <p class="cooking-step-text">{{ step.description }}</p>
+                {% if step.ingredients %}
+                <div class="cooking-inline-measurements">
+                    <span>Use:</span>
+                    <ul>
+                        {% for ingredient in step.ingredients %}
+                        <li>{{ ingredient.display_text }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+            {% else %}
+            {% for step in recipe.steps.all %}
+            <article class="cooking-step-card">
+                <div class="cooking-step-number">Step {{ step.order }}</div>
+                <p class="cooking-step-text">{{ step.description }}</p>
+                {% if step.ingredients.all %}
+                <div class="cooking-inline-measurements">
+                    <span>Use:</span>
+                    <ul>
+                        {% for ingredient in step.ingredients.all %}
+                        <li>{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+            {% endif %}
+        </section>
+    </main>
+</body>
+
+</html>

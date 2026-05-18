@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dishbook Home</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <div class="main-page-container">
+        {% include "header-partial.html" %}
+
+        <div class="welcome-content">
+            <h1>Welcome to Dishbook</h1>
+            <p>Browse recipes shared by our community.</p>
+        </div>
+
+        {% include "recipe-cards-partial.html" %}
+    </div>
+</body>
+
+</html>

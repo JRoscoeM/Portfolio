@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Search - Dishbook</title>
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <div class="main-page-container">
+        {% include "header-partial.html" %}
+
+        <h1>Search Recipes</h1>
+
+        <div class="search-block">
+            <form action="/s" method="get">
+                <label for="big-search">Search</label>
+                <input id="big-search" type="search" name="q" value="{{ query }}">
+                <button>Search</button>
+            </form>
+        </div>
+
+        {% include "recipe-cards-partial.html" %}
+    </div>
+</body>
+
+</html>
