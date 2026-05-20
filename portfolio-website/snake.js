@@ -264,3 +264,7 @@ renderRoomSummary(appState.activeRoom);
 renderMatchHistory(appState.recentMatches);
 loadScores();
 loadSpotifyStatus();
+
+window.location.href = `/snake-play.html?roomId=${encodeURIComponent(activeRoomId)}`;
+// backticks are for template literals with interpolation
+// encodeURIComponent is for safety. e.g., it escapes stuff like / and ?

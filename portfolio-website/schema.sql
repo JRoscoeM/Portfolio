@@ -101,6 +101,57 @@ CREATE TABLE IF NOT EXISTS snake_match_players (
         UNIQUE (match_id, player_id)
 );
 
+create table if not exists recipes_tag (
+    tag_id bigint generated always as identity primary key,
+    tag_name varchar(40)
+);
+
+create table if not exists recipes_recipe (
+    recipe_id bigint generated always as identity primary key,
+    title varchar(200),
+    description text,
+    prep_time_minutes integer,
+    cook_time_minutes integer,
+    serves integer,
+    author text references recipes_profile(display_name) on delete cascade,
+    photo_url text,
+    is_public boolean not null default false,
+);
+
+create table if not exists recipe_tag_join_table (
+    recipe_id bigint not null references recipes_recipe(recipe_id) on delete cascade,
+    tag_id bigint not null references recipes_tag(tag_id) on delete cascade,
+    primary key (recipe_id, tag_id)
+);
+
+create table if not exists recipes_step (
+    step_id bigint generated always as identity primary key,
+    recipe_id bigint not null references recipes_recipe(recipe_id) on delete cascade,
+    order integer not null,
+    description text,
+);
+
+create table if not exists recipes_ingredient (
+    ingredient_id bigint generated always as identity primary key,
+    step_id bigint not null references recipes_step(step_id) on delete cascade,
+    amount varchar(40) not null,
+    unit varchar(40),
+    name varchar(100)
+);
+
+create table if not exists recipes_ingredient_amount (
+    ingredient_id references recipes_ingredient(ingredient_id),
+    unit varchar(40),
+    quantity decimal not null,
+    is_scalable boolean not null default false,
+);
+
+create table if not exists recipes_profile (
+    id bigint generated always as identity primary key,
+    display_name text not null unique,
+    photo_url text
+);
+
 CREATE INDEX IF NOT EXISTS idx_snake_rooms_host_player_id
     ON snake_rooms (host_player_id);
 

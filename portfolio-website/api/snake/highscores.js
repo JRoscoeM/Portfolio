@@ -1,4 +1,4 @@
-const { getSql } = require("./db");
+const { getSql } = require("../_lib/db");
 
 function buildPrototypeScores() {
   return [
