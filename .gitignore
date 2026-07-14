@@ -1,1 +1,64 @@
+# Operating-system and editor files
 .DS_Store
+Thumbs.db
+.idea/
+.vs/
+.vscode/
+.qtcreator/
+.qtc_clangd/
+*.user
+*.suo
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.local
+
+# Python / Django
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+db.sqlite3
+media/
+staticfiles/
+
+# JavaScript
+node_modules/
+.npm/
+
+# .NET
+**/bin/
+**/obj/
+TestResults/
+*.trx
+
+# C++ / Qt / Emscripten
+**/build/
+**/build-*/
+**/emsdk/
+*.o
+*.obj
+*.app/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# Vercel local state
+.vercel/
+
+# Legacy Qt output generated beside source files
+/apps/sprite-editor/Makefile
+/apps/sprite-editor/moc_*.cpp
+/apps/sprite-editor/qrc_*.cpp
+/apps/sprite-editor/A7.html
+/apps/sprite-editor/A7.js
+/apps/sprite-editor/A7.wasm
+/apps/sprite-editor/qtloader.js
+
+# Legacy compiled Snake distributions (kept locally, not versioned)
+/apps/snake-resources/
