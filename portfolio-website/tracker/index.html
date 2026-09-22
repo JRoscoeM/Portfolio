@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111310" />
+    <title>Daily Log | Habits and Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/tracker/tracker.css?v=2" />
+  </head>
+  <body>
+    <div id="boot-screen" class="boot-screen" aria-live="polite">
+      <span class="boot-mark" aria-hidden="true"></span>
+      <p>Opening Daily Log</p>
+    </div>
+
+    <main id="access-screen" class="access-screen is-hidden">
+      <a class="back-link" href="/">
+        <i data-lucide="arrow-left" aria-hidden="true"></i>
+        Portfolio
+      </a>
+      <section class="access-panel" aria-labelledby="access-title">
+        <div class="brand-lockup brand-lockup-large">
+          <span class="brand-mark"><i data-lucide="activity" aria-hidden="true"></i></span>
+          <div>
+            <p class="brand-name">Daily Log</p>
+            <p class="brand-subtitle">Habits + training</p>
+          </div>
+        </div>
+        <div class="access-copy">
+          <p class="section-kicker">Personal dashboard</p>
+          <h1 id="access-title">Keep the work visible.</h1>
+          <p>Track daily habits and strength training in one focused log.</p>
+        </div>
+
+        <div class="access-actions">
+          <button id="show-owner-login" class="button button-primary" type="button">
+            <i data-lucide="lock-keyhole" aria-hidden="true"></i>
+            Owner access
+          </button>
+          <button id="guest-login" class="button button-secondary" type="button">
+            <i data-lucide="user-round" aria-hidden="true"></i>
+            Continue as guest
+          </button>
+        </div>
+
+        <form id="owner-login-form" class="owner-login is-hidden">
+          <label for="owner-password">Password</label>
+          <div class="password-row">
+            <input id="owner-password" name="password" type="password" autocomplete="current-password" required />
+            <button class="icon-button" type="submit" aria-label="Sign in" title="Sign in">
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+          <p id="login-error" class="form-message" role="alert"></p>
+        </form>
+      </section>
+      <p class="guest-note">Guest activity stays in this browser and never touches the private log.</p>
+    </main>
+
+    <div id="app" class="app-shell is-hidden">
+      <aside class="sidebar">
+        <a class="brand-lockup" href="/tracker/" aria-label="Daily Log home">
+          <span class="brand-mark"><i data-lucide="activity" aria-hidden="true"></i></span>
+          <div>
+            <p class="brand-name">Daily Log</p>
+            <p id="mode-label" class="brand-subtitle">Owner workspace</p>
+          </div>
+        </a>
+
+        <nav class="primary-nav" aria-label="Tracker sections">
+          <button class="nav-item is-active" type="button" data-view="today">
+            <i data-lucide="layout-dashboard" aria-hidden="true"></i>
+            <span>Today</span>
+          </button>
+          <button class="nav-item" type="button" data-view="habits">
+            <i data-lucide="check-check" aria-hidden="true"></i>
+            <span>Habits</span>
+          </button>
+          <button class="nav-item" type="button" data-view="train">
+            <i data-lucide="dumbbell" aria-hidden="true"></i>
+            <span>Train</span>
+          </button>
+          <button class="nav-item" type="button" data-view="history">
+            <i data-lucide="chart-no-axes-column-increasing" aria-hidden="true"></i>
+            <span>History</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div id="guest-badge" class="guest-badge is-hidden">
+            <i data-lucide="flask-conical" aria-hidden="true"></i>
+            <span>Guest sandbox</span>
+          </div>
+          <button id="exit-mode" class="nav-item nav-item-muted" type="button">
+            <i data-lucide="log-out" aria-hidden="true"></i>
+            <span id="exit-mode-label">Sign out</span>
+          </button>
+          <a class="nav-item nav-item-muted" href="/">
+            <i data-lucide="arrow-left" aria-hidden="true"></i>
+            <span>Portfolio</span>
+          </a>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <div id="guest-banner" class="guest-banner is-hidden" role="status">
+          <div>
+            <strong>Guest sandbox</strong>
+            <span>Your changes stay on this device.</span>
+          </div>
+          <button id="reset-demo" class="text-button" type="button">Reset demo</button>
+        </div>
+
+        <section id="view-today" class="view is-active" aria-labelledby="today-title">
+          <header class="view-header">
+            <div>
+              <p id="today-date" class="section-kicker"></p>
+              <h1 id="today-title">Today</h1>
+            </div>
+            <button class="button button-primary" type="button" data-action="start-workout">
+              <i data-lucide="play" aria-hidden="true"></i>
+              Start workout
+            </button>
+          </header>
+
+          <div id="summary-strip" class="summary-strip" aria-label="Today summary"></div>
+
+          <div class="dashboard-grid">
+            <section class="content-section habit-today-section" aria-labelledby="today-habits-title">
+              <div class="section-heading-row">
+                <div>
+                  <p class="section-kicker">Daily focus</p>
+                  <h2 id="today-habits-title">Habits</h2>
+                </div>
+                <button class="icon-button" type="button" data-action="new-habit" aria-label="Add habit" title="Add habit">
+                  <i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div id="today-habits" class="habit-list"></div>
+            </section>
+
+            <aside class="right-rail">
+              <section class="content-section next-session" aria-labelledby="next-session-title">
+                <div class="section-heading-row">
+                  <div>
+                    <p class="section-kicker">Training</p>
+                    <h2 id="next-session-title">Next session</h2>
+                  </div>
+                  <i class="section-icon" data-lucide="dumbbell" aria-hidden="true"></i>
+                </div>
+                <div id="next-session-content"></div>
+              </section>
+
+              <section class="content-section" aria-labelledby="week-title">
+                <div class="section-heading-row">
+                  <div>
+                    <p class="section-kicker">Consistency</p>
+                  <h2 id="week-title">Last 7 days</h2>
+                  </div>
+                </div>
+                <div id="week-activity" class="week-activity"></div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <section id="view-habits" class="view" aria-labelledby="habits-title">
+          <header class="view-header">
+            <div>
+              <p class="section-kicker">Consistency</p>
+              <h1 id="habits-title">Habits</h1>
+            </div>
+            <button class="button button-primary" type="button" data-action="new-habit">
+              <i data-lucide="plus" aria-hidden="true"></i>
+              New habit
+            </button>
+          </header>
+          <div class="toolbar-row">
+            <div class="segmented-control" role="group" aria-label="Habit status">
+              <button class="is-active" type="button" data-habit-filter="active">Active</button>
+              <button type="button" data-habit-filter="archived">Archived</button>
+            </div>
+            <p id="habit-count" class="muted-copy"></p>
+          </div>
+          <div id="habit-catalog" class="habit-catalog"></div>
+        </section>
+
+        <section id="view-train" class="view" aria-labelledby="train-title">
+          <div id="training-home">
+            <header class="view-header">
+              <div>
+                <p class="section-kicker">Strength log</p>
+                <h1 id="train-title">Train</h1>
+              </div>
+              <button class="button button-secondary" type="button" data-action="empty-workout">
+                <i data-lucide="plus" aria-hidden="true"></i>
+                Empty workout
+              </button>
+            </header>
+            <section class="content-section" aria-labelledby="routines-title">
+              <div class="section-heading-row">
+                <div>
+                  <p class="section-kicker">Templates</p>
+                  <h2 id="routines-title">Routines</h2>
+                </div>
+                <button class="icon-button" type="button" data-action="new-routine" aria-label="Create routine" title="Create routine">
+                  <i data-lucide="plus" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div id="routine-list" class="routine-list"></div>
+            </section>
+            <section class="training-overview" aria-labelledby="training-overview-title">
+              <div class="section-heading-row">
+                <div>
+                  <p class="section-kicker">Last 30 days</p>
+                  <h2 id="training-overview-title">Training overview</h2>
+                </div>
+              </div>
+              <div id="training-metrics" class="training-metrics"></div>
+            </section>
+          </div>
+
+          <div id="active-workout" class="active-workout is-hidden" aria-live="polite"></div>
+        </section>
+
+        <section id="view-history" class="view" aria-labelledby="history-title">
+          <header class="view-header">
+            <div>
+              <p class="section-kicker">Progress</p>
+              <h1 id="history-title">History</h1>
+            </div>
+          </header>
+          <div id="history-highlights" class="summary-strip"></div>
+          <div class="history-grid">
+            <section class="content-section" aria-labelledby="workout-history-title">
+              <div class="section-heading-row">
+                <div>
+                  <p class="section-kicker">Sessions</p>
+                  <h2 id="workout-history-title">Workout history</h2>
+                </div>
+              </div>
+              <div id="workout-history" class="workout-history"></div>
+            </section>
+            <section class="content-section" aria-labelledby="habit-history-title">
+              <div class="section-heading-row">
+                <div>
+                  <p class="section-kicker">Last 28 days</p>
+                  <h2 id="habit-history-title">Habit consistency</h2>
+                </div>
+              </div>
+              <div id="habit-history" class="habit-history"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="habit-dialog" class="modal">
+      <form id="habit-form" method="dialog">
+        <div class="modal-header">
+          <div>
+            <p class="section-kicker">Habit setup</p>
+            <h2 id="habit-dialog-title">New habit</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog="habit-dialog" aria-label="Close" title="Close">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <input id="habit-id" name="id" type="hidden" />
+        <label class="field">
+          <span>Name</span>
+          <input id="habit-name" name="name" maxlength="80" required placeholder="e.g. Read" />
+        </label>
+        <label class="field">
+          <span>Notes</span>
+          <input id="habit-description" name="description" maxlength="240" placeholder="Optional cue or intention" />
+        </label>
+        <div class="field-grid">
+          <label class="field">
+            <span>Track as</span>
+            <select id="habit-tracking-type" name="trackingType">
+              <option value="boolean">Done / not done</option>
+              <option value="count">Count</option>
+              <option value="duration">Minutes</option>
+            </select>
+          </label>
+          <label id="habit-target-field" class="field is-hidden">
+            <span>Daily target</span>
+            <div class="inline-fields">
+              <input id="habit-target" name="targetValue" type="number" min="0.1" step="0.1" value="1" />
+              <input id="habit-unit" name="unit" maxlength="24" placeholder="unit" />
+            </div>
+          </label>
+        </div>
+        <fieldset class="field fieldset-reset">
+          <legend>Schedule</legend>
+          <div class="segmented-control schedule-mode">
+            <button class="is-active" type="button" data-schedule-mode="daily">Every day</button>
+            <button type="button" data-schedule-mode="specific_days">Specific days</button>
+          </div>
+          <div id="weekday-picker" class="weekday-picker is-hidden" aria-label="Habit days"></div>
+        </fieldset>
+        <fieldset class="field fieldset-reset">
+          <legend>Color</legend>
+          <div id="color-picker" class="color-picker" aria-label="Habit color"></div>
+        </fieldset>
+        <p id="habit-form-error" class="form-message" role="alert"></p>
+        <div class="modal-actions">
+          <button id="archive-habit" class="button button-danger is-hidden" type="button">Archive</button>
+          <span class="modal-spacer"></span>
+          <button class="button button-secondary" type="button" data-close-dialog="habit-dialog">Cancel</button>
+          <button class="button button-primary" type="submit">Save habit</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="routine-dialog" class="modal modal-wide">
+      <form id="routine-form" method="dialog">
+        <div class="modal-header">
+          <div>
+            <p class="section-kicker">Training template</p>
+            <h2>New routine</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog="routine-dialog" aria-label="Close" title="Close">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <label class="field">
+          <span>Name</span>
+          <input id="routine-name" name="name" maxlength="80" required placeholder="e.g. Upper A" />
+        </label>
+        <div class="field-grid field-grid-three">
+          <label class="field">
+            <span>Sets</span>
+            <input id="routine-sets" name="targetSets" type="number" min="1" max="12" value="3" required />
+          </label>
+          <label class="field">
+            <span>Reps</span>
+            <input id="routine-reps" name="targetReps" type="number" min="1" max="100" value="8" required />
+          </label>
+          <label class="field">
+            <span>Rest</span>
+            <select id="routine-rest" name="restSeconds">
+              <option value="60">1:00</option>
+              <option value="90" selected>1:30</option>
+              <option value="120">2:00</option>
+              <option value="180">3:00</option>
+            </select>
+          </label>
+        </div>
+        <fieldset class="field fieldset-reset">
+          <legend>Exercises</legend>
+          <div id="routine-exercise-picker" class="exercise-picker"></div>
+        </fieldset>
+        <p id="routine-form-error" class="form-message" role="alert"></p>
+        <div class="modal-actions">
+          <button class="button button-secondary" type="button" data-close-dialog="routine-dialog">Cancel</button>
+          <button class="button button-primary" type="submit">Create routine</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="exercise-dialog" class="modal">
+      <div class="modal-header">
+        <div>
+          <p class="section-kicker">Exercise library</p>
+          <h2>Add exercise</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-dialog="exercise-dialog" aria-label="Close" title="Close">
+          <i data-lucide="x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <label class="search-field">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <input id="exercise-search" type="search" placeholder="Search exercises" />
+      </label>
+      <div id="exercise-library" class="exercise-library"></div>
+    </dialog>
+
+    <div id="rest-timer" class="rest-timer is-hidden" role="timer" aria-live="polite"></div>
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="/tracker/tracker.js?v=2"></script>
+  </body>
+</html>
