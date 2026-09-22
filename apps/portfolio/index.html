@@ -3,9 +3,11 @@
 
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roscoe Moedl | Aspiring Software Engineer</title>
   <link rel="stylesheet" href="static/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="/static/home.js" defer></script>
 </head>
 
 <body>
@@ -64,30 +66,144 @@
       <div class="menu">
         <h1>Roscoe Moedl</h1>
         <h2>Software Engineering Student</h2>
-        <p class="tagline">I translate complex requirements into elegant, functional code.</p>
-        <nav class="nav-bar">
+        <!-- <p class="tagline">I translate complex requirements into elegant, functional code.</p> -->
+        <nav class="nav-bar" aria-label="Page sections">
           <ul>
-            <li><a href="#about">ABOUT</a></li>
-            <li><a href="#experience">EXPERIENCE</a></li>
+            <li><a href="#about" aria-current="location">ABOUT</a></li>
             <li><a href="#projects">PROJECTS</a></li>
+            <li><a href="#experience">EXPERIENCE</a></li>
           </ul>
         </nav>
         <div class="socials">
-          <a href="https://www.linkedin.com/in/roscoe-moedl-305101222/" target="_blank">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/roscoe-moedl-305101222/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
       </div>
     </header>
 
     <main class="right-side">
       <section id="about" class="info">
-        <img src="Better.jpg" alt="Roscoe Moedl" class="profile-pic">
-        <p>I am a Junior studying Software Development at the University of Utah graduating in Fall 2027. I have a
-          strong foundation in C#, JavaScript, Web Development, and Database Design. I am passionate about building
-          highly usable, performant applications.</p>
-        <p>When I'm not studying I work as a Hibachi Chef and enjoying camping, hiking, and playing the piano.</p>
+        <img
+          src="/static/images/profile-960.jpg"
+          srcset="/static/images/profile-480.jpg 480w, /static/images/profile-960.jpg 960w, /static/images/profile-1440.jpg 1440w"
+          sizes="(max-width: 600px) calc(100vw - 2.5rem), (max-width: 960px) 380px, 420px"
+          alt="Roscoe Moedl"
+          class="profile-pic"
+          width="960"
+          height="639"
+          decoding="async"
+          fetchpriority="high">
+        <div class="about-copy">
+          <p>I am a Junior studying Software Development at the University of Utah graduating in Fall 2027. I have a
+            strong foundation in C#, JavaScript, Web Development, and Database Design. I am passionate about building
+            highly usable, performant applications.</p>
+          <p>When I'm not studying I work as a Hibachi Chef and enjoying camping, hiking, and playing the piano.</p>
+        </div>
+      </section>
+
+      <section id="projects" class="card-section projects">
+        <h2 class="section-heading">Selected Projects</h2>
+        <a class="card-link" href="/tracker/">
+          <div class="card project-card project-card-featured">
+            <div class="date-col">
+              <p>CURRENT</p>
+            </div>
+            <div class="content-col">
+              <p class="job-title">Daily Log</p>
+              <p class="description">A personal habit and workout tracker with a sandbox version for guests.</p>
+              <ul class="tech-stack">
+                <li>JavaScript</li>
+                <li>Vercel</li>
+                <li>Neon</li>
+                <li>PostgreSQL</li>
+              </ul>
+              <p class="card-cta">Open interactive tracker</p>
+            </div>
+          </div>
+        </a>
+
+      <div class="card project-card">
+        <div class="date-col">
+          <p>CURRENT</p>
+        </div>
+        <div class="content-col">
+          <p class="job-title">Personal Recipe Sharing</p>
+          <p class="description">Live recipe-sharing application designed for sharing tested recipes with friends and
+            family, with recipe scaling, private recipes, profiles, and a focused cooking view.</p>
+          <ul class="tech-stack">
+            <li>Python</li>
+            <li>Django</li>
+            <li>JavaScript</li>
+            <li>HTML</li>
+            <li>CSS</li>
+          </ul>
+        </div>
+      </div>
+
+        <a class="card-link" href="/A7.html">
+          <div class="card project-card project-card-featured">
+            <div class="date-col">
+              <p>OCT &mdash; DEC 2025</p>
+            </div>
+            <div class="content-col">
+              <p class="job-title">Sprite Editor</p>
+              <p class="description">Allows the user to graphically edit an animated icon. Features include:
+                saving/loading
+                to a local file, selecting color/brush size/canvas size, managing frames and frame speed, undo and redo.
+              </p>
+              <ul class="tech-stack">
+                <li>C++</li>
+                <li>Qt Framework</li>
+                <li>Git</li>
+                <li>Agile Development</li>
+              </ul>
+              <p class="card-cta">Open WebAssembly preview</p>
+            </div>
+          </div>
+        </a>
+
+
+
+        <div class="card project-card">
+          <div class="date-col">
+            <p>CURRENT</p>
+          </div>
+          <div class="content-col">
+            <p class="job-title">Networked Snake Game</p>
+            <p class="description">In development, I am adapting the original project to be hostable and to include a
+              social, Spotify-connected component.</p>
+            <ul class="tech-stack">
+              <li>C#</li>
+              <li>Vercel</li>
+              <li>Neon</li>
+              <li>Spotify API</li>
+              <li>Networking</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card project-card">
+          <div class="date-col">
+            <p>JAN &mdash; MAR 2025</p>
+          </div>
+          <div class="content-col">
+            <p class="job-title">Spreadsheet Program</p>
+            <p class="description">.NET Razor webpage GUI which allows users to manipulate a spreadsheet, save it to a
+              file,
+              or load a spreadsheet from a file. Represents cell dependencies in a performant manner to allow formula
+              evaluation and formula updating.</p>
+            <ul class="tech-stack">
+              <li>C#</li>
+              <li>ASP.NET Razor</li>
+              <li>MSTest</li>
+              <li>OOP</li>
+              <li>Pair Programming</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section id="experience" class="card-section">
+        <h2 class="section-heading">Experience</h2>
         <div class="card experience-card">
           <div class="date-col">
             <p>APR 2025 &mdash; PRESENT</p>
@@ -95,7 +211,7 @@
           <div class="content-col">
             <p class="job-title">Hibachi Chef &middot; Koi Restaurant</p>
             <p class="description">Performing job duties which require a high level of quality control and attention to
-              detail in a fast-paced work environment, and throwing shrimp in peoples' mouths.</p>
+              detail in a fast-paced work environment, and throwing shrimp in peoples' mouths :).</p>
           </div>
         </div>
 
@@ -118,113 +234,6 @@
           <div class="content-col">
             <p class="job-title">Restaurant Worker</p>
             <p class="description">Worked for many years at Tepanyaki in multiple roles.</p>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- <a class="card-link" href="https://dishbook-recipes.vercel.app/"> -->
-        <div id="projects" class="card project-card project-card-featured">
-          <div class="date-col">
-            <p>CURRENT</p>
-          </div>
-          <div class="content-col">
-            <p class="job-title">Personal Recipe Sharing</p>
-            <p class="description">Live recipe-sharing application designed for sharing tested recipes with friends and
-              family, with recipe scaling, private recipes, profiles, and a focused cooking view.</p>
-            <ul class="tech-stack">
-              <li>Python</li>
-              <li>Django</li>
-              <li>JavaScript</li>
-              <li>HTML</li>
-              <li>CSS</li>
-            </ul>
-          </div>
-        </div>
-      <!-- </a> -->
-
-      <section class="card-section projects">
-        <a class="card-link" href="/A7.html">
-          <div class="card project-card project-card-featured">
-            <div class="date-col">
-              <p>OCT &mdash; DEC 2025</p>
-            </div>
-            <div class="content-col">
-              <p class="job-title">Sprite Editor</p>
-              <p class="description">Allows the user to graphically edit an animated icon. Features include:
-                saving/loading
-                to a local file, selecting color/brush size/canvas size, managing frames and frame speed, undo and redo.
-              </p>
-              <ul class="tech-stack">
-                <li>C++</li>
-                <li>Qt Framework</li>
-                <li>Git</li>
-                <li>Agile Development</li>
-              </ul>
-            </div>
-          </div>
-        </a>
-      </section>
-
-      <section class="projects card-section">
-        <a class="card-link" href="/tracker/">
-          <div class="card project-card project-card-featured">
-            <div class="date-col">
-              <p>CURRENT</p>
-            </div>
-            <div class="content-col">
-              <p class="job-title">Daily Log</p>
-              <p class="description">A private habit and strength-training tracker with a recruiter-friendly guest
-                sandbox.</p>
-              <ul class="tech-stack">
-                <li>JavaScript</li>
-                <li>Vercel</li>
-                <li>Neon</li>
-                <li>PostgreSQL</li>
-              </ul>
-              <p class="card-cta">Open interactive tracker</p>
-            </div>
-          </div>
-        </a>
-
-        <!-- <a class="card-link" href="/snake.html"> -->
-          <div class="card project-card project-card-featured">
-            <div class="date-col">
-              <p>CURRENT</p>
-            </div>
-            <div class="content-col">
-              <p class="job-title">Networked Snake Game</p>
-              <p class="description">In development, I am adapting the original project to be hostable and to include a
-                social, Spotify-connected component.</p>
-              <ul class="tech-stack">
-                <li>C#</li>
-                <li>Vercel</li>
-                <li>Neon</li>
-                <li>Spotify API</li>
-                <li>Networking</li>
-              </ul>
-              <p class="card-cta">Open project room prototype</p>
-            </div>
-          </div>
-        <!-- </a> -->
-
-        <div class="card project-card">
-          <div class="date-col">
-            <p>JAN &mdash; MAR 2025</p>
-          </div>
-          <div class="content-col">
-            <p class="job-title">Spreadsheet Program</p>
-            <p class="description">.NET Razor webpage GUI which allows users to manipulate a spreadsheet, save it to a
-              file,
-              or load a spreadsheet from a file. Represents cell dependencies in a performant manner to allow formula
-              evaluation and formula updating.</p>
-            <ul class="tech-stack">
-              <li>C#</li>
-              <li>ASP.NET Razor</li>
-              <li>MSTest</li>
-              <li>OOP</li>
-              <li>Pair Programming</li>
-            </ul>
           </div>
         </div>
       </section>
