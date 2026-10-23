@@ -1,17 +1,8 @@
 # Portfolio Monorepo
 
-This repository contains the source for the portfolio site and its interactive projects.
+This repository contains the source for my portfolio site and its projects
 
-## Layout
-
-```text
-apps/       User-facing websites, browser applications, and desktop application source
-services/   Independently deployed backend services
-packages/   Shared contracts and design assets
-database/   Database migration ownership and database documentation
-deploy/     Infrastructure and deployment configuration
-docs/       Cross-project architecture and decision records
-```
+Anyone may use this code as the wish as long as the project it's used for is also open-source according to GPLv3
 
 Each application remains independently buildable. The repository shares presentation,
 contracts, documentation, and CI conventions without forcing every project into one
@@ -26,5 +17,3 @@ language or runtime.
 - `apps/sprite-editor`: C++/Qt sprite editor, including the WebAssembly target
 - `apps/simon-game`: C++/Qt Simon game
 - `apps/polluting-computing`: C++/Qt project
-
-Generated dependencies and build output are intentionally excluded from source control.
