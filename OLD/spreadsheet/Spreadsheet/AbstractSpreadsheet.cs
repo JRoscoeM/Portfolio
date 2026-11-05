@@ -1,4 +1,7 @@
-﻿using SpreadsheetUtilities;
+﻿// Written by Profs Zachary, Kopta and Martin for CS 3500
+// Last updated: September 2023 (small tweak to API)
+
+using SpreadsheetUtilities;
 using System.Text.Json.Serialization;
 
 namespace SS;

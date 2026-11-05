@@ -3,11 +3,9 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roscoe Moedl | Aspiring Software Engineer</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="/static/home.js" defer></script>
 </head>
 
 <body>
@@ -16,79 +14,75 @@
       <div class="menu">
         <h1>Roscoe Moedl</h1>
         <h2>Software Engineering Student</h2>
-        <!-- <p class="tagline">I translate complex requirements into elegant, functional code.</p> -->
-        <nav class="nav-bar" aria-label="Page sections">
+        <p class="tagline">I translate complex requirements into elegant, functional code.</p>
+        <nav class="nav-bar">
           <ul>
-            <li><a href="#about" aria-current="location">ABOUT</a></li>
-            <li><a href="#projects">PROJECTS</a></li>
+            <li><a href="#about">ABOUT</a></li>
             <li><a href="#experience">EXPERIENCE</a></li>
+            <li><a href="#projects">PROJECTS</a></li>
           </ul>
         </nav>
         <div class="socials">
-          <a href="https://www.linkedin.com/in/roscoe-moedl-305101222/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/roscoe-moedl-305101222/" target="_blank">LinkedIn</a>
         </div>
       </div>
     </header>
 
     <main class="right-side">
       <section id="about" class="info">
-        <img
-          src="/static/images/profile-960.jpg"
-          srcset="/static/images/profile-480.jpg 480w, /static/images/profile-960.jpg 960w, /static/images/profile-1440.jpg 1440w"
-          sizes="(max-width: 600px) calc(100vw - 2.5rem), (max-width: 960px) 380px, 420px"
-          alt="Roscoe Moedl"
-          class="profile-pic"
-          width="960"
-          height="639"
-          decoding="async"
-          fetchpriority="high">
-        <div class="about-copy">
-          <p>I am a Junior studying Software Development at the University of Utah graduating in Fall 2027. I have a
-            strong foundation in C#, JavaScript, Web Development, and Database Design. I am passionate about building
-            highly usable, performant applications.</p>
-          <p>When I'm not studying I work as a Hibachi Chef and enjoying camping, hiking, and playing the piano.</p>
+        <img src="Better.jpg" alt="Roscoe Moedl" class="profile-pic">
+        <p>I am a Junior studying Software Development, graduating in May 2027. I have a strong foundation in C#,
+          JavaScript, C++, and Python, and I am passionate about building accessible, performant applications.</p>
+        <p>When I'm not studying I work as a Hibachi Chef and enjoying camping, hiking, and playing the piano.</p>
+      </section>
+
+      <section id="experience" class="card-section">
+        <div class="card experience-card">
+          <div class="date-col">
+            <p>APR 2025 &mdash; PRESENT</p>
+          </div>
+          <div class="content-col">
+            <p class="job-title">Hibachi Chef &middot; Koi Restaurant</p>
+            <p class="description">Performing job duties which require a high level of quality control and attention to
+              detail in a fast-paced work environment. Developing a rapport with the customers to provide a good
+              experience.</p>
+          </div>
+        </div>
+
+        <div class="card experience-card">
+          <div class="date-col">
+            <p>AUG 2024 &mdash; APR 2025</p>
+          </div>
+          <div class="content-col">
+            <p class="job-title">Frontend Supervisor &middot; Macey's</p>
+            <p class="description">Managed the day-to-day operations of the frontend team including cashiers, grocery
+              clerks, and customer service representatives to ensure smooth operations. Performed bookkeeping tasks
+              including receiving cash deliveries, balancing the safe, and making cash available for the tills.</p>
+          </div>
         </div>
       </section>
 
-      <section id="projects" class="card-section projects">
-        <h2 class="section-heading">Selected Projects</h2>
-        <a class="card-link" href="/tracker/">
-          <div class="card project-card project-card-featured">
-            <div class="date-col">
-              <p>CURRENT</p>
-            </div>
-            <div class="content-col">
-              <p class="job-title">Daily Log</p>
-              <p class="description">A personal habit and workout tracker with a sandbox version for guests.</p>
-              <ul class="tech-stack">
-                <li>JavaScript</li>
-                <li>Vercel</li>
-                <li>Neon</li>
-                <li>PostgreSQL</li>
-              </ul>
-              <p class="card-cta">Open interactive tracker</p>
-            </div>
+
+      <!-- <a class="card-link" href="https://dishbook-recipes.vercel.app/"> -->
+        <div class="card project-card project-card-featured">
+          <div class="date-col">
+            <p>CURRENT</p>
           </div>
-        </a>
-
-      <div class="card project-card">
-        <div class="date-col">
-          <p>CURRENT</p>
+          <div class="content-col">
+            <p class="job-title">Personal Recipe Sharing</p>
+            <p class="description">Live recipe-sharing application designed for sharing tested recipes with friends and
+              family, with recipe scaling, private recipes, profiles, and a focused cooking view.</p>
+            <ul class="tech-stack">
+              <li>Python</li>
+              <li>Django</li>
+              <li>JavaScript</li>
+              <li>HTML</li>
+              <li>CSS</li>
+          </div>
         </div>
-        <div class="content-col">
-          <p class="job-title">Personal Recipe Sharing</p>
-          <p class="description">Live recipe-sharing application designed for sharing tested recipes with friends and
-            family, with recipe scaling, private recipes, profiles, and a focused cooking view.</p>
-          <ul class="tech-stack">
-            <li>Python</li>
-            <li>Django</li>
-            <li>JavaScript</li>
-            <li>HTML</li>
-            <li>CSS</li>
-          </ul>
-        </div>
-      </div>
+      <!-- </a> -->
 
+      <section class="card-section projects">
         <a class="card-link" href="/A7.html">
           <div class="card project-card project-card-featured">
             <div class="date-col">
@@ -106,30 +100,34 @@
                 <li>Git</li>
                 <li>Agile Development</li>
               </ul>
-              <p class="card-cta">Open WebAssembly preview</p>
             </div>
           </div>
         </a>
+      </section>
 
-
-
-        <div class="card project-card">
-          <div class="date-col">
-            <p>CURRENT</p>
+      <section class="projects card-section">
+        <!-- <a class="card-link" href="/snake.html"> -->
+          <div class="card project-card project-card-featured">
+            <div class="date-col">
+              <p>MAR &mdash; MAY 2025</p>
+            </div>
+            <div class="content-col">
+              <p class="job-title">Networked Snake Game + Spotify Rooms</p>
+              <p class="description">A new portfolio-hosted evolution of my multiplayer Snake project. The original C#
+                server and game model are being adapted into a room-based browser experience with lobby controls,
+                persistent
+                match history, and Spotify-powered host listening sessions.</p>
+              <ul class="tech-stack">
+                <li>C#</li>
+                <li>Vercel</li>
+                <li>Neon</li>
+                <li>Spotify API</li>
+                <li>Networking</li>
+              </ul>
+              <p class="card-cta">Open project room prototype</p>
+            </div>
           </div>
-          <div class="content-col">
-            <p class="job-title">Networked Snake Game</p>
-            <p class="description">In development, I am adapting the original project to be hostable and to include a
-              social, Spotify-connected component.</p>
-            <ul class="tech-stack">
-              <li>C#</li>
-              <li>Vercel</li>
-              <li>Neon</li>
-              <li>Spotify API</li>
-              <li>Networking</li>
-            </ul>
-          </div>
-        </div>
+        <!-- </a> -->
 
         <div class="card project-card">
           <div class="date-col">
@@ -148,42 +146,6 @@
               <li>OOP</li>
               <li>Pair Programming</li>
             </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="experience" class="card-section">
-        <h2 class="section-heading">Experience</h2>
-        <div class="card experience-card">
-          <div class="date-col">
-            <p>APR 2025 &mdash; PRESENT</p>
-          </div>
-          <div class="content-col">
-            <p class="job-title">Hibachi Chef &middot; Koi Restaurant</p>
-            <p class="description">Performing job duties which require a high level of quality control and attention to
-              detail in a fast-paced work environment, and throwing shrimp in peoples' mouths :).</p>
-          </div>
-        </div>
-
-        <div class="card experience-card">
-          <div class="date-col">
-            <p>AUG 2024 &mdash; APR 2025</p>
-          </div>
-          <div class="content-col">
-            <p class="job-title">Frontend Supervisor &middot; Macey's</p>
-            <p class="description">Managed the day-to-day operations of the frontend team including cashiers, grocery
-              clerks, and customer service representatives to ensure smooth operations. Performed bookkeeping tasks
-              including receiving cash deliveries, balancing the safe, and making cash available for the tills.</p>
-          </div>
-        </div>
-
-        <div class="card experience-card">
-          <div class="date-col">
-            <p>DEC 2016 &mdash; AUG 2024</p>
-          </div>
-          <div class="content-col">
-            <p class="job-title">Restaurant Worker</p>
-            <p class="description">Worked for many years at Tepanyaki in multiple roles.</p>
           </div>
         </div>
       </section>
