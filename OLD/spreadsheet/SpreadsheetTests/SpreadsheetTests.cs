@@ -1,5 +1,3 @@
-// These tests are for private use only
-// Redistributing this file is strictly against SoC policy.
 
 using SS;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

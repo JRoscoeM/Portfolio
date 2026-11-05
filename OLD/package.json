@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "check": "node --check tracker/tracker.js && node --test tests/tracker.test.js",
+    "test": "node --test tests/tracker.test.js"
+  },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2"
   }
