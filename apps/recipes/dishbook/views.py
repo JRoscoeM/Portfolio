@@ -126,9 +126,14 @@ def search(request):
 
     valid_search_results = list()
 
-    for recipe in recipes:
-        if q in recipe.__str__().lower():
-            valid_search_results.insert(0, recipe)
+    # Tag links on recipe cards search with "tag:<name>", which lists the recipes carrying that tag.
+    if q.startswith("tag:"):
+        tag_name = q[len("tag:"):].strip()
+        valid_search_results = list(recipes.filter(tags__name__iexact=tag_name).distinct())
+    else:
+        for recipe in recipes:
+            if q in recipe.__str__().lower():
+                valid_search_results.insert(0, recipe)
 
     # Render the search page with both:
     # - the recipes to show
