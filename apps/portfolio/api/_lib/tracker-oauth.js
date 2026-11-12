@@ -32,19 +32,16 @@ const PROVIDERS = {
     tokenUrl: "https://github.com/login/oauth/access_token",
     profileUrl: "https://api.github.com/user",
     scope: "",
-    ownerEnv: "TRACKER_OWNER_GITHUB_LOGIN",
+    ownerEnv: "TRACKER_OWNER_GITHUB_ID",
     // The numeric id is stable; a login can be renamed and later claimed by someone else.
     identify(profile) {
       return Number.isInteger(profile.id)
         ? { subject: String(profile.id), displayName: typeof profile.login === "string" ? profile.login : "GitHub user" }
         : null;
     },
-    // Accepts the login or the numeric account id; the id survives a rename.
+    // Matches the numeric account id only: a login can be renamed away and claimed by someone else.
     isOwner(profile, owner) {
-      return (
-        (typeof profile.login === "string" && sameText(profile.login, owner)) ||
-        (Number.isInteger(profile.id) && String(profile.id) === owner.trim())
-      );
+      return Number.isInteger(profile.id) && String(profile.id) === owner.trim();
     },
   },
 };

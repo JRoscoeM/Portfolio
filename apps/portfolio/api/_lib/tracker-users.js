@@ -46,5 +46,6 @@ async function ensureUser(sql, userId, displayName) {
 
 module.exports = {
   OWNER_ID,
+  STARTER_EXERCISES,
   ensureUser,
 };

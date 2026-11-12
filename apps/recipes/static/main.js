@@ -78,23 +78,32 @@
         }
 
         const rounded = Math.round(quantity * DISPLAY_PRECISION) / DISPLAY_PRECISION;
-        for (let denominator = 2; denominator <= MAX_FRACTION_DENOMINATOR; denominator += 1) {
-            const numerator = Math.round(rounded * denominator);
-            const approximation = numerator / denominator;
-            if (Math.abs(rounded - approximation) <= 0.02) {
-                const whole = Math.floor(numerator / denominator);
-                const remainder = numerator % denominator;
-                if (remainder === 0) {
-                    return String(whole);
-                }
-                const commonDivisor = gcd(remainder, denominator);
-                const simplifiedNumerator = remainder / commonDivisor;
-                const simplifiedDenominator = denominator / commonDivisor;
-                if (whole > 0) {
-                    return `${whole} ${simplifiedNumerator}/${simplifiedDenominator}`;
-                }
-                return `${simplifiedNumerator}/${simplifiedDenominator}`;
+
+        // Use the closest fraction, not the first one within tolerance, so this matches the
+        // server's format_quantity (Fraction.limit_denominator) in dishbook/scaling.py.
+        let numerator = Math.round(rounded);
+        let denominator = 1;
+        for (let candidate = 2; candidate <= MAX_FRACTION_DENOMINATOR; candidate += 1) {
+            const candidateNumerator = Math.round(rounded * candidate);
+            const candidateError = Math.abs(rounded - candidateNumerator / candidate);
+            if (candidateError < Math.abs(rounded - numerator / denominator) - 1e-9) {
+                numerator = candidateNumerator;
+                denominator = candidate;
             }
+        }
+        if (Math.abs(rounded - numerator / denominator) <= 0.02 + 1e-9) {
+            const whole = Math.floor(numerator / denominator);
+            const remainder = numerator % denominator;
+            if (remainder === 0) {
+                return String(whole);
+            }
+            const commonDivisor = gcd(remainder, denominator);
+            const simplifiedNumerator = remainder / commonDivisor;
+            const simplifiedDenominator = denominator / commonDivisor;
+            if (whole > 0) {
+                return `${whole} ${simplifiedNumerator}/${simplifiedDenominator}`;
+            }
+            return `${simplifiedNumerator}/${simplifiedDenominator}`;
         }
 
         return rounded.toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1");
@@ -312,10 +321,18 @@
         updateCookLink(params);
     }
 
+    // preferredMode is the control the user just touched; without one (page load), infer it from the inputs.
     function syncFromInputs(preferredMode) {
-        if (preferredMode === "ingredient" || ingredientSelect.value || targetAmountInput.value.trim()) {
+        const hasIngredientInput = Boolean(ingredientSelect.value || targetAmountInput.value.trim());
+        if (preferredMode === "ingredient" || (!preferredMode && hasIngredientInput)) {
             applyIngredientScaling();
             return;
+        }
+
+        if (preferredMode === "servings") {
+            // The two scaling modes are exclusive, so a servings edit replaces any ingredient target.
+            ingredientSelect.value = "";
+            targetAmountInput.value = "";
         }
 
         if (preferredMode === "servings" || servingsInput.value !== String(baseRecipe.original_serves)) {

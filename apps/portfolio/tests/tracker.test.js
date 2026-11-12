@@ -17,6 +17,9 @@ require.cache[dbPath] = {
   exports: { getSql: () => (process.env.DATABASE_URL ? fakeSql : null) },
 };
 
+const fs = require("node:fs");
+const path = require("node:path");
+const { STARTER_EXERCISES } = require("../api/_lib/tracker-users");
 const authHandler = require("../api/tracker/auth");
 const habitsHandler = require("../api/tracker/habits");
 const {
@@ -95,7 +98,7 @@ function mockProvider(t, profile) {
   const calls = [];
   t.mock.method(globalThis, "fetch", async (url, options) => {
     calls.push({ url: String(url), options });
-    const body = String(url).includes("/token") ? { access_token: "provider-access-token" } : profile;
+    const body = /\/token$|\/access_token$/.test(String(url)) ? { access_token: "provider-access-token" } : profile;
     return { ok: true, status: 200, json: async () => body };
   });
   return calls;
@@ -182,6 +185,40 @@ test("any other account, or an unverified owner address, gets its own separate a
   database.queries = [];
   await signInAs(t, { sub: "3003", email: "owner@example.com", email_verified: false });
   assert.deepEqual(provisionedUserIds(), ["google:3003"]);
+});
+
+test("the GitHub owner is matched by numeric account id, never by login", async (t) => {
+  useEnvironment(t, {
+    ...process.env,
+    ...TEST_ENV,
+    TRACKER_GITHUB_CLIENT_ID: "github-client-id",
+    TRACKER_GITHUB_CLIENT_SECRET: "github-client-secret",
+    TRACKER_OWNER_GITHUB_ID: "4242",
+  });
+
+  async function signInWithGitHub(profile) {
+    database.queries = [];
+    mockProvider(t, profile);
+    const start = createResponse();
+    await authHandler({ method: "GET", query: { provider: "github" }, headers: {} }, start);
+    const state = new URL(start.headers.location).searchParams.get("state");
+    await finishSignIn(cookieHeader(start.headers["set-cookie"][0]), { code: "auth-code", state });
+    return provisionedUserIds();
+  }
+
+  assert.deepEqual(await signInWithGitHub({ id: 4242, login: "renamed-since" }), ["owner"]);
+  // Someone who registers the owner's id as an all-digit login is still a different account.
+  assert.deepEqual(await signInWithGitHub({ id: 9001, login: "4242" }), ["github:9001"]);
+});
+
+test("the starter exercise catalog matches the migration seed", () => {
+  const migration = fs.readFileSync(path.join(__dirname, "../db/migrations/001_tracker.sql"), "utf8");
+  const seedStatement = migration.slice(migration.indexOf("INSERT INTO tracker_exercises"));
+  const seeded = Array.from(
+    seedStatement.matchAll(/\('owner', '([^']+)', '([^']+)', (?:'([^']+)'|NULL), '([^']+)'\)/g),
+    (match) => [match[1], match[2], match[3] ?? null, match[4]]
+  );
+  assert.deepEqual(STARTER_EXERCISES, seeded);
 });
 
 test("data routes only query the signed-in user's rows", async (t) => {

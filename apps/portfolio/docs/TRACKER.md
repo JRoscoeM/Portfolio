@@ -6,7 +6,7 @@ This is the server side of the habit and workout tracker (Daily Log). Anyone can
 
 - Sign-in is OAuth (Google and/or GitHub, authorization-code flow with PKCE and a `state` cookie). Sign-up is open: the first sign-in from an account creates a `tracker_users` row and its starter exercise catalog.
 - A user's id is `<provider>:<provider account id>` (for example `google:1234567890`), built from the provider's stable account id rather than an email or login. The same person signing in with Google and with GitHub gets two separate accounts.
-- The account named in `TRACKER_OWNER_GOOGLE_EMAIL` or `TRACKER_OWNER_GITHUB_LOGIN` maps to the original `owner` row instead, so the data from before sign-up was opened stays with its owner. Both variables are optional.
+- The account named in `TRACKER_OWNER_GOOGLE_EMAIL` or `TRACKER_OWNER_GITHUB_ID` maps to the original `owner` row instead, so the data from before sign-up was opened stays with its owner. Both variables are optional.
 - A successful sign-in receives a signed, seven-day, `HttpOnly`, `SameSite=Strict` cookie carrying the user id. Provider access tokens are used once to read the account identity and are never stored.
 - Every Neon query is scoped to the user id from the session cookie. The API never accepts a browser-supplied user id, and all data routes return `401` without a valid session.
 - Guest mode must use local/demo data in the browser and must not call any `/api/tracker/*` data route.
@@ -29,7 +29,7 @@ The redirect/callback URL is `<origin>/api/tracker/auth` for both providers, e.g
 - **Google**: Google Cloud Console → APIs & Services → Credentials → Create OAuth client ID (Web application). Add the redirect URL(s) under "Authorized redirect URIs". Set `TRACKER_GOOGLE_CLIENT_ID` and `TRACKER_GOOGLE_CLIENT_SECRET`. While the consent screen is in "Testing", only listed test users can sign in; publish it to let anyone in.
 - **GitHub**: Settings → Developer settings → OAuth Apps → New OAuth App. GitHub allows one callback URL per app, so use a second app for localhost. Set `TRACKER_GITHUB_CLIENT_ID` and `TRACKER_GITHUB_CLIENT_SECRET`.
 
-To keep the pre-existing owner data attached to your own sign-in, also set `TRACKER_OWNER_GOOGLE_EMAIL` and/or `TRACKER_OWNER_GITHUB_LOGIN` (login or numeric account id; the id survives a rename). Without them, your sign-in creates a fresh account like anyone else's.
+To keep the pre-existing owner data attached to your own sign-in, also set `TRACKER_OWNER_GOOGLE_EMAIL` and/or `TRACKER_OWNER_GITHUB_ID` (your numeric GitHub account id, the `id` field at `https://api.github.com/users/<your-login>`; a login is not accepted because it can be renamed away and claimed by someone else). Without them, your sign-in creates a fresh account like anyone else's.
 
 Set `TRACKER_PUBLIC_ORIGIN` if the site is reachable on more than one hostname and only one is registered with the provider. Vercel preview deployments have their own hostnames, so sign-in only works on hostnames registered as redirect URLs.
 
