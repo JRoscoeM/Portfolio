@@ -1,10 +1,10 @@
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <title>Search - Dishbook</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}main.css">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
         <h1>Search Recipes</h1>
 
         <div class="search-block">
-            <form action="/s" method="get">
+            <form action="{% url 'search' %}" method="get">
                 <label for="big-search">Search</label>
                 <input id="big-search" type="search" name="q" value="{{ query }}">
                 <button>Search</button>

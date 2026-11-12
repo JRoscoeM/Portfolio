@@ -13,12 +13,13 @@
     const scaleFactorChip = document.getElementById("scale-factor-chip");
     const scaleError = document.getElementById("scale-error");
     const cookViewLink = document.getElementById("cook-view-link");
+    // The server renders the cook-view link with the site's URL prefix; keep that path and only swap the query.
+    const cookViewPath = new URL(cookViewLink.getAttribute("href"), window.location.href).pathname;
     const servingsForm = document.getElementById("servings-scale-form");
     const ingredientForm = document.getElementById("ingredient-scale-form");
     const servingsInput = document.getElementById("servings");
     const ingredientSelect = document.getElementById("ingredient_id");
     const targetAmountInput = document.getElementById("target_amount");
-    const recipeId = baseRecipe.id;
 
     const DISPLAY_PRECISION = 100;
     const MAX_FRACTION_DENOMINATOR = 16;
@@ -229,9 +230,8 @@
     }
 
     function updateCookLink(params) {
-        const basePath = `/recipe/${recipeId}/cook/`;
         const query = params.toString();
-        cookViewLink.href = query ? `${basePath}?${query}` : basePath;
+        cookViewLink.href = query ? `${cookViewPath}?${query}` : cookViewPath;
     }
 
     function renderBaseRecipe() {

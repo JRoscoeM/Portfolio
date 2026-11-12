@@ -1,10 +1,10 @@
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <title>Cooking {{ recipe.title }} - Dishbook</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}main.css">
 </head>
 
 <body class="cooking-body">
@@ -26,7 +26,7 @@
                 </p>
                 {% endif %}
             </div>
-            <a class="cook-button cook-button-secondary" href="/recipe/{{ recipe.id }}/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Back to recipe</a>
+            <a class="cook-button cook-button-secondary" href="{% url 'recipe' recipe.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Back to recipe</a>
         </section>
 
         <section class="cooking-steps">

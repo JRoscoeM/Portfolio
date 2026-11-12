@@ -1,18 +1,18 @@
-<div class="header">
+{% load static %}<div class="header">
     <div class="nav">
-        <a href="/">
-            <img class="home-icon" src="../../static/AI-slop_homepage.png" alt="Homepage Icon">
+        <a href="{% url 'index' %}">
+            <img class="home-icon" src="{% get_static_prefix %}AI-slop_homepage.png" alt="Homepage Icon">
         </a>
-        <a href="/">Home</a>
-        <a href="/s">Search</a>
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'search' %}">Search</a>
     </div>
 
     <div class="user-options">
         {% if user.is_authenticated %}
         {{ user.get_full_name|default:user.username }}
-        <a href="/logout">Sign out</a>
+        <a href="{% url 'signout' %}">Sign out</a>
         {% else %}
-        <a href="/login">Sign in</a>
+        <a href="{% url 'signin' %}">Sign in</a>
         {% endif %}
     </div>
 </div>

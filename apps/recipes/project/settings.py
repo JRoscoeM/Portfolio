@@ -33,6 +33,12 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+# The portfolio site proxies /recipes/* here, so requests and form posts can arrive from its domain.
+PORTFOLIO_HOSTS = ["www.roscoemoedl.com", "roscoemoedl.com"]
+for host in PORTFOLIO_HOSTS:
+    if host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(host)
+
 vercel_url = os.getenv("VERCEL_URL")
 if vercel_url and vercel_url not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(vercel_url)
@@ -44,6 +50,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 if vercel_url:
     CSRF_TRUSTED_ORIGINS.append(f"https://{vercel_url}")
+CSRF_TRUSTED_ORIGINS += [f"https://{host}" for host in PORTFOLIO_HOSTS]
 
 
 INSTALLED_APPS = [
@@ -111,7 +118,7 @@ TIME_ZONE = os.getenv("DJANGO_TIME_ZONE", "America/Denver")
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "/static/"
+STATIC_URL = "/recipes/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STORAGES = {
@@ -121,7 +128,7 @@ STORAGES = {
     },
 }
 
-MEDIA_URL = "/media/"
+MEDIA_URL = "/recipes/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 # Existing migrations intentionally use 32-bit AutoField primary keys.
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

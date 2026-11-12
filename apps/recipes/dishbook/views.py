@@ -179,7 +179,7 @@ def signin(request):
         # If authentication succeeds, log the user in and send them home.
         if user is not None:
             login(request, user)
-            return redirect("/")
+            return redirect("index")
 
         # Otherwise, keep them on the login page and show an error message.
         error = True
@@ -194,4 +194,4 @@ def signout(request):
     logout(request)
 
     # Send them back to the login page.
-    return redirect("/login")
+    return redirect("signin")

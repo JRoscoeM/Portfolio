@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -74,3 +76,73 @@ class PublicPageTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.private_recipe.title)
+
+
+class UrlPrefixTests(TestCase):
+    """Dishbook lives under /recipes/ so www.roscoemoedl.com/recipes/ can proxy it."""
+
+    def setUp(self):
+        self.author = User.objects.create_user(username="cook", password="test-password")
+        Profile.objects.create(user=self.author)
+        self.recipe = Recipe.objects.create(
+            title="Prefixed Soup", description="Soup", serves=2, author=self.author
+        )
+        self.recipe.tags.add(Tag.objects.create(name="dinner"))
+
+    def test_pages_are_served_under_the_prefix(self):
+        self.assertEqual(reverse("index"), "/recipes/")
+        self.assertEqual(reverse("recipe", args=[self.recipe.id]), f"/recipes/recipe/{self.recipe.id}/")
+
+        response = self.client.get(reverse("recipe", args=[self.recipe.id]))
+        html = response.content.decode()
+        self.assertIn('href="/recipes/static/main.css"', html)
+        self.assertIn('src="/recipes/static/main.js"', html)
+        self.assertIn(f'href="/recipes/recipe/{self.recipe.id}/cook/"', html)
+        self.assertIn('href="/recipes/profile/cook/"', html)
+        self.assertIn('src="/recipes/static/AI-slop_homepage.png"', html)
+        # No link may point outside /recipes/, or it would leave Dishbook when proxied by the portfolio.
+        for attribute in ("href", "src", "action"):
+            for value in re.findall(rf'{attribute}="(/[^"]*)"', html):
+                self.assertTrue(value.startswith("/recipes/"), f"{attribute}={value}")
+
+    def test_old_root_urls_redirect_to_the_prefix(self):
+        cases = {
+            "/": "/recipes/",
+            f"/recipe/{self.recipe.id}/": f"/recipes/recipe/{self.recipe.id}/",
+            f"/recipe/{self.recipe.id}/cook/?scale_mode=servings&servings=4":
+                f"/recipes/recipe/{self.recipe.id}/cook/?scale_mode=servings&servings=4",
+            "/s?q=tag:dinner": "/recipes/s?q=tag:dinner",
+            "/profile/cook/": "/recipes/profile/cook/",
+            "/login": "/recipes/login",
+            "/admin/": "/recipes/admin/",
+        }
+        for old, new in cases.items():
+            response = self.client.get(old)
+            self.assertEqual(response.status_code, 301, old)
+            self.assertEqual(response["Location"], new, old)
+
+    def test_unknown_paths_do_not_redirect_forever(self):
+        self.assertEqual(self.client.get("/recipes/no-such-page/").status_code, 404)
+        self.assertEqual(self.client.get("/no-such-page/").status_code, 404)
+
+    def test_sign_in_and_out_stay_inside_dishbook(self):
+        response = self.client.post(reverse("signin"), {"username": "cook", "password": "test-password"})
+        self.assertRedirects(response, "/recipes/", fetch_redirect_response=False)
+        response = self.client.get(reverse("signout"))
+        self.assertRedirects(response, "/recipes/login", fetch_redirect_response=False)
+
+    def test_sign_in_through_the_portfolio_domain_passes_csrf(self):
+        # Proxied requests reach Django with this deployment's own host, while the browser sends
+        # the portfolio as Origin. Without the portfolio in CSRF_TRUSTED_ORIGINS this post gets a 403.
+        client = self.client_class(enforce_csrf_checks=True)
+        page = client.get(reverse("signin"), HTTP_HOST="dishbook-recipes.vercel.app", secure=True)
+        token = page.cookies["csrftoken"].value
+        response = client.post(
+            reverse("signin"),
+            {"username": "cook", "password": "test-password", "csrfmiddlewaretoken": token},
+            HTTP_HOST="dishbook-recipes.vercel.app",
+            HTTP_ORIGIN="https://www.roscoemoedl.com",
+            HTTP_REFERER="https://www.roscoemoedl.com/recipes/login",
+            secure=True,
+        )
+        self.assertEqual(response.status_code, 302)

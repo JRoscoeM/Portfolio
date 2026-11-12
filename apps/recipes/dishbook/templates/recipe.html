@@ -1,10 +1,10 @@
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <title>{{ recipe.title }} - Dishbook</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}main.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             <div class="recipe-hero-copy">
                 <p class="eyebrow">Cook Something Great</p>
                 <h1>{{ recipe.title }}</h1>
-                <p>By <a href="/profile/{{ recipe.author.username }}/">{{ recipe.author.get_full_name|default:recipe.author.username }}</a></p>
+                <p>By <a href="{% url 'profile' recipe.author.username %}">{{ recipe.author.get_full_name|default:recipe.author.username }}</a></p>
 
                 <p class="tag-row">
                     <strong>Tags:</strong>
@@ -67,7 +67,7 @@
                     <p class="eyebrow">Scale Recipe</p>
                     <h2>Adjust this recipe before you cook</h2>
                 </div>
-                <a id="cook-view-link" class="cook-button" href="/recipe/{{ recipe.id }}/cook/{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Start cooking</a>
+                <a id="cook-view-link" class="cook-button" href="{% url 'cooking' recipe.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Start cooking</a>
             </div>
 
             <div class="scale-forms">
@@ -209,7 +209,7 @@
         </section>
     </div>
     {{ base_recipe_payload|json_script:"recipe-base-data" }}
-    <script src="/static/main.js"></script>
+    <script src="{% get_static_prefix %}main.js"></script>
 </body>
 
 </html>

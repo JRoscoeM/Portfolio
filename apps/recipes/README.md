@@ -16,7 +16,7 @@ python manage.py loaddata dishbook/fixtures/seed.json
 python manage.py runserver
 ```
 
-Open <http://127.0.0.1:8000>. A deployment health check is available at `/healthz/`.
+Open <http://127.0.0.1:8000/recipes/>. A deployment health check is available at `/healthz/`.
 
 To recreate the original starter users as well as the seed recipes, run:
 
@@ -27,6 +27,14 @@ python manage.py loaddata dishbook/fixtures/seed.json
 
 Starter logins are documented in `setup_starter.py`. Their predictable passwords are enabled
 only when `DJANGO_DEBUG=true`; the same accounts receive unusable passwords in production.
+
+## URLs
+
+All pages live under `/recipes/` (for example `/recipes/recipe/1/`, `/recipes/admin/`). The portfolio
+site proxies `www.roscoemoedl.com/recipes/*` to this deployment, so that is the public address; the
+same paths also work on `dishbook-recipes.vercel.app`. Old root URLs such as `/recipe/1/` redirect to
+their `/recipes/` address. Build links with `{% url %}` and `{% get_static_prefix %}` rather than
+hard-coded paths, or they will leave `/recipes/` when viewed through the portfolio.
 
 ## Vercel + Neon
 
