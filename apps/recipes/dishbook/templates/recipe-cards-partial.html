@@ -9,7 +9,7 @@
         <p>Tags: </p>
         <ul>
             {% for tag in recipe.tags.all %}
-                <li><a href="/s?q=tag:{{ tag.name }}">{{ tag.name }}</a></li>
+                <li><a href="/s?q=tag:{{ tag.name|urlencode }}">{{ tag.name }}</a></li>
             {% endfor %}
         </ul>
     </div>

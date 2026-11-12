@@ -6,16 +6,16 @@ This file translates the integration plan into a working status board for the cu
 - Phase 1: portfolio control plane and persistence foundation
 
 ## Done
-- Added the official project plan: [SNAKE_SPOTIFY_PLAN.md](/Users/roscoe/Documents/Portfolio/apps/portfolio/SNAKE_SPOTIFY_PLAN.md)
-- Audited the legacy C# Snake project and documented integration blockers and reuse opportunities: [PORTFOLIO_INTEGRATION_AUDIT.md](/Users/roscoe/Documents/Portfolio/apps/snake/PORTFOLIO_INTEGRATION_AUDIT.md)
-- Added a dedicated Snake + Spotify project page: [snake.html](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.html)
-- Linked the Snake project from the main portfolio page: [index.html](/Users/roscoe/Documents/Portfolio/apps/portfolio/index.html)
-- Added PostgreSQL/Neon schema source of truth: [schema.sql](/Users/roscoe/Documents/Portfolio/apps/portfolio/schema.sql)
-- Created shared Neon helper for API routes: [db.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/db.js)
-- Implemented room create/join API flow against the Neon schema: [room.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/room.js)
-- Implemented leaderboard and recent match read endpoints from match tables: [highscores.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/highscores.js)
-- Implemented room-specific Spotify status read path: [spotify-status.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/spotify-status.js)
-- Updated the frontend room console to pass active room context into the Spotify status route: [snake.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.js)
+- Added the official project plan: [PLAN.md](PLAN.md)
+- Audited the legacy C# Snake project and documented integration blockers and reuse opportunities: [PORTFOLIO_INTEGRATION_AUDIT.md](../../../snake/PORTFOLIO_INTEGRATION_AUDIT.md)
+- Added a dedicated Snake + Spotify project page: [snake.html](../../snake.html)
+- Linked the Snake project from the main portfolio page: [index.html](../../index.html)
+- Added PostgreSQL/Neon schema source of truth: [snake-schema.sql](../../db/snake-schema.sql)
+- Created shared Neon helper for API routes: [db.js](../../api/_lib/db.js)
+- Implemented room create/join API flow against the Neon schema: [room.js](../../api/snake/room.js)
+- Implemented leaderboard and recent match read endpoints from match tables: [highscores.js](../../api/snake/highscores.js)
+- Implemented room-specific Spotify status read path: [spotify-status.js](../../api/snake/spotify-status.js)
+- Updated the frontend room console to pass active room context into the Spotify status route: [snake.js](../../snake.js)
 - Confirmed the Neon tables already exist
 
 ## In Progress

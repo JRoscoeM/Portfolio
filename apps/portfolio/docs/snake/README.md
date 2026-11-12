@@ -40,9 +40,9 @@ Not implemented yet:
 ### Portfolio frontend
 
 Files:
-- [snake.html](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.html)
-- [snake.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.js)
-- [styles.css](/Users/roscoe/Documents/Portfolio/apps/portfolio/styles.css)
+- [snake.html](../../snake.html)
+- [snake.js](../../snake.js)
+- [styles.css](../../static/styles.css)
 
 Responsibilities:
 - show the public project page
@@ -56,10 +56,10 @@ This layer talks to the Vercel API routes over HTTP.
 ### Portfolio API layer
 
 Files:
-- [db.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/db.js)
-- [room.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/room.js)
-- [highscores.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/highscores.js)
-- [spotify-status.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/spotify-status.js)
+- [db.js](../../api/_lib/db.js)
+- [room.js](../../api/snake/room.js)
+- [highscores.js](../../api/snake/highscores.js)
+- [spotify-status.js](../../api/snake/spotify-status.js)
 
 Responsibilities:
 - connect to Neon
@@ -74,7 +74,7 @@ These files are the control plane. They are not the live multiplayer game server
 ### Neon database
 
 File:
-- [schema.sql](/Users/roscoe/Documents/Portfolio/apps/portfolio/schema.sql)
+- [snake-schema.sql](../../db/snake-schema.sql)
 
 Stores:
 - `snake_players`
@@ -106,9 +106,9 @@ The current plan is to reuse ideas or code from the existing C# Snake project wh
 
 ### Create room flow
 
-1. User submits the create-room form on [snake.html](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.html).
-2. [snake.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.js) sends `POST /api/snake/room`.
-3. [room.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/room.js):
+1. User submits the create-room form on [snake.html](../../snake.html).
+2. [snake.js](../../snake.js) sends `POST /api/snake/room`.
+3. [room.js](../../api/snake/room.js):
    - inserts a player row
    - inserts a room row
    - inserts a host membership row
@@ -119,8 +119,8 @@ The current plan is to reuse ideas or code from the existing C# Snake project wh
 ### Join room flow
 
 1. User submits room id and player name.
-2. [snake.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.js) sends `GET /api/snake/room?roomId=...&playerName=...`.
-3. [room.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/room.js):
+2. [snake.js](../../snake.js) sends `GET /api/snake/room?roomId=...&playerName=...`.
+3. [room.js](../../api/snake/room.js):
    - verifies the room exists
    - inserts a player row
    - inserts a room membership row
@@ -130,8 +130,8 @@ The current plan is to reuse ideas or code from the existing C# Snake project wh
 ### Spotify status flow
 
 1. The browser keeps track of the active room id.
-2. [snake.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/snake.js) calls `GET /api/snake/spotify-status?roomId=...`.
-3. [spotify-status.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/spotify-status.js) reads `spotify_room_sessions`.
+2. [snake.js](../../snake.js) calls `GET /api/snake/spotify-status?roomId=...`.
+3. [spotify-status.js](../../api/snake/spotify-status.js) reads `spotify_room_sessions`.
 4. The browser renders host connection and track snapshot info.
 
 Current limitation:
@@ -140,7 +140,7 @@ Current limitation:
 ### Leaderboard flow
 
 1. The browser calls `GET /api/snake/highscores`.
-2. [highscores.js](/Users/roscoe/Documents/Portfolio/apps/portfolio/api/snake/highscores.js):
+2. [highscores.js](../../api/snake/highscores.js):
    - derives leaderboard rows from `snake_match_players`
    - reads recent match history from `snake_matches`
 3. The browser renders scores and recent activity.
@@ -176,10 +176,10 @@ Expected behavior:
 
 ## Useful Project Docs
 
-- Product plan: [SNAKE_SPOTIFY_PLAN.md](/Users/roscoe/Documents/Portfolio/apps/portfolio/SNAKE_SPOTIFY_PLAN.md)
-- Status board: [tasklist.md](/Users/roscoe/Documents/Portfolio/apps/portfolio/tasklist.md)
-- Neon schema: [schema.sql](/Users/roscoe/Documents/Portfolio/apps/portfolio/schema.sql)
-- Legacy integration summary: [SNAKE_LEGACY_AUDIT.md](/Users/roscoe/Documents/Portfolio/apps/portfolio/SNAKE_LEGACY_AUDIT.md)
+- Product plan: [PLAN.md](PLAN.md)
+- Status board: [TASKLIST.md](TASKLIST.md)
+- Neon schema: [snake-schema.sql](../../db/snake-schema.sql)
+- Legacy integration summary: [LEGACY_AUDIT.md](LEGACY_AUDIT.md)
 
 ## Next Technical Steps
 

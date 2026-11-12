@@ -17,8 +17,6 @@
     bootScreen: document.getElementById("boot-screen"),
     accessScreen: document.getElementById("access-screen"),
     app: document.getElementById("app"),
-    ownerLoginForm: document.getElementById("owner-login-form"),
-    ownerPassword: document.getElementById("owner-password"),
     loginError: document.getElementById("login-error"),
     modeLabel: document.getElementById("mode-label"),
     guestBadge: document.getElementById("guest-badge"),
@@ -423,10 +421,48 @@
         console.warn("Tracker bootstrap failed", error);
       }
       showAccess();
-      if (error.status === 503) {
-        elements.loginError.textContent = "Owner mode needs its Vercel environment variables before it can sign in.";
+      await showSignInOptions(error.status);
+    }
+  }
+
+  const AUTH_ERROR_MESSAGES = {
+    cancelled: "Sign-in was cancelled.",
+    expired: "That sign-in attempt expired. Try again.",
+    failed: "Sign-in could not be completed. Try again.",
+  };
+
+  // Reads and clears the ?auth_error= code the OAuth callback leaves on a failed sign-in.
+  function takeAuthError() {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("auth_error");
+    if (!code) {
+      return "";
+    }
+    url.searchParams.delete("auth_error");
+    window.history.replaceState(null, "", url);
+    return AUTH_ERROR_MESSAGES[code] || AUTH_ERROR_MESSAGES.failed;
+  }
+
+  async function showSignInOptions(bootstrapStatus) {
+    const notConfigured = "Sign-in is not configured on this deployment.";
+    let message = takeAuthError();
+    let providers = [];
+    if (bootstrapStatus === 503) {
+      message = notConfigured;
+    } else {
+      try {
+        providers = (await apiFetch("/api/tracker/auth")).providers || [];
+        if (!providers.length) {
+          message = notConfigured;
+        }
+      } catch (error) {
+        message = message || "Sign-in is unavailable right now.";
       }
     }
+    document.querySelectorAll("[data-auth-provider]").forEach((link) => {
+      link.classList.toggle("is-hidden", !providers.includes(link.dataset.authProvider));
+    });
+    elements.loginError.textContent = message;
   }
 
   function showAccess() {
@@ -443,7 +479,7 @@
     elements.accessScreen.classList.add("is-hidden");
     elements.app.classList.remove("is-hidden");
     const isGuest = mode === "guest";
-    elements.modeLabel.textContent = isGuest ? "Guest workspace" : "Owner workspace";
+    elements.modeLabel.textContent = isGuest ? "Guest workspace" : "Your workspace";
     elements.guestBadge.classList.toggle("is-hidden", !isGuest);
     elements.guestBanner.classList.toggle("is-hidden", !isGuest);
     elements.exitModeLabel.textContent = isGuest ? "Exit demo" : "Sign out";
@@ -452,18 +488,12 @@
   }
 
   function setupStaticControls() {
-    document.getElementById("show-owner-login").addEventListener("click", () => {
-      elements.ownerLoginForm.classList.remove("is-hidden");
-      elements.ownerPassword.focus();
-    });
-
     document.getElementById("guest-login").addEventListener("click", () => {
       mode = "guest";
       state = loadGuestState();
       showApp();
     });
 
-    elements.ownerLoginForm.addEventListener("submit", handleOwnerLogin);
     document.getElementById("exit-mode").addEventListener("click", exitCurrentMode);
     document.getElementById("reset-demo").addEventListener("click", resetDemo);
     elements.habitForm.addEventListener("submit", saveHabit);
@@ -488,25 +518,6 @@
     buildColorPicker();
   }
 
-  async function handleOwnerLogin(event) {
-    event.preventDefault();
-    elements.loginError.textContent = "";
-    const submit = elements.ownerLoginForm.querySelector("button[type='submit']");
-    submit.disabled = true;
-    try {
-      await apiFetch("/api/tracker/auth", {
-        method: "POST",
-        body: JSON.stringify({ passcode: elements.ownerPassword.value }),
-      });
-      elements.ownerPassword.value = "";
-      await loadOwnerState();
-    } catch (error) {
-      elements.loginError.textContent = error.message;
-    } finally {
-      submit.disabled = false;
-    }
-  }
-
   async function exitCurrentMode() {
     if (mode === "owner") {
       try {
@@ -519,6 +530,7 @@
     mode = null;
     state = null;
     showAccess();
+    await showSignInOptions();
   }
 
   function resetDemo() {

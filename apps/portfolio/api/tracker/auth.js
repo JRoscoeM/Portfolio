@@ -1,18 +1,69 @@
 const {
   clearSessionCookie,
   getTrackerServices,
-  isOwnerRequest,
   noStore,
-  passcodeMatches,
-  setSessionCookie,
+  sessionCookie,
+  sessionUserId,
 } = require("../_lib/tracker-auth");
-const { methodNotAllowed, readBody, serverError } = require("../_lib/tracker-api");
+const {
+  beginSignIn,
+  clearStateCookie,
+  completeSignIn,
+  configuredProviders,
+  providerConfig,
+  readPendingSignIn,
+} = require("../_lib/tracker-oauth");
+const { ensureUser } = require("../_lib/tracker-users");
+const { methodNotAllowed, oneQueryValue } = require("../_lib/tracker-api");
 
+const TRACKER_PATH = "/tracker/";
+
+function redirect(res, location, cookies) {
+  if (cookies) {
+    res.setHeader("Set-Cookie", cookies);
+  }
+  res.setHeader("Location", location);
+  return res.status(302).end();
+}
+
+function redirectWithError(res, code) {
+  return redirect(res, `${TRACKER_PATH}?auth_error=${code}`, [clearStateCookie()]);
+}
+
+async function handleCallback(req, res, services, query) {
+  const pending = readPendingSignIn(req, oneQueryValue(query.state));
+  if (!pending) {
+    return redirectWithError(res, "expired");
+  }
+  if (query.error) {
+    return redirectWithError(res, "cancelled");
+  }
+  const code = oneQueryValue(query.code);
+  if (typeof code !== "string" || !code || code.length > 2048) {
+    return redirectWithError(res, "failed");
+  }
+
+  let account;
+  try {
+    account = await completeSignIn(req, pending.provider, pending.verifier, code);
+    await ensureUser(services.sql, account.userId, account.displayName);
+  } catch (error) {
+    console.error("tracker oauth error", error);
+    return redirectWithError(res, "failed");
+  }
+
+  return redirect(res, TRACKER_PATH, [sessionCookie(services.sessionSecret, account.userId), clearStateCookie()]);
+}
+
+// GET            -> { authenticated, providers }
+// GET ?provider= -> redirect to that provider's consent screen
+// GET ?code=&state= (or ?error=&state=) -> OAuth callback; this bare path is the registered redirect URI
+// DELETE         -> sign out
 module.exports = async function handler(req, res) {
   noStore(res);
 
-  if (!["GET", "POST", "DELETE"].includes(req.method)) {
-    return methodNotAllowed(res, ["GET", "POST", "DELETE"]);
+  if (!["GET", "DELETE"].includes(req.method)) {
+    return methodNotAllowed(res, ["GET", "DELETE"]);
   }
 
   const services = getTrackerServices(res);
@@ -25,24 +76,23 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ authenticated: false });
   }
 
-  if (req.method === "GET") {
-    return res.status(200).json({ authenticated: isOwnerRequest(req, services.sessionSecret) });
+  const query = req.query || {};
+
+  if (query.code !== undefined || query.error !== undefined || query.state !== undefined) {
+    return handleCallback(req, res, services, query);
   }
 
-  try {
-    const body = readBody(req);
-    if (!body || typeof body.passcode !== "string" || body.passcode.length > 512) {
-      return res.status(400).json({ error: "A passcode is required." });
+  if (query.provider !== undefined) {
+    const provider = providerConfig(oneQueryValue(query.provider));
+    if (!provider) {
+      return res.status(404).json({ error: "That sign-in provider is not available." });
     }
-
-    if (!passcodeMatches(body.passcode, services.passcode)) {
-      clearSessionCookie(res);
-      return res.status(401).json({ error: "Invalid passcode." });
-    }
-
-    setSessionCookie(res, services.sessionSecret);
-    return res.status(200).json({ authenticated: true });
-  } catch (error) {
-    return serverError(res, "tracker auth error", error);
+    const { location, cookie } = beginSignIn(req, provider);
+    return redirect(res, location, [cookie]);
   }
+
+  return res.status(200).json({
+    authenticated: Boolean(sessionUserId(req, services.sessionSecret)),
+    providers: configuredProviders(),
+  });
 };

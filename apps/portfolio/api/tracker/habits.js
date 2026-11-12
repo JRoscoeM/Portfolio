@@ -1,4 +1,4 @@
-const { getTrackerServices, noStore, OWNER_ID, requireOwner } = require("../_lib/tracker-auth");
+const { getTrackerServices, noStore, requireUser } = require("../_lib/tracker-auth");
 const {
   cleanText,
   dateOnly,
@@ -72,12 +72,12 @@ function parseHabit(body, current = null) {
   };
 }
 
-async function findHabit(sql, id) {
+async function findHabit(sql, userId, id) {
   const rows = await sql`
     SELECT id, name, description, color, icon, tracking_type, unit, target_value,
            schedule_type, days_of_week, target_days_per_week, start_date, archived_at
     FROM tracker_habits
-    WHERE id = ${id}::uuid AND user_id = ${OWNER_ID}
+    WHERE id = ${id}::uuid AND user_id = ${userId}
     LIMIT 1
   `;
   return rows[0] || null;
@@ -90,7 +90,8 @@ module.exports = async function handler(req, res) {
   }
 
   const services = getTrackerServices(res);
-  if (!services || !requireOwner(req, res, services)) {
+  const userId = services && requireUser(req, res, services);
+  if (!userId) {
     return;
   }
 
@@ -101,7 +102,7 @@ module.exports = async function handler(req, res) {
         SELECT id, name, description, color, icon, tracking_type, unit, target_value,
                schedule_type, days_of_week, target_days_per_week, start_date, archived_at
         FROM tracker_habits
-        WHERE user_id = ${OWNER_ID}
+        WHERE user_id = ${userId}
           AND (${includeArchived}::boolean OR archived_at IS NULL)
         ORDER BY archived_at NULLS FIRST, created_at, name
       `;
@@ -119,12 +120,12 @@ module.exports = async function handler(req, res) {
           user_id, name, description, color, icon, tracking_type, unit, target_value,
           schedule_type, days_of_week, target_days_per_week, start_date
         ) VALUES (
-          ${OWNER_ID}, ${habit.name}, ${habit.description}, ${habit.color}, ${habit.icon},
+          ${userId}, ${habit.name}, ${habit.description}, ${habit.color}, ${habit.icon},
           ${habit.trackingType}, ${habit.unit}, ${habit.targetValue}, ${habit.scheduleType},
           ${habit.daysOfWeek}, ${habit.targetDaysPerWeek},
           COALESCE(
             ${habit.startDate}::date,
-            (NOW() AT TIME ZONE (SELECT timezone FROM tracker_users WHERE id = ${OWNER_ID}))::date
+            (NOW() AT TIME ZONE (SELECT timezone FROM tracker_users WHERE id = ${userId}))::date
           )
         )
         RETURNING id, name, description, color, icon, tracking_type, unit, target_value,
@@ -137,7 +138,7 @@ module.exports = async function handler(req, res) {
     if (!isUuid(id)) {
       return res.status(400).json({ error: "A valid habit id is required." });
     }
-    const current = await findHabit(services.sql, id);
+    const current = await findHabit(services.sql, userId, id);
     if (!current) {
       return res.status(404).json({ error: "Habit not found." });
     }
@@ -146,7 +147,7 @@ module.exports = async function handler(req, res) {
       await services.sql`
         UPDATE tracker_habits
         SET archived_at = NOW(), updated_at = NOW()
-        WHERE id = ${id}::uuid AND user_id = ${OWNER_ID}
+        WHERE id = ${id}::uuid AND user_id = ${userId}
       `;
       return res.status(200).json({ ok: true, id, archived: true });
     }
@@ -163,7 +164,7 @@ module.exports = async function handler(req, res) {
           target_value = ${habit.targetValue}, schedule_type = ${habit.scheduleType},
           days_of_week = ${habit.daysOfWeek}, target_days_per_week = ${habit.targetDaysPerWeek},
           start_date = ${habit.startDate}::date, updated_at = NOW()
-      WHERE id = ${id}::uuid AND user_id = ${OWNER_ID}
+      WHERE id = ${id}::uuid AND user_id = ${userId}
       RETURNING id, name, description, color, icon, tracking_type, unit, target_value,
                 schedule_type, days_of_week, target_days_per_week, start_date, archived_at
     `;

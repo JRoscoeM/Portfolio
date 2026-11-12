@@ -1,22 +1,37 @@
-# Personal Tracker Backend
+# Tracker Backend
 
-This is the server-side baseline for the habit and workout tracker. It is designed for one private owner account plus a frontend-only guest demo.
+This is the server side of the habit and workout tracker (Daily Log). Anyone can sign in with Google or GitHub and gets a private account; a frontend-only guest demo needs no sign-in.
 
-## Privacy boundary
+## Accounts and privacy boundary
 
-- Owner requests authenticate with `TRACKER_OWNER_PASSCODE` and receive a signed, seven-day, `HttpOnly`, `SameSite=Strict` cookie.
-- Every Neon query uses the server-owned `owner` subject. The API never accepts a browser-supplied user id.
-- All data routes return `401` without a valid owner cookie.
+- Sign-in is OAuth (Google and/or GitHub, authorization-code flow with PKCE and a `state` cookie). Sign-up is open: the first sign-in from an account creates a `tracker_users` row and its starter exercise catalog.
+- A user's id is `<provider>:<provider account id>` (for example `google:1234567890`), built from the provider's stable account id rather than an email or login. The same person signing in with Google and with GitHub gets two separate accounts.
+- The account named in `TRACKER_OWNER_GOOGLE_EMAIL` or `TRACKER_OWNER_GITHUB_ID` maps to the original `owner` row instead, so the data from before sign-up was opened stays with its owner. Both variables are optional.
+- A successful sign-in receives a signed, seven-day, `HttpOnly`, `SameSite=Strict` cookie carrying the user id. Provider access tokens are used once to read the account identity and are never stored.
+- Every Neon query is scoped to the user id from the session cookie. The API never accepts a browser-supplied user id, and all data routes return `401` without a valid session.
 - Guest mode must use local/demo data in the browser and must not call any `/api/tracker/*` data route.
-- Missing `DATABASE_URL`, `TRACKER_OWNER_PASSCODE`, or `TRACKER_SESSION_SECRET` fails closed with `503`.
-- This is intentionally lightweight personal authentication. Before supporting other real users, replace it with managed identity, CSRF protections appropriate to that flow, and rate limiting.
+- Missing `DATABASE_URL` or `TRACKER_SESSION_SECRET` fails closed with `503`. A provider without both its client id and secret is simply not offered.
+- There is no rate limiting, sign-up cap, or per-user storage limit. Add them before the tracker gets real traffic.
+- New accounts start with the schema defaults (`America/Denver`, pounds, miles). There is no settings screen yet; change `tracker_users` directly.
 
 ## Neon setup
 
-1. Run [`db/migrations/001_tracker.sql`](../db/migrations/001_tracker.sql) in the Neon SQL editor. It is idempotent and separate from the legacy root `schema.sql`.
-2. Add the three values from [`.env.example`](../.env.example) to local development and to the Vercel project settings.
+1. Run [`db/migrations/001_tracker.sql`](../db/migrations/001_tracker.sql) in the Neon SQL editor. It is idempotent and separate from the Snake schema in `db/snake-schema.sql`.
+2. Add the values from [`.env.example`](../.env.example) to local development and to the Vercel project settings.
 3. Generate a session secret with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
-4. Redeploy after setting Vercel environment variables.
+4. Create an OAuth client for at least one provider (below).
+5. Redeploy after setting Vercel environment variables.
+
+## OAuth setup
+
+The redirect/callback URL is `<origin>/api/tracker/auth` for both providers, e.g. `https://your-domain/api/tracker/auth` and `http://localhost:3000/api/tracker/auth` for `vercel dev`.
+
+- **Google**: Google Cloud Console → APIs & Services → Credentials → Create OAuth client ID (Web application). Add the redirect URL(s) under "Authorized redirect URIs". Set `TRACKER_GOOGLE_CLIENT_ID` and `TRACKER_GOOGLE_CLIENT_SECRET`. While the consent screen is in "Testing", only listed test users can sign in; publish it to let anyone in.
+- **GitHub**: Settings → Developer settings → OAuth Apps → New OAuth App. GitHub allows one callback URL per app, so use a second app for localhost. Set `TRACKER_GITHUB_CLIENT_ID` and `TRACKER_GITHUB_CLIENT_SECRET`.
+
+To keep the pre-existing owner data attached to your own sign-in, also set `TRACKER_OWNER_GOOGLE_EMAIL` and/or `TRACKER_OWNER_GITHUB_ID` (your numeric GitHub account id, the `id` field at `https://api.github.com/users/<your-login>`; a login is not accepted because it can be renamed away and claimed by someone else). Without them, your sign-in creates a fresh account like anyone else's.
+
+Set `TRACKER_PUBLIC_ORIGIN` if the site is reachable on more than one hostname and only one is registered with the provider. Vercel preview deployments have their own hostnames, so sign-in only works on hostnames registered as redirect URLs.
 
 The seeded owner profile uses `America/Denver`, pounds, and miles. Strength is the primary workflow, while duration and distance fields support cardio. Weights and distances are normalized to kilograms and meters in Neon, then returned in the profile's display units.
 
@@ -26,10 +41,11 @@ All payloads and responses use camelCase. Error responses have the shape `{ "err
 
 | Method | Route | Purpose |
 | --- | --- | --- |
-| `GET` | `/api/tracker/auth` | Return `{ authenticated }` |
-| `POST` | `/api/tracker/auth` | Sign in with `{ passcode }` |
+| `GET` | `/api/tracker/auth` | Return `{ authenticated, providers }` |
+| `GET` | `/api/tracker/auth?provider=google\|github` | Redirect to the provider's consent screen |
+| `GET` | `/api/tracker/auth?code=…&state=…` | OAuth callback; redirects to `/tracker/`, or `/tracker/?auth_error=<code>` on failure |
 | `DELETE` | `/api/tracker/auth` | Clear the session cookie |
-| `GET` | `/api/tracker/bootstrap` | Owner profile, habits and recent entries, exercise catalog, routines, and 12 recent workouts with sets |
+| `GET` | `/api/tracker/bootstrap` | Profile, habits and recent entries, exercise catalog, routines, and 12 recent workouts with sets |
 | `GET` | `/api/tracker/habits` | List habits; `?includeArchived=true` is optional |
 | `POST` | `/api/tracker/habits` | Create a habit |
 | `PATCH` | `/api/tracker/habits?id=<uuid>` | Update a habit |
@@ -92,7 +108,7 @@ Statuses are `complete`, `partial`, or `skipped`. A missing date means no entry 
 }
 ```
 
-Exercise ids come from `bootstrap.exercises`. `targetWeight` and `targetDistance` use the owner's profile units.
+Exercise ids come from `bootstrap.exercises`. `targetWeight` and `targetDistance` use the signed-in user's profile units.
 
 ### Completed workout example
 
@@ -127,10 +143,10 @@ Sets can also contain `durationSeconds`, `distance`, and `distanceUnit` (`mi` or
 
 ## Schema outline
 
-- `tracker_users`: singleton owner preferences and display units.
+- `tracker_users`: one row per account, with preferences and display units.
 - `tracker_habits` / `tracker_habit_entries`: schedules, values, notes, and target snapshots for historical accuracy.
 - `tracker_exercises`: seeded strength, bodyweight, timed, and distance exercise catalog.
 - `tracker_routines` / `tracker_routine_exercises`: ordered templates and targets.
 - `tracker_workouts` / `tracker_workout_exercises` / `tracker_workout_sets`: completed session history, exercise snapshots, sets, reps, load, RPE, time, and distance.
 
-Child foreign keys include `user_id` so records cannot be linked across owners if multi-user authentication is added later.
+Child foreign keys include `user_id`, so records cannot be linked across accounts.

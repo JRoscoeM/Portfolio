@@ -1,4 +1,4 @@
-const { getTrackerServices, noStore, OWNER_ID, requireOwner } = require("../_lib/tracker-auth");
+const { getTrackerServices, noStore, requireUser } = require("../_lib/tracker-auth");
 const {
   cleanText,
   finiteNumber,
@@ -20,7 +20,8 @@ module.exports = async function handler(req, res) {
   }
 
   const services = getTrackerServices(res);
-  if (!services || !requireOwner(req, res, services)) {
+  const userId = services && requireUser(req, res, services);
+  if (!userId) {
     return;
   }
 
@@ -36,7 +37,7 @@ module.exports = async function handler(req, res) {
     if (req.method === "DELETE") {
       const rows = await services.sql`
         DELETE FROM tracker_habit_entries
-        WHERE user_id = ${OWNER_ID}
+        WHERE user_id = ${userId}
           AND habit_id = ${habitId}::uuid
           AND entry_date = ${entryDate}::date
         RETURNING id
@@ -64,11 +65,11 @@ module.exports = async function handler(req, res) {
         target_value_snapshot, unit_snapshot, tracking_type_snapshot
       )
       SELECT
-        ${OWNER_ID}, h.id, ${entryDate}::date, ${value}, ${status}, ${note},
+        ${userId}, h.id, ${entryDate}::date, ${value}, ${status}, ${note},
         h.target_value, h.unit, h.tracking_type
       FROM tracker_habits h
       WHERE h.id = ${habitId}::uuid
-        AND h.user_id = ${OWNER_ID}
+        AND h.user_id = ${userId}
         AND h.archived_at IS NULL
       ON CONFLICT (user_id, habit_id, entry_date)
       DO UPDATE SET

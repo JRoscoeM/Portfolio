@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Profile, Recipe
+from .models import Profile, Recipe, Tag
 
 
 class PublicPageTests(TestCase):
@@ -38,6 +38,26 @@ class PublicPageTests(TestCase):
 
     def test_profile_shows_only_public_recipes(self):
         response = self.client.get(reverse("profile", args=[self.author.username]))
+
+        self.assertContains(response, self.public_recipe.title)
+        self.assertNotContains(response, self.private_recipe.title)
+
+    def test_tag_search_lists_only_public_recipes_with_that_tag(self):
+        tag = Tag.objects.create(name="Weeknight Dinner")
+        self.public_recipe.tags.add(tag)
+        self.private_recipe.tags.add(tag)
+        untagged = Recipe.objects.create(
+            title="Plain Toast", description="No tags", serves=1, author=self.author
+        )
+
+        response = self.client.get(reverse("search"), {"q": "tag:weeknight dinner"})
+
+        self.assertContains(response, self.public_recipe.title)
+        self.assertNotContains(response, self.private_recipe.title)
+        self.assertNotContains(response, untagged.title)
+
+    def test_title_search_still_matches_titles(self):
+        response = self.client.get(reverse("search"), {"q": "public"})
 
         self.assertContains(response, self.public_recipe.title)
         self.assertNotContains(response, self.private_recipe.title)
