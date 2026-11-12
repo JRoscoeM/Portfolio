@@ -62,3 +62,6 @@ cmake_install.cmake
 
 # Legacy compiled Snake distributions (kept locally, not versioned)
 /apps/snake-resources/
+
+# Local archive of old project copies (large; contains secrets and build output)
+OLD/
