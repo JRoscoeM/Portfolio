@@ -1,5 +1,5 @@
 const crypto = require("node:crypto");
-const { getTrackerServices, noStore, OWNER_ID, requireOwner } = require("../_lib/tracker-auth");
+const { getTrackerServices, noStore, requireUser } = require("../_lib/tracker-auth");
 const {
   cleanText,
   distanceToMeters,
@@ -40,7 +40,7 @@ function mapSummary(row, profile) {
   };
 }
 
-async function loadSummaries(sql, profile, limit, id = null) {
+async function loadSummaries(sql, userId, profile, limit, id = null) {
   const rows = await sql`
     SELECT w.id, w.routine_id, w.name, w.notes, w.started_at, w.completed_at,
            EXTRACT(EPOCH FROM (w.completed_at - w.started_at))::integer AS duration_seconds,
@@ -53,7 +53,7 @@ async function loadSummaries(sql, profile, limit, id = null) {
       ON we.workout_id = w.id AND we.user_id = w.user_id
     LEFT JOIN tracker_workout_sets ws
       ON ws.workout_exercise_id = we.id AND ws.user_id = we.user_id
-    WHERE w.user_id = ${OWNER_ID}
+    WHERE w.user_id = ${userId}
       AND (${id}::uuid IS NULL OR w.id = ${id}::uuid)
     GROUP BY w.id
     ORDER BY w.completed_at DESC
@@ -62,8 +62,8 @@ async function loadSummaries(sql, profile, limit, id = null) {
   return rows.map((row) => mapSummary(row, profile));
 }
 
-async function loadWorkout(sql, profile, id) {
-  const summaries = await loadSummaries(sql, profile, 1, id);
+async function loadWorkout(sql, userId, profile, id) {
+  const summaries = await loadSummaries(sql, userId, profile, 1, id);
   if (!summaries.length) {
     return null;
   }
@@ -78,7 +78,7 @@ async function loadWorkout(sql, profile, id) {
     JOIN tracker_workouts w ON w.id = we.workout_id AND w.user_id = we.user_id
     LEFT JOIN tracker_workout_sets ws
       ON ws.workout_exercise_id = we.id AND ws.user_id = we.user_id
-    WHERE we.workout_id = ${id}::uuid AND we.user_id = ${OWNER_ID}
+    WHERE we.workout_id = ${id}::uuid AND we.user_id = ${userId}
     ORDER BY we.position, ws.set_number
   `;
 
@@ -157,7 +157,8 @@ module.exports = async function handler(req, res) {
   }
 
   const services = getTrackerServices(res);
-  if (!services || !requireOwner(req, res, services)) {
+  const userId = services && requireUser(req, res, services);
+  if (!userId) {
     return;
   }
 
@@ -165,11 +166,11 @@ module.exports = async function handler(req, res) {
     const profileRows = await services.sql`
       SELECT weight_unit, distance_unit
       FROM tracker_users
-      WHERE id = ${OWNER_ID}
+      WHERE id = ${userId}
       LIMIT 1
     `;
     if (!profileRows.length) {
-      return res.status(500).json({ error: "Tracker owner profile is missing. Run the tracker migration." });
+      return res.status(500).json({ error: "Your tracker profile is missing. Sign out and sign in again." });
     }
     const profile = profileRows[0];
 
@@ -179,7 +180,7 @@ module.exports = async function handler(req, res) {
         if (!isUuid(id)) {
           return res.status(400).json({ error: "A valid workout id is required." });
         }
-        const workout = await loadWorkout(services.sql, profile, id);
+        const workout = await loadWorkout(services.sql, userId, profile, id);
         return workout
           ? res.status(200).json({ workout })
           : res.status(404).json({ error: "Workout not found." });
@@ -192,7 +193,7 @@ module.exports = async function handler(req, res) {
       if (requestedLimit === undefined) {
         return res.status(400).json({ error: "Invalid history limit." });
       }
-      const workouts = await loadSummaries(services.sql, profile, requestedLimit);
+      const workouts = await loadSummaries(services.sql, userId, profile, requestedLimit);
       return res.status(200).json({ workouts });
     }
 
@@ -214,7 +215,7 @@ module.exports = async function handler(req, res) {
     if (routineId) {
       const routineRows = await services.sql`
         SELECT id FROM tracker_routines
-        WHERE id = ${routineId}::uuid AND user_id = ${OWNER_ID} AND is_archived = FALSE
+        WHERE id = ${routineId}::uuid AND user_id = ${userId} AND is_archived = FALSE
         LIMIT 1
       `;
       if (!routineRows.length) {
@@ -253,7 +254,7 @@ module.exports = async function handler(req, res) {
     const catalogRows = await services.sql`
       SELECT id, name, tracking_type
       FROM tracker_exercises
-      WHERE user_id = ${OWNER_ID} AND is_archived = FALSE AND id = ANY(${exerciseIds}::uuid[])
+      WHERE user_id = ${userId} AND is_archived = FALSE AND id = ANY(${exerciseIds}::uuid[])
     `;
     if (catalogRows.length !== exerciseIds.length) {
       return res.status(400).json({ error: "One or more exercises are unavailable." });
@@ -267,7 +268,7 @@ module.exports = async function handler(req, res) {
           id, user_id, routine_id, name, notes, started_at, completed_at,
           weight_unit_snapshot, distance_unit_snapshot
         ) VALUES (
-          ${workoutId}::uuid, ${OWNER_ID}, ${routineId}::uuid, ${name}, ${notes},
+          ${workoutId}::uuid, ${userId}, ${routineId}::uuid, ${name}, ${notes},
           ${startedAt}::timestamptz, ${endedAt}::timestamptz,
           ${profile.weight_unit}, ${profile.distance_unit}
         )
@@ -279,7 +280,7 @@ module.exports = async function handler(req, res) {
             id, user_id, workout_id, exercise_id, position,
             exercise_name_snapshot, tracking_type_snapshot, notes
           ) VALUES (
-            ${item.id}::uuid, ${OWNER_ID}, ${workoutId}::uuid, ${item.exerciseId}::uuid,
+            ${item.id}::uuid, ${userId}, ${workoutId}::uuid, ${item.exerciseId}::uuid,
             ${item.position}, ${definition.name}, ${definition.tracking_type}, ${item.notes}
           )
         `;
@@ -289,7 +290,7 @@ module.exports = async function handler(req, res) {
           id, user_id, workout_exercise_id, set_number, set_type, reps,
           weight_kg, duration_seconds, distance_meters, rpe, is_completed
         ) VALUES (
-          ${set.id}::uuid, ${OWNER_ID}, ${item.id}::uuid, ${set.position}, ${set.setType},
+          ${set.id}::uuid, ${userId}, ${item.id}::uuid, ${set.position}, ${set.setType},
           ${set.reps}, ${set.weightKg}, ${set.durationSeconds}, ${set.distanceMeters},
           ${set.rpe}, ${set.completed}
         )
@@ -297,7 +298,7 @@ module.exports = async function handler(req, res) {
     ];
     await services.sql.transaction(queries);
 
-    const workout = await loadWorkout(services.sql, profile, workoutId);
+    const workout = await loadWorkout(services.sql, userId, profile, workoutId);
     return res.status(201).json({ workout });
   } catch (error) {
     return serverError(res, "tracker workouts error", error);

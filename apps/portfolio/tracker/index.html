@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/tracker/tracker.css?v=2" />
+    <link rel="stylesheet" href="/tracker/tracker.css?v=3" />
   </head>
   <body>
     <div id="boot-screen" class="boot-screen" aria-live="polite">
@@ -37,28 +37,22 @@
         </div>
 
         <div class="access-actions">
-          <button id="show-owner-login" class="button button-primary" type="button">
-            <i data-lucide="lock-keyhole" aria-hidden="true"></i>
-            Personal access
-          </button>
+          <a class="button button-primary is-hidden" href="/api/tracker/auth?provider=google" data-auth-provider="google">
+            <i data-lucide="log-in" aria-hidden="true"></i>
+            Sign in with Google
+          </a>
+          <a class="button button-primary is-hidden" href="/api/tracker/auth?provider=github" data-auth-provider="github">
+            <i data-lucide="log-in" aria-hidden="true"></i>
+            Sign in with GitHub
+          </a>
           <button id="guest-login" class="button button-secondary" type="button">
             <i data-lucide="user-round" aria-hidden="true"></i>
             Continue as guest
           </button>
         </div>
-
-        <form id="owner-login-form" class="owner-login is-hidden">
-          <label for="owner-password">Password</label>
-          <div class="password-row">
-            <input id="owner-password" name="password" type="password" autocomplete="current-password" required />
-            <button class="icon-button" type="submit" aria-label="Sign in" title="Sign in">
-              <i data-lucide="arrow-right" aria-hidden="true"></i>
-            </button>
-          </div>
-          <p id="login-error" class="form-message" role="alert"></p>
-        </form>
+        <p id="login-error" class="form-message" role="alert"></p>
       </section>
-      <p class="guest-note">Guest activity stays in this browser and is never stored.</p>
+      <p class="guest-note">Sign in to keep your own private log. Guest activity stays in this browser and is never stored.</p>
     </main>
 
     <div id="app" class="app-shell is-hidden">
@@ -67,7 +61,7 @@
           <span class="brand-mark"><i data-lucide="activity" aria-hidden="true"></i></span>
           <div>
             <p class="brand-name">Daily Log</p>
-            <p id="mode-label" class="brand-subtitle">Owner workspace</p>
+            <p id="mode-label" class="brand-subtitle">Your workspace</p>
           </div>
         </a>
 
@@ -385,6 +379,6 @@
     <div id="toast-region" class="toast-region" aria-live="polite"></div>
 
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <script src="/tracker/tracker.js?v=2"></script>
+    <script src="/tracker/tracker.js?v=3"></script>
   </body>
 </html>

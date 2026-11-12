@@ -1,5 +1,5 @@
 const crypto = require("node:crypto");
-const { getTrackerServices, noStore, OWNER_ID, requireOwner } = require("../_lib/tracker-auth");
+const { getTrackerServices, noStore, requireUser } = require("../_lib/tracker-auth");
 const {
   cleanText,
   distanceToMeters,
@@ -46,7 +46,7 @@ function rowsToRoutines(rows, profile) {
   return Array.from(routines.values());
 }
 
-async function loadRoutines(sql, routineId = null) {
+async function loadRoutines(sql, userId, routineId = null) {
   return sql`
     SELECT r.id AS routine_id, r.name AS routine_name, r.description AS routine_description,
            re.id AS routine_exercise_id, re.exercise_id, re.position, re.notes,
@@ -59,7 +59,7 @@ async function loadRoutines(sql, routineId = null) {
       ON re.routine_id = r.id AND re.user_id = r.user_id
     LEFT JOIN tracker_exercises e
       ON e.id = re.exercise_id AND e.user_id = re.user_id
-    WHERE r.user_id = ${OWNER_ID}
+    WHERE r.user_id = ${userId}
       AND r.is_archived = FALSE
       AND (${routineId}::uuid IS NULL OR r.id = ${routineId}::uuid)
     ORDER BY r.created_at, re.position
@@ -73,7 +73,8 @@ module.exports = async function handler(req, res) {
   }
 
   const services = getTrackerServices(res);
-  if (!services || !requireOwner(req, res, services)) {
+  const userId = services && requireUser(req, res, services);
+  if (!userId) {
     return;
   }
 
@@ -81,16 +82,16 @@ module.exports = async function handler(req, res) {
     const profileRows = await services.sql`
       SELECT weight_unit, distance_unit
       FROM tracker_users
-      WHERE id = ${OWNER_ID}
+      WHERE id = ${userId}
       LIMIT 1
     `;
     if (!profileRows.length) {
-      return res.status(500).json({ error: "Tracker owner profile is missing. Run the tracker migration." });
+      return res.status(500).json({ error: "Your tracker profile is missing. Sign out and sign in again." });
     }
     const profile = profileRows[0];
 
     if (req.method === "GET") {
-      const rows = await loadRoutines(services.sql);
+      const rows = await loadRoutines(services.sql, userId);
       return res.status(200).json({ routines: rowsToRoutines(rows, profile) });
     }
 
@@ -149,7 +150,7 @@ module.exports = async function handler(req, res) {
       const availableRows = await services.sql`
         SELECT id
         FROM tracker_exercises
-        WHERE user_id = ${OWNER_ID} AND is_archived = FALSE AND id = ANY(${exerciseIds}::uuid[])
+        WHERE user_id = ${userId} AND is_archived = FALSE AND id = ANY(${exerciseIds}::uuid[])
       `;
       if (availableRows.length !== exerciseIds.length) {
         return res.status(400).json({ error: "One or more exercises are unavailable." });
@@ -160,7 +161,7 @@ module.exports = async function handler(req, res) {
     const queries = [
       services.sql`
         INSERT INTO tracker_routines (id, user_id, name, description)
-        VALUES (${routineId}::uuid, ${OWNER_ID}, ${name}, ${description})
+        VALUES (${routineId}::uuid, ${userId}, ${name}, ${description})
       `,
       ...parsedExercises.map((item) => services.sql`
         INSERT INTO tracker_routine_exercises (
@@ -168,7 +169,7 @@ module.exports = async function handler(req, res) {
           target_reps_min, target_reps_max, target_weight_kg,
           target_duration_seconds, target_distance_meters, target_rest_seconds
         ) VALUES (
-          ${item.id}::uuid, ${OWNER_ID}, ${routineId}::uuid, ${item.exerciseId}::uuid,
+          ${item.id}::uuid, ${userId}, ${routineId}::uuid, ${item.exerciseId}::uuid,
           ${item.position}, ${item.notes}, ${item.targetSets}, ${item.targetRepsMin},
           ${item.targetRepsMax}, ${item.targetWeightKg}, ${item.targetDurationSeconds},
           ${item.targetDistanceMeters}, ${item.targetRestSeconds}
@@ -177,7 +178,7 @@ module.exports = async function handler(req, res) {
     ];
     await services.sql.transaction(queries);
 
-    const rows = await loadRoutines(services.sql, routineId);
+    const rows = await loadRoutines(services.sql, userId, routineId);
     return res.status(201).json({ routine: rowsToRoutines(rows, profile)[0] });
   } catch (error) {
     if (error && error.code === "23505") {

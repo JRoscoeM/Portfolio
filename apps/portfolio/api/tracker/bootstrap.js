@@ -1,4 +1,4 @@
-const { getTrackerServices, noStore, OWNER_ID, requireOwner } = require("../_lib/tracker-auth");
+const { getTrackerServices, noStore, requireUser } = require("../_lib/tracker-auth");
 const {
   kilogramsToWeight,
   exerciseTrackingTypeForApi,
@@ -113,7 +113,8 @@ module.exports = async function handler(req, res) {
   }
 
   const services = getTrackerServices(res);
-  if (!services || !requireOwner(req, res, services)) {
+  const userId = services && requireUser(req, res, services);
+  if (!userId) {
     return;
   }
 
@@ -125,11 +126,11 @@ module.exports = async function handler(req, res) {
     const profileRows = await services.sql`
       SELECT display_name, timezone, weight_unit, distance_unit
       FROM tracker_users
-      WHERE id = ${OWNER_ID}
+      WHERE id = ${userId}
       LIMIT 1
     `;
     if (!profileRows.length) {
-      return res.status(500).json({ error: "Tracker owner profile is missing. Run the tracker migration." });
+      return res.status(500).json({ error: "Your tracker profile is missing. Sign out and sign in again." });
     }
     const profileRow = profileRows[0];
 
@@ -138,21 +139,21 @@ module.exports = async function handler(req, res) {
         SELECT id, name, description, color, icon, tracking_type, unit, target_value,
                schedule_type, days_of_week, target_days_per_week, start_date, archived_at
         FROM tracker_habits
-        WHERE user_id = ${OWNER_ID}
+        WHERE user_id = ${userId}
         ORDER BY archived_at NULLS FIRST, created_at, name
       `,
       services.sql`
         SELECT e.id, e.habit_id, e.entry_date, e.value, e.status, e.note
         FROM tracker_habit_entries e
         JOIN tracker_habits h ON h.id = e.habit_id AND h.user_id = e.user_id
-        WHERE e.user_id = ${OWNER_ID}
+        WHERE e.user_id = ${userId}
           AND e.entry_date >= ${from}::date
         ORDER BY e.entry_date DESC
       `,
       services.sql`
         SELECT id, name, category, muscle_group, tracking_type
         FROM tracker_exercises
-        WHERE user_id = ${OWNER_ID} AND is_archived = FALSE
+        WHERE user_id = ${userId} AND is_archived = FALSE
         ORDER BY category, name
       `,
       services.sql`
@@ -167,7 +168,7 @@ module.exports = async function handler(req, res) {
           ON re.routine_id = r.id AND re.user_id = r.user_id
         LEFT JOIN tracker_exercises e
           ON e.id = re.exercise_id AND e.user_id = re.user_id
-        WHERE r.user_id = ${OWNER_ID} AND r.is_archived = FALSE
+        WHERE r.user_id = ${userId} AND r.is_archived = FALSE
         ORDER BY r.created_at, re.position
       `,
       services.sql`
@@ -182,7 +183,7 @@ module.exports = async function handler(req, res) {
           ON we.workout_id = w.id AND we.user_id = w.user_id
         LEFT JOIN tracker_workout_sets ws
           ON ws.workout_exercise_id = we.id AND ws.user_id = we.user_id
-        WHERE w.user_id = ${OWNER_ID}
+        WHERE w.user_id = ${userId}
         GROUP BY w.id
         ORDER BY w.completed_at DESC
         LIMIT 12
@@ -209,7 +210,7 @@ module.exports = async function handler(req, res) {
         FROM tracker_workout_exercises we
         LEFT JOIN tracker_workout_sets ws
           ON ws.workout_exercise_id = we.id AND ws.user_id = we.user_id
-        WHERE we.user_id = ${OWNER_ID} AND we.workout_id = ANY(${workoutIds}::uuid[])
+        WHERE we.user_id = ${userId} AND we.workout_id = ANY(${workoutIds}::uuid[])
         ORDER BY we.workout_id, we.position, ws.set_number
       `;
     }
