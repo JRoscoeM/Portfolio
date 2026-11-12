@@ -3,10 +3,32 @@
     {
       "source": "/(.*).wasm",
       "headers": [
-        { "key": "Content-Type", "value": "application/wasm" },
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
-        { "key": "Cross-Origin-Embedder-Policy", "value": "require-corp" }
+        {
+          "key": "Content-Type",
+          "value": "application/wasm"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/recipes",
+      "destination": "/recipes/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/recipes/:path(.*)",
+      "destination": "https://dishbook-recipes.vercel.app/recipes/:path"
     }
   ]
 }

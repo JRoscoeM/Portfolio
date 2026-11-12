@@ -8,6 +8,7 @@ The Vercel-hosted portfolio site: static pages at the project root plus serverle
 | --- | --- |
 | `index.html`, `static/` | Home page, its script, styles, and profile images |
 | `tracker/` | Daily Log, the habit and workout tracker (served at `/tracker/`) |
+| `vercel.json` | Headers for the WebAssembly build, and the proxy that serves Dishbook (`apps/recipes`, its own Vercel project) at `/recipes/` |
 | `A7.html`, `A7.js`, `A7.wasm`, `qtloader.js` | Sprite Editor WebAssembly build (served at `/A7.html`); built from `apps/sprite-editor` |
 | `snake.html`, `snake.js`, `snake-play.html`, `snake-play.js` | Snake + Spotify room console (in development) |
 | `api/tracker/` | Tracker API: OAuth sign-in and per-user data routes |
