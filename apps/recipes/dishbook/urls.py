@@ -8,5 +8,7 @@ urlpatterns = [
     path("profile/<str:username>/", views.profile, name="profile"),
     path("s", views.search, name="search"),
     path("login", views.signin, name="signin"),
+    path("login/google/", views.google_login, name="google_login"),
+    path("login/google/callback/", views.google_callback, name="google_callback"),
     path("logout", views.signout, name="signout"),
 ]

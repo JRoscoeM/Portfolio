@@ -1,10 +1,18 @@
+import logging
+import secrets
 from decimal import Decimal
+from urllib.parse import urlencode
 
-from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils.crypto import constant_time_compare
+from django.utils.http import url_has_allowed_host_and_scheme
 
+from . import google_oauth
 from .models import Profile, Recipe
 from .scaling import (
     build_scale_context_for_ingredient,
@@ -12,6 +20,9 @@ from .scaling import (
     build_scaled_recipe,
     parse_amount_string,
 )
+
+logger = logging.getLogger(__name__)
+GOOGLE_SESSION_KEY = "google_oauth_pending"
 
 
 def index(request):
@@ -163,30 +174,97 @@ def profile(request, username):
     )
 
 
+SIGN_IN_ERRORS = {
+    "cancelled": "Sign-in was cancelled.",
+    "expired": "That sign-in attempt expired. Please try again.",
+    "failed": "Google sign-in could not be completed. Please try again.",
+    "unavailable": "Sign-in is not set up on this site yet.",
+    "not_admin": "Your account does not have access to the admin.",
+}
+
+
+def _safe_next(value):
+    # Only follow same-site paths, so the sign-in links cannot be used to bounce people elsewhere.
+    if isinstance(value, str) and value.startswith("/") and url_has_allowed_host_and_scheme(value, allowed_hosts=None):
+        return value
+    return reverse("index")
+
+
+def _public_url(request, path):
+    origin = settings.COOKBOOK_PUBLIC_ORIGIN
+    return f"{origin}{path}" if origin else request.build_absolute_uri(path)
+
+
 def signin(request):
-    # Assume there is no login error unless we discover one.
-    error = False
+    next_path = _safe_next(request.GET.get("next"))
+    error_code = request.GET.get("error", "")
+    start = f"{reverse('google_login')}?{urlencode({'next': next_path})}"
+    return render(
+        request,
+        "login.html",
+        {
+            "error": SIGN_IN_ERRORS.get(error_code, SIGN_IN_ERRORS["failed"]) if error_code else "",
+            "google_login_url": _public_url(request, start),
+            "sign_in_available": google_oauth.is_configured(),
+        },
+    )
 
-    # If the user submitted the login form, process it.
-    if request.method == "POST":
-        # Read username and password from the submitted form data.
-        username = request.POST.get("username", "")
-        password = request.POST.get("password", "")
 
-        # Ask Django to check whether these credentials are valid.
-        user = authenticate(request, username=username, password=password)
+def _sign_in_failed(code, next_path=None):
+    query = {"error": code}
+    if next_path:
+        query["next"] = next_path
+    return redirect(f"{reverse('signin')}?{urlencode(query)}")
 
-        # If authentication succeeds, log the user in and send them home.
-        if user is not None:
-            login(request, user)
-            return redirect("index")
 
-        # Otherwise, keep them on the login page and show an error message.
-        error = True
+def google_login(request):
+    if not google_oauth.is_configured():
+        return _sign_in_failed("unavailable")
+    verifier, challenge = google_oauth.new_pkce_pair()
+    state = secrets.token_urlsafe(32)
+    # Kept in the visitor's session so only the browser that started sign-in can finish it.
+    request.session[GOOGLE_SESSION_KEY] = {
+        "state": state,
+        "verifier": verifier,
+        "next": _safe_next(request.GET.get("next")),
+    }
+    redirect_uri = _public_url(request, reverse("google_callback"))
+    return redirect(google_oauth.authorize_url(redirect_uri, state, challenge))
 
-    # For a normal GET request, or for a failed login attempt,
-    # render the login page.
-    return render(request, "login.html", {"error": error})
+
+def google_callback(request):
+    pending = request.session.pop(GOOGLE_SESSION_KEY, None)
+    supplied_state = request.GET.get("state", "")
+    if not isinstance(pending, dict) or not constant_time_compare(supplied_state, pending.get("state", "")):
+        return _sign_in_failed("expired")
+    next_path = _safe_next(pending.get("next"))
+    if request.GET.get("error"):
+        return _sign_in_failed("cancelled", next_path)
+    code = request.GET.get("code", "")
+    if not code or len(code) > 2048:
+        return _sign_in_failed("failed", next_path)
+
+    try:
+        profile = google_oauth.fetch_profile(
+            code, _public_url(request, reverse("google_callback")), pending["verifier"]
+        )
+    except google_oauth.GoogleSignInError:
+        logger.exception("Google sign-in failed")
+        return _sign_in_failed("failed", next_path)
+
+    user = google_oauth.user_for_profile(profile)
+    login(request, user, backend="django.contrib.auth.backends.ModelBackend")
+    return redirect(next_path)
+
+
+def admin_login(request):
+    """Replaces the admin's username/password form: admins sign in with Google like everyone else."""
+    next_path = _safe_next(request.GET.get("next") or reverse("admin:index"))
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            return redirect(next_path)
+        return _sign_in_failed("not_admin")
+    return redirect(f"{reverse('signin')}?{urlencode({'next': next_path})}")
 
 
 def signout(request):

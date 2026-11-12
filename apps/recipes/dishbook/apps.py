@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class DishbookConfig(AppConfig):
+class GroupCookbookConfig(AppConfig):
     name = 'dishbook'

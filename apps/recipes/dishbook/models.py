@@ -72,6 +72,18 @@ class IngredientAmount(models.Model):
         return " ".join(str(piece) for piece in pieces if piece not in (None, "")).strip()
 
 
+class GoogleAccount(models.Model):
+    """Links a Django user to the Google account they sign in with."""
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="google_account")
+    # Google's stable account id (the OpenID `sub` claim); unlike an email address it never changes.
+    subject = models.CharField(max_length=255, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} (Google)"
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)

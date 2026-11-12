@@ -1,6 +1,6 @@
-# Dishbook Recipes
+# Group Cookbook
 
-Dishbook is a Django recipe-sharing application. It uses SQLite for local development and
+Group Cookbook is a Django recipe-sharing application. It uses SQLite for local development and
 Neon PostgreSQL when `DATABASE_URL` is set.
 
 ## Local setup
@@ -25,8 +25,26 @@ python manage.py shell < setup_starter.py
 python manage.py loaddata dishbook/fixtures/seed.json
 ```
 
-Starter logins are documented in `setup_starter.py`. Their predictable passwords are enabled
-only when `DJANGO_DEBUG=true`; the same accounts receive unusable passwords in production.
+The starter users only own the seed recipes; they cannot sign in.
+
+## Sign-in
+
+Sign-in is Google only (OAuth authorization-code flow with PKCE, in `dishbook/google_oauth.py`);
+there are no passwords, including for the admin. Anyone with a Google account can sign in, and their
+first sign-in creates a Django user keyed by Google's stable account id. After that it is an ordinary
+Django session, so `request.user` and `@login_required` work as usual.
+
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`: a Google OAuth client (Web application). Register
+  `<public origin>/recipes/login/google/callback/` as an authorized redirect URI, e.g.
+  `https://www.roscoemoedl.com/recipes/login/google/callback/` and, for local development,
+  `http://localhost:8000/recipes/login/google/callback/`. The tracker's client can be reused.
+- `COOKBOOK_ADMIN_EMAILS`: comma-separated Google addresses that get the admin. On first sign-in
+  such an address takes over an existing user with the same email (for example one made with
+  `createsuperuser`).
+- `COOKBOOK_PUBLIC_ORIGIN`: where sign-in starts and ends. Defaults to `https://www.roscoemoedl.com`
+  when `DJANGO_DEBUG` is false and to the current request's address in development.
+
+The admin at `/recipes/admin/` sends people through the same Google sign-in.
 
 ## URLs
 
@@ -45,6 +63,7 @@ Create a Vercel project with this directory (`apps/recipes`) as its root directo
 - `DJANGO_DEBUG=false`.
 - `DJANGO_ALLOWED_HOSTS` to the production hostname and `.vercel.app`.
 - `DJANGO_CSRF_TRUSTED_ORIGINS` to the full HTTPS production origin.
+- The sign-in variables above.
 
 Apply migrations to Neon from a trusted local or CI environment before directing production
 traffic to a release:

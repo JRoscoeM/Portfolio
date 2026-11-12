@@ -1,4 +1,4 @@
-"""Settings for Dishbook in local development and on Vercel."""
+"""Settings for Group Cookbook in local development and on Vercel."""
 
 import os
 from pathlib import Path
@@ -106,12 +106,21 @@ DATABASES = {
 }
 
 
-AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
+# Sign-in is Google only (see dishbook/google_oauth.py); accounts have no usable passwords.
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
+# Verified Google addresses that get the admin (staff + superuser) on sign-in.
+COOKBOOK_ADMIN_EMAILS = {
+    email.strip().lower() for email in os.getenv("COOKBOOK_ADMIN_EMAILS", "").split(",") if email.strip()
+}
+# Where visitors reach the cookbook. Google sign-in always starts and ends here so the session
+# cookie lands on this domain even for someone who opened the vercel.app address directly.
+# Empty means "the address of the current request", which is what local development wants.
+COOKBOOK_PUBLIC_ORIGIN = os.getenv(
+    "COOKBOOK_PUBLIC_ORIGIN", "" if DEBUG else "https://www.roscoemoedl.com"
+).rstrip("/")
+
+LOGIN_URL = "signin"
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = os.getenv("DJANGO_TIME_ZONE", "America/Denver")

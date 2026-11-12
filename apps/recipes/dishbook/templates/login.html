@@ -3,35 +3,31 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Sign in - Dishbook</title>
+    <title>Sign in - Group Cookbook</title>
     <link rel="stylesheet" href="{% get_static_prefix %}main.css">
 </head>
 
 <body>
     <div class="main-page-container">
         <div class="top">
-            <div><a href="{% url 'index' %}">Dishbook</a></div>
+            <div><a href="{% url 'index' %}">Group Cookbook</a></div>
             <div><a href="{% url 'search' %}">Search</a></div>
         </div>
 
         <h1>Sign in</h1>
 
         {% if error %}
-        <p>Incorrect username or password.</p>
+        <p class="scale-error">{{ error }}</p>
         {% endif %}
 
-        <form action="{% url 'signin' %}" method="post" class="login-form">
-            {% csrf_token %}
-            <p>
-                <label for="username">Username</label><br>
-                <input id="username" type="text" name="username">
-            </p>
-            <p>
-                <label for="password">Password</label><br>
-                <input id="password" type="password" name="password">
-            </p>
-            <button>Sign in</button>
-        </form>
+        {% if user.is_authenticated %}
+        <p>You're signed in as {{ user.get_full_name|default:user.username }}. <a href="{% url 'signout' %}">Sign out</a></p>
+        {% elif sign_in_available %}
+        <p>Sign in with your Google account. Your first sign-in creates your account.</p>
+        <p><a class="cook-button" href="{{ google_login_url }}">Sign in with Google</a></p>
+        {% else %}
+        <p>Sign-in is not set up on this site yet.</p>
+        {% endif %}
     </div>
 </body>
 

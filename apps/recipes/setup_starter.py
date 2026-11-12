@@ -1,11 +1,9 @@
-from django.conf import settings
 from django.contrib.auth.models import User
 from dishbook.models import Profile
 
 USERS = [
     {
         "username": "alovelace",
-        "password": "ada",
         "first_name": "Ada",
         "last_name": "Lovelace",
         "email": "ada@example.com",
@@ -13,7 +11,6 @@ USERS = [
     },
     {
         "username": "aturing",
-        "password": "alan",
         "first_name": "Alan",
         "last_name": "Turing",
         "email": "alan@example.com",
@@ -21,7 +18,6 @@ USERS = [
     },
     {
         "username": "ghopper",
-        "password": "grace",
         "first_name": "Grace",
         "last_name": "Hopper",
         "email": "grace@example.com",
@@ -50,11 +46,8 @@ for info in USERS:
         user.email = info["email"]
         changed = True
 
-    # Predictable classroom passwords are useful locally but unsafe on a public site.
-    if settings.DEBUG:
-        user.set_password(info["password"])
-    else:
-        user.set_unusable_password()
+    # Sign-in is Google only, so the starter accounts exist just to own the seed recipes.
+    user.set_unusable_password()
     user.save()
 
     profile, _ = Profile.objects.get_or_create(user=user)
@@ -62,7 +55,6 @@ for info in USERS:
         profile.bio = info["bio"]
         profile.save()
 
-    login_status = "local demo password enabled" if settings.DEBUG else "login disabled"
-    print(f"Ready: {info['username']} ({login_status})")
+    print(f"Ready: {info['username']}")
 
 print("Starter users created or refreshed.")

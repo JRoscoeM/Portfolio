@@ -11,7 +11,7 @@ language or runtime.
 ## Applications
 
 - `apps/portfolio`: Vercel-hosted portfolio site, the Daily Log tracker, and lightweight API routes
-- `apps/recipes`: Django recipe-sharing application (Dishbook)
+- `apps/recipes`: Django recipe-sharing application (Group Cookbook)
 - `apps/snake`: C# and Blazor Snake application source
 - `apps/spreadsheet`: C# spreadsheet engine and Blazor WebAssembly frontend
 - `apps/sprite-editor`: C++/Qt sprite editor, including the WebAssembly target
