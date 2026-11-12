@@ -2,7 +2,7 @@
 
 The detailed legacy audit currently lives in:
 
-- [PORTFOLIO_INTEGRATION_AUDIT.md](/Users/roscoe/Documents/Portfolio/apps/snake/PORTFOLIO_INTEGRATION_AUDIT.md)
+- [PORTFOLIO_INTEGRATION_AUDIT.md](../../../snake/PORTFOLIO_INTEGRATION_AUDIT.md)
 
 This reference exists inside `portfolio-website` so the public Snake docs have a deployable documentation path.
 

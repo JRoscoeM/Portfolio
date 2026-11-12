@@ -10,10 +10,18 @@ language or runtime.
 
 ## Applications
 
-- `apps/portfolio`: Vercel-hosted portfolio shell and lightweight API routes
-- `apps/recipes`: Django recipe-sharing application
+- `apps/portfolio`: Vercel-hosted portfolio site, the Daily Log tracker, and lightweight API routes
+- `apps/recipes`: Django recipe-sharing application (Dishbook)
 - `apps/snake`: C# and Blazor Snake application source
 - `apps/spreadsheet`: C# spreadsheet engine and Blazor WebAssembly frontend
 - `apps/sprite-editor`: C++/Qt sprite editor, including the WebAssembly target
-- `apps/simon-game`: C++/Qt Simon game
-- `apps/polluting-computing`: C++/Qt project
+
+## Database ownership
+
+Each set of tables has one migration owner:
+
+- Django migrations own the recipe and Django authentication tables.
+- `apps/portfolio/db/snake-schema.sql` owns the Snake room, player, and match-history tables.
+- `apps/portfolio/db/migrations/` owns the tracker tables.
+
+Hand-written SQL must not redefine tables already managed by Django.
