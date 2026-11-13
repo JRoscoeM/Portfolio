@@ -8,6 +8,7 @@ Thumbs.db
 .qtc_clangd/
 *.user
 *.suo
+.claude
 
 # Secrets and local environment
 .env

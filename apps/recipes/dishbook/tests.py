@@ -41,6 +41,17 @@ class PublicPageTests(TestCase):
         self.assertContains(response, self.public_recipe.title)
         self.assertNotContains(response, self.private_recipe.title)
 
+    def test_home_page_shows_the_newest_public_recipes(self):
+        newest = [
+            Recipe.objects.create(title=f"Newer Dish {n}", description="New", author=self.author)
+            for n in range(6)
+        ]
+
+        response = self.client.get(reverse("index"))
+
+        self.assertEqual([recipe.title for recipe in response.context["recipes"]], [r.title for r in reversed(newest)])
+        self.assertNotContains(response, self.public_recipe.title)
+
     def test_profile_shows_only_public_recipes(self):
         response = self.client.get(reverse("profile", args=[self.author.username]))
 

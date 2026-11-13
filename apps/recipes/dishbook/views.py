@@ -29,7 +29,8 @@ def index(request):
     # Start with public recipes only so logged-out users do not see private data.
     # select_related("author") tells Django to fetch the linked author data
     # at the same time, which helps avoid extra database queries in templates.
-    recipes = Recipe.objects.filter(is_public=True).select_related("author")[:6]
+    # Newest first, so the home page's "Latest recipes" really are the latest.
+    recipes = Recipe.objects.filter(is_public=True).select_related("author").order_by("-id")[:6]
 
     # Render the home page and give the template the recipes to display.
     return render(request, "index.html", {"recipes": recipes})
