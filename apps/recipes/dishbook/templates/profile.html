@@ -1,34 +1,27 @@
-{% load static %}<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <title>{{ author.get_full_name|default:author.username }} - Group Cookbook</title>
-    <link rel="stylesheet" href="{% get_static_prefix %}main.css">
-</head>
+{% block title %}{{ author.get_full_name|default:author.username }} - Group Cookbook{% endblock %}
 
-<body>
-    <div class="main-page-container">
-        {% include "header-partial.html" %}
-
+{% block content %}
+<section class="profile-header">
+    {% if profile.photo %}
+    <img class="avatar" src="{{ profile.photo.url }}" alt="Profile photo of {{ author.get_full_name|default:author.username }}">
+    {% else %}
+    <span class="avatar avatar-initial" aria-hidden="true">{{ author.get_full_name|default:author.username|first|upper }}</span>
+    {% endif %}
+    <div>
+        <p class="eyebrow">Cook</p>
         <h1>{{ author.get_full_name|default:author.username }}</h1>
-
-        <div class="profile-intro">
-            <div>
-                {% if profile.photo %}
-                <img src="{{ profile.photo.url }}"
-                    alt="Profile photo of {{ author.get_full_name|default:author.username }}">
-                {% endif %}
-            </div>
-            <div>
-                <p><strong>Username:</strong> {{ author.username }}</p>
-                <p>{{ profile.bio }}</p>
-            </div>
-        </div>
-
-        <h2>Recipes</h2>
-        {% include "recipe-cards-partial.html" %}
+        <p class="profile-username">@{{ author.username }}</p>
+        {% if profile.bio %}<p class="profile-bio">{{ profile.bio }}</p>{% endif %}
     </div>
-</body>
+</section>
 
-</html>
+<section class="section">
+    <div class="section-header">
+        <h2>Recipes</h2>
+        <span class="result-count">{{ recipes|length }} recipe{{ recipes|length|pluralize }}</span>
+    </div>
+    {% include "recipe-cards-partial.html" with empty_message="No public recipes yet." %}
+</section>
+{% endblock %}

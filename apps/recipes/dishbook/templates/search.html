@@ -1,28 +1,22 @@
-{% load static %}<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <title>Search - Group Cookbook</title>
-    <link rel="stylesheet" href="{% get_static_prefix %}main.css">
-</head>
+{% block title %}Search - Group Cookbook{% endblock %}
 
-<body>
-    <div class="main-page-container">
-        {% include "header-partial.html" %}
+{% block content %}
+<section class="intro intro-compact">
+    <h1>Search recipes</h1>
+    <form class="search-form" action="{% url 'search' %}" method="get" role="search">
+        <label class="visually-hidden" for="big-search">Search</label>
+        <input id="big-search" type="search" name="q" value="{{ query }}" placeholder="Search by recipe name, or tag:breakfast">
+        <button class="button" type="submit">Search</button>
+    </form>
+</section>
 
-        <h1>Search Recipes</h1>
-
-        <div class="search-block">
-            <form action="{% url 'search' %}" method="get">
-                <label for="big-search">Search</label>
-                <input id="big-search" type="search" name="q" value="{{ query }}">
-                <button>Search</button>
-            </form>
-        </div>
-
-        {% include "recipe-cards-partial.html" %}
+<section class="section">
+    <div class="section-header">
+        <h2>{% if query %}Results for “{{ query }}”{% else %}All recipes{% endif %}</h2>
+        <span class="result-count">{{ recipes|length }} recipe{{ recipes|length|pluralize }}</span>
     </div>
-</body>
-
-</html>
+    {% include "recipe-cards-partial.html" with empty_message="No recipes match that search." %}
+</section>
+{% endblock %}

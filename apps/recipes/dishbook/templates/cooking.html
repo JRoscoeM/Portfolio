@@ -1,32 +1,33 @@
-{% load static %}<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <title>Cooking {{ recipe.title }} - Group Cookbook</title>
-    <link rel="stylesheet" href="{% get_static_prefix %}main.css">
-</head>
+{% block title %}Cooking {{ recipe.title }} - Group Cookbook{% endblock %}
+{% block body_class %}cooking-body{% endblock %}
+{% block page_class %}cooking-shell{% endblock %}
 
-<body class="cooking-body">
-    <main class="cooking-shell">
+{% block header %}
+<header class="cooking-bar">
+    <div class="cooking-bar-inner">
+        <a class="button button-quiet button-small" href="{% url 'recipe' recipe.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">← Back to recipe</a>
+        <span class="cooking-bar-label">Cooking view</span>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
         <section class="cooking-header">
-            <div>
-                <p class="eyebrow">Cooking View</p>
-                <h1>{{ recipe.title }}</h1>
-                {% if scale_context %}
-                <p class="cooking-summary">
-                    {% if scale_context.mode == "servings" %}
-                    Serving {{ scale_context.target_serves }} portions
-                    {% elif scale_context.mode == "ingredient" %}
-                    Matched to {{ scale_context.anchor_target_quantity }} of {{ scale_context.anchor_name }}
-                    {% endif %}
-                    {% if scaled_recipe and scaled_recipe.factor_text %}
-                    <span class="scale-summary-chip">factor ×{{ scaled_recipe.factor_text }}</span>
-                    {% endif %}
-                </p>
+            <h1>{{ recipe.title }}</h1>
+            {% if scale_context %}
+            <p class="cooking-summary">
+                {% if scale_context.mode == "servings" %}
+                Serving {{ scale_context.target_serves }} portions
+                {% elif scale_context.mode == "ingredient" %}
+                Matched to {{ scale_context.anchor_target_quantity }} of {{ scale_context.anchor_name }}
                 {% endif %}
-            </div>
-            <a class="cook-button cook-button-secondary" href="{% url 'recipe' recipe.id %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}">Back to recipe</a>
+                {% if scaled_recipe and scaled_recipe.factor_text %}
+                <span class="scale-summary-chip">factor ×{{ scaled_recipe.factor_text }}</span>
+                {% endif %}
+            </p>
+            {% endif %}
         </section>
 
         <section class="cooking-steps">
@@ -66,7 +67,4 @@
             {% endfor %}
             {% endif %}
         </section>
-    </main>
-</body>
-
-</html>
+{% endblock %}

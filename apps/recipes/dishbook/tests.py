@@ -98,11 +98,10 @@ class UrlPrefixTests(TestCase):
 
         response = self.client.get(reverse("recipe", args=[self.recipe.id]))
         html = response.content.decode()
-        self.assertIn('href="/recipes/static/main.css"', html)
-        self.assertIn('src="/recipes/static/main.js"', html)
+        self.assertIn('href="/recipes/static/main.css?v=2"', html)
+        self.assertIn('src="/recipes/static/main.js?v=2"', html)
         self.assertIn(f'href="/recipes/recipe/{self.recipe.id}/cook/"', html)
         self.assertIn('href="/recipes/profile/cook/"', html)
-        self.assertIn('src="/recipes/static/AI-slop_homepage.png"', html)
         # No link may point outside /recipes/, or it would leave Group Cookbook when proxied by the portfolio.
         for attribute in ("href", "src", "action"):
             for value in re.findall(rf'{attribute}="(/[^"]*)"', html):

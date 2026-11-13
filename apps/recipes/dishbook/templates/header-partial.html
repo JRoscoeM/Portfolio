@@ -1,18 +1,28 @@
-{% load static %}<div class="header">
-    <div class="nav">
-        <a href="{% url 'index' %}">
-            <img class="home-icon" src="{% get_static_prefix %}AI-slop_homepage.png" alt="Homepage Icon">
+{% with current=request.resolver_match.url_name %}
+<header class="site-header">
+    <div class="site-header-inner">
+        <a class="wordmark" href="{% url 'index' %}">
+            <svg class="wordmark-mark" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M5 15h22a11 11 0 0 1-22 0Z" fill="currentColor" />
+                <path d="M3 15h26" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                <path d="M12 10c-1.5-1.5 1.5-3 0-5M17 10c-1.5-1.5 1.5-3 0-5M22 10c-1.5-1.5 1.5-3 0-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".55" />
+            </svg>
+            <span>Group Cookbook</span>
         </a>
-        <a href="{% url 'index' %}">Home</a>
-        <a href="{% url 'search' %}">Search</a>
-    </div>
 
-    <div class="user-options">
-        {% if user.is_authenticated %}
-        {{ user.get_full_name|default:user.username }}
-        <a href="{% url 'signout' %}">Sign out</a>
-        {% else %}
-        <a href="{% url 'signin' %}">Sign in</a>
-        {% endif %}
+        <nav class="site-nav" aria-label="Main">
+            <a href="{% url 'index' %}"{% if current == 'index' %} aria-current="page"{% endif %}>Recipes</a>
+            <a href="{% url 'search' %}"{% if current == 'search' %} aria-current="page"{% endif %}>Search</a>
+        </nav>
+
+        <div class="user-options">
+            {% if user.is_authenticated %}
+            <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
+            <a class="button button-quiet button-small" href="{% url 'signout' %}">Sign out</a>
+            {% elif current != 'signin' %}
+            <a class="button button-outline button-small" href="{% url 'signin' %}">Sign in</a>
+            {% endif %}
+        </div>
     </div>
-</div>
+</header>
+{% endwith %}
