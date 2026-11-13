@@ -680,5 +680,4187 @@
       "unit": "cup",
       "name": "melted butter"
     }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 5,
+    "fields": {
+      "name": "dinner"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 6,
+    "fields": {
+      "name": "dessert"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 7,
+    "fields": {
+      "name": "baking"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 8,
+    "fields": {
+      "name": "soup"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 9,
+    "fields": {
+      "name": "side"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 10,
+    "fields": {
+      "name": "sandwich"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 11,
+    "fields": {
+      "name": "slow cooker"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 12,
+    "fields": {
+      "name": "drinks"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 13,
+    "fields": {
+      "name": "make ahead"
+    }
+  },
+  {
+    "model": "dishbook.tag",
+    "pk": 14,
+    "fields": {
+      "name": "high protein"
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 10,
+    "fields": {
+      "title": "Twice-Cooked Baked Beans",
+      "description": "Sweet, smoky, and a little spicy baked beans finished low and slow in the oven. Adapted from Alton Brown's \"The Once and Future Beans\" (Good Eats).",
+      "prep_time_minutes": 30,
+      "cook_time_minutes": 480,
+      "serves": 10,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        9,
+        4,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 11,
+    "fields": {
+      "title": "Creamy Chicken and Potato Soup",
+      "description": "A cozy weeknight soup built on Better Than Bouillon, with an optional splash of cream.",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 35,
+      "serves": 4,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        8,
+        5,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 12,
+    "fields": {
+      "title": "Ginger Soy Braised Chicken with Buttered Lo Mein",
+      "description": "A forgiving, crowd-sized braise that holds well and tastes like more work than it is. Sized for about 7 people.",
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 50,
+      "serves": 7,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        5,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 13,
+    "fields": {
+      "title": "Chewy Chocolate Chip Cookies (Alton Brown)",
+      "description": "Bread flour, melted butter, and extra brown sugar make these extra chewy. Adapted from Alton Brown's \"The Chewy\" (Good Eats). Make a full batch and freeze extra dough.",
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 30,
+      "serves": 24,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 14,
+    "fields": {
+      "title": "Chocolate Chip Cookies (Jacques Torres)",
+      "description": "Big, bakery-style cookies with a long rest that hydrates the dough. Plan ahead: the dough chills 24 to 36 hours. Adapted from the New York Times recipe by Jacques Torres and David Leite.",
+      "prep_time_minutes": 45,
+      "cook_time_minutes": 20,
+      "serves": 18,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        6,
+        7,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 15,
+    "fields": {
+      "title": "Chewy Chocolate Chip Cookies (Sally's Baking)",
+      "description": "Melted butter and a little cornstarch give soft, thick cookies. Chill the dough at least 2 hours. Adapted from Sally's Baking Addiction.",
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 13,
+      "serves": 16,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 16,
+    "fields": {
+      "title": "Brown Butter Chocolate Chip Cookies (Food Lab)",
+      "description": "Brown butter, whipped eggs, and chopped chocolate for toffee-like depth. Chill the dough overnight. Adapted from J. Kenji López-Alt at Serious Eats.",
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 30,
+      "serves": 28,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        6,
+        7,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 17,
+    "fields": {
+      "title": "Lean Beef and Potato Stew",
+      "description": "A high-protein stew using lean bottom round and bone broth. About 410 calories and 48 g protein per serving.",
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 105,
+      "serves": 4,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        8,
+        5,
+        14
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 18,
+    "fields": {
+      "title": "French Dip Sandwiches",
+      "description": "Slow-roasted rib roast, deeply caramelized onions, a red wine jus, and horseradish mayo. Roast the beef a day ahead. Adapted from Joshua Weissman.",
+      "prep_time_minutes": 120,
+      "cook_time_minutes": 240,
+      "serves": 4,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        5,
+        10,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 19,
+    "fields": {
+      "title": "Hario Switch Hybrid Brew",
+      "description": "Immersion then drawdown in a Hario Switch for a cup with body and clarity, in the style of James Hoffmann's method.",
+      "prep_time_minutes": 2,
+      "cook_time_minutes": 4,
+      "serves": 1,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        12,
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 20,
+    "fields": {
+      "title": "Crispy Roast Potatoes",
+      "description": "Parboiled in alkaline water and roughed up so they roast up glass-crisp with fluffy centers. Adapted from J. Kenji López-Alt at Serious Eats.",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 75,
+      "serves": 6,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        9,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 21,
+    "fields": {
+      "title": "All-American Beef Stew",
+      "description": "Chuck roast stew with a gelatin-rich, umami-boosted broth. Adapted from J. Kenji López-Alt at Serious Eats.",
+      "prep_time_minutes": 15,
+      "cook_time_minutes": 190,
+      "serves": 6,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        8,
+        5,
+        4
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 22,
+    "fields": {
+      "title": "Loaded Budget Burritos",
+      "description": "Homemade tortillas, cilantro-lime rice, chipotle chicken, bacon black beans, charred peppers, and a smoky aioli. Adapted from Joshua Weissman.",
+      "prep_time_minutes": 120,
+      "cook_time_minutes": 60,
+      "serves": 6,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        5,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 23,
+    "fields": {
+      "title": "Buttermilk Bran Muffins",
+      "description": "Moist one-bowl bran muffins with raisins and a honey-butter glaze. Adapted from The Café Sucre Farine.",
+      "prep_time_minutes": 20,
+      "cook_time_minutes": 15,
+      "serves": 16,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        7
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 24,
+    "fields": {
+      "title": "Smoked Pulled Pork",
+      "description": "Dry-brined pork shoulder smoked low and slow until it shreds, with plenty of bark. Adapted from Daniel Gritzer at Serious Eats.",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 720,
+      "serves": 8,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        5,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 25,
+    "fields": {
+      "title": "Shakshuka with Urfa Biber Harissa",
+      "description": "Eggs baked in a smoky pepper and tomato stew with homemade harissa and preserved lemon. Adapted from Alton Brown (Good Eats). Start the preserved lemons a month ahead, or use store-bought.",
+      "prep_time_minutes": 25,
+      "cook_time_minutes": 55,
+      "serves": 6,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 26,
+    "fields": {
+      "title": "Slow Cooker Pulled Pork",
+      "description": "A set-it-and-forget-it pulled pork with a simple paprika rub and orange juice. Adapted from Downshiftology.",
+      "prep_time_minutes": 5,
+      "cook_time_minutes": 480,
+      "serves": 8,
+      "author": 2,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        5,
+        11
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 27,
+    "fields": {
+      "title": "Vinegar Coleslaw",
+      "description": "A tangy, mayo-free slaw with a toasted-spice dressing. Great with pulled pork. Adapted from Alton Brown.",
+      "prep_time_minutes": 30,
+      "cook_time_minutes": 0,
+      "serves": 8,
+      "author": 3,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        9,
+        2,
+        13
+      ]
+    }
+  },
+  {
+    "model": "dishbook.recipe",
+    "pk": 28,
+    "fields": {
+      "title": "Whole Wheat Buttermilk Pancakes",
+      "description": "Light whole wheat pancakes that freeze well. Adapted from 100 Days of Real Food.",
+      "prep_time_minutes": 10,
+      "cook_time_minutes": 15,
+      "serves": 2,
+      "author": 1,
+      "photo": "",
+      "is_public": true,
+      "tags": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 19,
+    "fields": {
+      "recipe": 10,
+      "order": 1,
+      "description": "Cover the beans with cold water in a large container and soak overnight."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 20,
+    "fields": {
+      "recipe": 10,
+      "order": 2,
+      "description": "Heat the oven to 250°F."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 21,
+    "fields": {
+      "recipe": 10,
+      "order": 3,
+      "description": "In a 6-quart Dutch oven over medium heat, cook the bacon with the onion and jalapeños until the fat renders and the onion softens, about 5 minutes. Stir in the tomato paste, brown sugar, and molasses."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 22,
+    "fields": {
+      "recipe": 10,
+      "order": 4,
+      "description": "Drain the beans, saving 2 cups of the soaking water. Add the beans, saved water, and stock to the pot and bring to a boil over high heat. Season with the liquid smoke, cayenne, pepper, salt, and urfa biber, stir, cover, and bake until the beans are tender, 6 to 8 hours."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 23,
+    "fields": {
+      "recipe": 11,
+      "order": 1,
+      "description": "Heat the butter or oil in a large pot over medium heat. Cook the onion, carrots, and celery until soft, 5 to 7 minutes, then add the garlic for 30 seconds."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 24,
+    "fields": {
+      "recipe": 11,
+      "order": 2,
+      "description": "Add the chicken and cook until lightly browned, 4 to 5 minutes. It doesn't need to be cooked through."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 25,
+    "fields": {
+      "recipe": 11,
+      "order": 3,
+      "description": "Add the water, bouillon, potatoes, thyme, and bay leaf. Bring to a boil, then simmer until the potatoes are tender and the chicken is cooked, 20 to 25 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 26,
+    "fields": {
+      "recipe": 11,
+      "order": 4,
+      "description": "For a creamier soup, mash some of the potatoes in the pot, stir in the milk or cream, and simmer 5 more minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 27,
+    "fields": {
+      "recipe": 11,
+      "order": 5,
+      "description": "Season with salt and pepper (go easy on the salt, the bouillon is salty), remove the bay leaf, and garnish."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 28,
+    "fields": {
+      "recipe": 12,
+      "order": 1,
+      "description": "Season the chicken thighs and brown them in batches in a large pot. Set aside."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 29,
+    "fields": {
+      "recipe": 12,
+      "order": 2,
+      "description": "In the same pot, cook the onions, carrots, and mushrooms until softened, then add the garlic and ginger for a minute."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 30,
+    "fields": {
+      "recipe": 12,
+      "order": 3,
+      "description": "Deglaze with the wine, then add the stock, soy sauce, honey, and red pepper flakes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 31,
+    "fields": {
+      "recipe": 12,
+      "order": 4,
+      "description": "Return the chicken and braise until it is tender and just starting to fall apart, 30 to 40 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 32,
+    "fields": {
+      "recipe": 12,
+      "order": 5,
+      "description": "Boil the lo mein, then toss with butter, a splash of soy sauce, black pepper, and green onions. Serve the chicken over the noodles with plenty of braising liquid."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 33,
+    "fields": {
+      "recipe": 13,
+      "order": 1,
+      "description": "Heat the oven to 375°F with racks in the top and bottom thirds. Line 4 half-sheet pans with parchment."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 34,
+    "fields": {
+      "recipe": 13,
+      "order": 2,
+      "description": "Melt the butter over low heat and let it cool slightly."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 35,
+    "fields": {
+      "recipe": 13,
+      "order": 3,
+      "description": "Sift the flour, salt, and baking soda together."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 36,
+    "fields": {
+      "recipe": 13,
+      "order": 4,
+      "description": "Beat the butter and both sugars in a stand mixer with the paddle on medium for 2 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 37,
+    "fields": {
+      "recipe": 13,
+      "order": 5,
+      "description": "Whisk the egg, yolk, milk, and vanilla in a separate bowl, then mix into the butter on low until combined, about 30 seconds."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 38,
+    "fields": {
+      "recipe": 13,
+      "order": 6,
+      "description": "Add the dry ingredients gradually, scraping the bowl, then mix in the chocolate. Chill the dough for 1 hour."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 39,
+    "fields": {
+      "recipe": 13,
+      "order": 7,
+      "description": "Scoop 1 1/2-ounce portions, 6 per pan. Bake two pans at a time for 15 minutes, rotating halfway."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 40,
+    "fields": {
+      "recipe": 13,
+      "order": 8,
+      "description": "Slide the parchment onto a rack and let the cookies cool at least 5 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 41,
+    "fields": {
+      "recipe": 14,
+      "order": 1,
+      "description": "Sift both flours, the baking soda, baking powder, and salt into a bowl."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 42,
+    "fields": {
+      "recipe": 14,
+      "order": 2,
+      "description": "Cream the butter and sugars with the paddle until very light, about 5 minutes. Beat in the eggs one at a time, then the vanilla."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 43,
+    "fields": {
+      "recipe": 14,
+      "order": 3,
+      "description": "On low speed, mix in the dry ingredients just until combined, 5 to 10 seconds. Gently mix in the chocolate. Press plastic wrap onto the dough and refrigerate 24 to 36 hours (up to 72)."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 44,
+    "fields": {
+      "recipe": 14,
+      "order": 4,
+      "description": "Heat the oven to 350°F and line a baking sheet with parchment."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 45,
+    "fields": {
+      "recipe": 14,
+      "order": 5,
+      "description": "Scoop six 3 1/2-ounce mounds per sheet, laying any upright chocolate pieces flat. Sprinkle with sea salt and bake until golden but still soft, 18 to 20 minutes. Cool on the sheet 10 minutes, then on a rack."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 46,
+    "fields": {
+      "recipe": 15,
+      "order": 1,
+      "description": "Whisk the flour, baking soda, cornstarch, and salt together."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 47,
+    "fields": {
+      "recipe": 15,
+      "order": 2,
+      "description": "Whisk the melted butter with both sugars until smooth, then whisk in the egg, yolk, and vanilla."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 48,
+    "fields": {
+      "recipe": 15,
+      "order": 3,
+      "description": "Stir the wet mixture into the dry to make a soft, thick dough, then fold in the chocolate."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 49,
+    "fields": {
+      "recipe": 15,
+      "order": 4,
+      "description": "Cover and chill at least 2 hours, ideally overnight (up to 3 days)."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 50,
+    "fields": {
+      "recipe": 15,
+      "order": 5,
+      "description": "Heat the oven to 325°F and line baking sheets. If the dough chilled a long time, let it sit out 15 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 51,
+    "fields": {
+      "recipe": 15,
+      "order": 6,
+      "description": "Scoop about 2 oz of dough per cookie, shape each ball taller than it is wide, and space them 3 inches apart."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 52,
+    "fields": {
+      "recipe": 15,
+      "order": 7,
+      "description": "Bake 13 to 14 minutes, until the edges are just barely brown. Cool on the sheet 10 minutes, then on a rack."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 53,
+    "fields": {
+      "recipe": 16,
+      "order": 1,
+      "description": "Brown the butter in a saucepan over medium-high heat, swirling, until nutty, about 5 minutes. Move it to a bowl, whisk in the ice cube, and refrigerate about 20 minutes until cool, whisking now and then."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 54,
+    "fields": {
+      "recipe": 16,
+      "order": 2,
+      "description": "Whisk the flour, baking soda, and salt together."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 55,
+    "fields": {
+      "recipe": 16,
+      "order": 3,
+      "description": "In a stand mixer with the whisk, beat the granulated sugar, eggs, and vanilla on medium-high until pale and ribbony, about 5 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 56,
+    "fields": {
+      "recipe": 16,
+      "order": 4,
+      "description": "Switch to the paddle. Mix in the brown sugar and cooled butter (15 seconds), then the flour on low until barely combined, then the chocolate. Refrigerate airtight overnight, up to 3 days."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 57,
+    "fields": {
+      "recipe": 16,
+      "order": 5,
+      "description": "Heat the oven to 325°F with racks in the upper and lower middle. Scoop 3-tablespoon balls, 6 to 8 per sheet; tear each in half and press back together rough side out. Bake 13 to 16 minutes, rotating halfway, until golden at the edges but soft."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 58,
+    "fields": {
+      "recipe": 16,
+      "order": 6,
+      "description": "Sprinkle the hot cookies lightly with flaky salt, rest 2 minutes, then cool on a rack."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 59,
+    "fields": {
+      "recipe": 17,
+      "order": 1,
+      "description": "Season the beef with salt and pepper. Sear in the oil in a Dutch oven over medium-high heat, in one layer, 2 to 3 minutes per side until deeply browned. Set aside."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 60,
+    "fields": {
+      "recipe": 17,
+      "order": 2,
+      "description": "Lower the heat to medium. Cook the onion, carrots, and celery about 5 minutes, scraping up the browned bits, then stir in the garlic and tomato paste for 1 minute."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 61,
+    "fields": {
+      "recipe": 17,
+      "order": 3,
+      "description": "Add the broth, herbs, and the beef with its juices. Bring to a gentle boil, cover, and simmer on low for 1 hour."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 62,
+    "fields": {
+      "recipe": 17,
+      "order": 4,
+      "description": "Stir in the potatoes, cover, and simmer 30 to 45 minutes until everything is tender. Uncover for the last 10 minutes if you want it thicker."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 63,
+    "fields": {
+      "recipe": 18,
+      "order": 1,
+      "description": "Brush the roast with Dijon and season generously. Roast on a rack at 250°F until it reads 115°F inside, about 2 to 2 1/2 hours."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 64,
+    "fields": {
+      "recipe": 18,
+      "order": 2,
+      "description": "Rest 30 minutes while the oven heats as hot as it goes. Pat dry and return to the oven 3 to 5 minutes to brown. Cool, wrap, and refrigerate overnight, then slice as thinly as possible."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 65,
+    "fields": {
+      "recipe": 18,
+      "order": 3,
+      "description": "For the onions, melt the butter with the oil in a large pot over medium heat. Add the onions and salt, cover, and cook until they release their liquid, 15 to 20 minutes. Uncover, lower to medium-low, and cook until deeply caramelized, 1 to 1 1/2 hours."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 66,
+    "fields": {
+      "recipe": 18,
+      "order": 4,
+      "description": "For the jus, melt the butter and soften the celery, carrots, onion, and garlic with a pinch of salt, 2 to 3 minutes. Toast the peppercorns 30 seconds, then cook the tomato paste until it darkens."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 67,
+    "fields": {
+      "recipe": 18,
+      "order": 5,
+      "description": "Add the wine and reduce by half. Add the stock, thyme, and bay leaves and simmer 15 minutes. Strain, then season with salt, Worcestershire, and shirodashi or MSG if you like."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 68,
+    "fields": {
+      "recipe": 18,
+      "order": 6,
+      "description": "For the mayo, put the yolks, Dijon, salt, lemon zest and juice, water, oil, and garlic in a tall container. Blend with an immersion blender from the bottom, slowly lifting as it thickens. Fold in the horseradish, pepper, and herbs; chill."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 69,
+    "fields": {
+      "recipe": 18,
+      "order": 7,
+      "description": "Cut the baguettes into 6- to 8-inch pieces, split, toast in butter, and spread with mayo. Warm the beef briefly in simmering jus, pile it on, top with onions and provolone, and broil until melted. Serve with jus for dipping."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 70,
+    "fields": {
+      "recipe": 19,
+      "order": 1,
+      "description": "Rinse a paper filter in the Switch with hot water to preheat it, and discard the water."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 71,
+    "fields": {
+      "recipe": 19,
+      "order": 2,
+      "description": "Add the coffee, ground medium-fine (about like V60)."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 72,
+    "fields": {
+      "recipe": 19,
+      "order": 3,
+      "description": "Pour about 60 ml of 93 to 95°C water to wet all the grounds and let it bloom 30 to 45 seconds."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 73,
+    "fields": {
+      "recipe": 19,
+      "order": 4,
+      "description": "Pour in the rest of the water and stir gently. Let it steep until about the 2-minute mark."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 74,
+    "fields": {
+      "recipe": 19,
+      "order": 5,
+      "description": "Open the switch and let it drain; total time is about 3:30 to 4:15. Adjust grind and steep time to taste."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 75,
+    "fields": {
+      "recipe": 20,
+      "order": 1,
+      "description": "Heat the oven to 450°F (400°F convection) with a rack in the center."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 76,
+    "fields": {
+      "recipe": 20,
+      "order": 2,
+      "description": "Bring the water to a boil with the salt and baking soda. Add the potatoes and simmer until a knife slides in with little resistance, about 10 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 77,
+    "fields": {
+      "recipe": 20,
+      "order": 3,
+      "description": "Meanwhile, heat the fat with the rosemary, garlic, and pepper over medium, stirring, until the garlic just turns golden, about 3 minutes. Strain the fat into a large bowl and keep the solids."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 78,
+    "fields": {
+      "recipe": 20,
+      "order": 4,
+      "description": "Drain the potatoes, let them steam dry 30 seconds, then toss them hard in the fat with a little salt until coated in a starchy paste."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 79,
+    "fields": {
+      "recipe": 20,
+      "order": 5,
+      "description": "Spread on a rimmed baking sheet. Roast 20 minutes untouched, loosen and flip, then roast 30 to 40 minutes more, turning a few times, until deep brown."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 80,
+    "fields": {
+      "recipe": 20,
+      "order": 6,
+      "description": "Toss with the reserved garlic and rosemary and the parsley, season, and serve right away."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 81,
+    "fields": {
+      "recipe": 21,
+      "order": 1,
+      "description": "Blend the stock, tomato paste, anchovies, gelatin, soy sauce, and Worcestershire until smooth."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 82,
+    "fields": {
+      "recipe": 21,
+      "order": 2,
+      "description": "Heat the oven to 300°F with a rack low. Heat the oil in a Dutch oven over medium-high, season the beef, and brown it well on two sides, about 10 minutes. Set aside."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 83,
+    "fields": {
+      "recipe": 21,
+      "order": 3,
+      "description": "Brown the mushrooms, about 6 minutes, then the diced carrots and pearl onions. Season and set aside."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 84,
+    "fields": {
+      "recipe": 21,
+      "order": 4,
+      "description": "Brown the halved onion cut side down with the whole carrots, celery, and garlic, about 4 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 85,
+    "fields": {
+      "recipe": 21,
+      "order": 5,
+      "description": "Add the wine, scrape up the browned bits, and reduce by three quarters. Add the stock mixture, bring to a simmer, and take off the heat."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 86,
+    "fields": {
+      "recipe": 21,
+      "order": 6,
+      "description": "Cut the beef into 1 1/2- to 2-inch chunks, toss with flour, and add to the pot with the herbs. Return to a simmer, then cook in the oven partly covered until the beef starts to get tender, about 1 1/2 hours."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 87,
+    "fields": {
+      "recipe": 21,
+      "order": 7,
+      "description": "Remove the whole vegetables and herbs. Add the potatoes and the reserved mushrooms, carrots, and pearl onions, and cook 45 minutes to 1 hour more until everything is tender."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 88,
+    "fields": {
+      "recipe": 21,
+      "order": 8,
+      "description": "Simmer on the stove to thicken if needed, stir in the peas, and season."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 89,
+    "fields": {
+      "recipe": 22,
+      "order": 1,
+      "description": "For the tortillas, whisk the flour, baking powder, and salt. Add the warm water and oil and mix into a shaggy dough. Knead 2 to 3 minutes until smooth, cover, and rest 30 to 60 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 90,
+    "fields": {
+      "recipe": 22,
+      "order": 2,
+      "description": "Divide into 6 to 8 balls and roll each thin. Cook in a very hot cast-iron pan about 30 seconds until puffed and charred in spots, flip for 20 to 30 seconds, and keep wrapped and warm."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 91,
+    "fields": {
+      "recipe": 22,
+      "order": 3,
+      "description": "For the rice, rinse it 2 to 3 times, cook it with the water in a rice cooker, then stir in the butter, salt, cilantro, and lime juice."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 92,
+    "fields": {
+      "recipe": 22,
+      "order": 4,
+      "description": "For the chicken, heat the oven to 400°F. Toss the thighs with the salt, spices, and adobo liquid."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 93,
+    "fields": {
+      "recipe": 22,
+      "order": 5,
+      "description": "Sear in batches in very hot oil until charred, then bake on a sheet pan 10 to 15 minutes to 165°F. Chop and toss in the pan juices."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 94,
+    "fields": {
+      "recipe": 22,
+      "order": 6,
+      "description": "For the beans, soften the onion and jalapeños in the butter with salt and pepper, then add the beans and hot sauce and heat through. Crisp the bacon from a cold pan, chop it into the beans, and save the fat."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 95,
+    "fields": {
+      "recipe": 22,
+      "order": 7,
+      "description": "For the veggies, heat the bacon fat until very hot and char the pepper, onion, and jalapeños with salt, 3 to 5 minutes. Off the heat, stir in the garlic."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 96,
+    "fields": {
+      "recipe": 22,
+      "order": 8,
+      "description": "Whisk the aioli ingredients together with salt to taste."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 97,
+    "fields": {
+      "recipe": 22,
+      "order": 9,
+      "description": "Fill each tortilla with rice, beans, chicken, aioli, veggies, cilantro, and cheddar. Fold in the sides, roll tightly, and rest seam side down."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 98,
+    "fields": {
+      "recipe": 23,
+      "order": 1,
+      "description": "Heat the oven to 400°F and grease 16 regular muffin cups (or 12 for larger muffins)."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 99,
+    "fields": {
+      "recipe": 23,
+      "order": 2,
+      "description": "Whisk the oil, brown sugar, and eggs, then stir in the molasses, buttermilk, and vanilla."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 100,
+    "fields": {
+      "recipe": 23,
+      "order": 3,
+      "description": "Sprinkle the bran, flours, baking powder, baking soda, and salt over the top and stir just until combined. Stir in the raisins."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 101,
+    "fields": {
+      "recipe": 23,
+      "order": 4,
+      "description": "Fill the cups almost to the top and bake 12 to 15 minutes, until firm and a tester comes out clean. Cool in the pan 5 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 102,
+    "fields": {
+      "recipe": 23,
+      "order": 5,
+      "description": "Stir the melted butter and honey together and brush over the warm muffins."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 103,
+    "fields": {
+      "recipe": 24,
+      "order": 1,
+      "description": "The day before, salt the pork all over and refrigerate it on a rack over a baking sheet for 8 to 24 hours."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 104,
+    "fields": {
+      "recipe": 24,
+      "order": 2,
+      "description": "Slather the exposed sides with mustard (and hot sauce if you like) and coat with dry rub. Flip fat side up and repeat."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 105,
+    "fields": {
+      "recipe": 24,
+      "order": 3,
+      "description": "Bring the smoker to a steady 225°F with clean, thin smoke. Add the pork fat side up, with a pan of water in the smoker."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 106,
+    "fields": {
+      "recipe": 24,
+      "order": 4,
+      "description": "Smoke until a probe in the center (not touching bone) reads 195°F, usually 12 to 15 hours. Rest 20 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 107,
+    "fields": {
+      "recipe": 24,
+      "order": 5,
+      "description": "Shred the pork, discarding bones or twine, and mix in the chopped bark and fat."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 108,
+    "fields": {
+      "recipe": 24,
+      "order": 6,
+      "description": "Season with vinegar barbecue sauce and salt, and serve on potato buns with coleslaw."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 109,
+    "fields": {
+      "recipe": 25,
+      "order": 1,
+      "description": "For the harissa, toast the cumin, coriander, and caraway in a dry skillet about 3 minutes. Add the oil, garlic, onion, and salt and cook until the garlic browns."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 110,
+    "fields": {
+      "recipe": 25,
+      "order": 2,
+      "description": "Stir in the urfa biber and tomato paste for 1 minute, add the vinegar for 2 minutes, then purée. Makes about 2 cups and keeps 3 months refrigerated."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 111,
+    "fields": {
+      "recipe": 25,
+      "order": 3,
+      "description": "For the preserved lemons, cut the lemons into wedges and pack them into a pint jar in layers with the salt, pressing out the juice. Top with juice, refrigerate 4 days, flip the jar, and wait 4 more days. They're best after a month."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 112,
+    "fields": {
+      "recipe": 25,
+      "order": 4,
+      "description": "Broil the halved, seeded peppers cut side down until charred, about 10 minutes. Cover in a bowl for 15 minutes, peel, and chop."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 113,
+    "fields": {
+      "recipe": 25,
+      "order": 5,
+      "description": "Heat the oil in a 10-inch cast-iron skillet over medium. Add the garlic and salt and cook until the garlic starts to brown, about 1 minute."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 114,
+    "fields": {
+      "recipe": 25,
+      "order": 6,
+      "description": "Stir in the harissa, brown sugar, and preserved lemon for 30 seconds. Add the peppers, grate in the tomatoes (discard the skins), and simmer on medium-low 20 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 115,
+    "fields": {
+      "recipe": 25,
+      "order": 7,
+      "description": "Boil the eggs in their shells for 1 minute, then chill in ice water for 30 seconds."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 116,
+    "fields": {
+      "recipe": 25,
+      "order": 8,
+      "description": "Make 6 wells in the sauce and crack in the eggs. Cook on medium-low until the whites set but the yolks are runny, about 12 minutes. Garnish with parsley."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 117,
+    "fields": {
+      "recipe": 26,
+      "order": 1,
+      "description": "Mix the spices and rub them all over the pork."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 118,
+    "fields": {
+      "recipe": 26,
+      "order": 2,
+      "description": "Put the pork in the slow cooker and top with the onion, garlic, and orange juice."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 119,
+    "fields": {
+      "recipe": 26,
+      "order": 3,
+      "description": "Cover and cook on low for 8 hours. Shred and return the meat to the juices."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 120,
+    "fields": {
+      "recipe": 27,
+      "order": 1,
+      "description": "Warm the oil with the celery seed, cumin, and pepper flakes over medium-low until fragrant, about 2 minutes. Cool 10 minutes."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 121,
+    "fields": {
+      "recipe": 27,
+      "order": 2,
+      "description": "Shake the spiced oil in a jar with the vinegars, sugar, Dijon, salt, and pepper. Let stand 1 hour."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 122,
+    "fields": {
+      "recipe": 27,
+      "order": 3,
+      "description": "Finely shred the cabbage, grate the carrots, and thinly slice the onion into a salad spinner. Toss with the sugar and salt and let sit 10 to 15 minutes until the vegetables soften."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 123,
+    "fields": {
+      "recipe": 27,
+      "order": 4,
+      "description": "Toss the vegetables with the dressing and refrigerate at least 2 hours before serving."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 124,
+    "fields": {
+      "recipe": 28,
+      "order": 1,
+      "description": "Whisk the flour, baking powder, baking soda, and salt in a large bowl."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 125,
+    "fields": {
+      "recipe": 28,
+      "order": 2,
+      "description": "Make a well in the center, add the buttermilk, egg, honey, and vanilla, and stir until combined."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 126,
+    "fields": {
+      "recipe": 28,
+      "order": 3,
+      "description": "Heat a griddle over medium-high, coat it with butter, and ladle in the batter."
+    }
+  },
+  {
+    "model": "dishbook.step",
+    "pk": 127,
+    "fields": {
+      "recipe": 28,
+      "order": 4,
+      "description": "Flip when the bottoms are golden and the tops are bubbly, then cook the other side. Serve with maple syrup and fruit; freeze leftovers."
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 34,
+    "fields": {
+      "step": 19,
+      "amount": "1",
+      "unit": "lb",
+      "name": "dried Great Northern beans"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 35,
+    "fields": {
+      "step": 21,
+      "amount": "1",
+      "unit": "lb",
+      "name": "bacon, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 36,
+    "fields": {
+      "step": 21,
+      "amount": "1",
+      "unit": "",
+      "name": "onion, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 37,
+    "fields": {
+      "step": 21,
+      "amount": "2",
+      "unit": "",
+      "name": "jalapeños, seeded and chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 38,
+    "fields": {
+      "step": 21,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "tomato paste"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 39,
+    "fields": {
+      "step": 21,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "dark brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 40,
+    "fields": {
+      "step": 21,
+      "amount": "1/3",
+      "unit": "cup",
+      "name": "molasses"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 41,
+    "fields": {
+      "step": 22,
+      "amount": "2",
+      "unit": "cups",
+      "name": "chicken stock"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 42,
+    "fields": {
+      "step": 22,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "liquid smoke"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 43,
+    "fields": {
+      "step": 22,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "cayenne pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 44,
+    "fields": {
+      "step": 22,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 45,
+    "fields": {
+      "step": 22,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 46,
+    "fields": {
+      "step": 22,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "urfa biber (optional)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 47,
+    "fields": {
+      "step": 23,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "butter or olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 48,
+    "fields": {
+      "step": 23,
+      "amount": "1",
+      "unit": "small",
+      "name": "onion, diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 49,
+    "fields": {
+      "step": 23,
+      "amount": "2",
+      "unit": "",
+      "name": "carrots, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 50,
+    "fields": {
+      "step": 23,
+      "amount": "2",
+      "unit": "stalks",
+      "name": "celery, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 51,
+    "fields": {
+      "step": 23,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic, minced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 52,
+    "fields": {
+      "step": 24,
+      "amount": "1",
+      "unit": "lb",
+      "name": "chicken breast, cut into bite-sized pieces"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 53,
+    "fields": {
+      "step": 25,
+      "amount": "5",
+      "unit": "cups",
+      "name": "water"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 54,
+    "fields": {
+      "step": 25,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "Better Than Bouillon chicken base"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 55,
+    "fields": {
+      "step": 25,
+      "amount": "2",
+      "unit": "medium",
+      "name": "potatoes, peeled and diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 56,
+    "fields": {
+      "step": 25,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "dried thyme"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 57,
+    "fields": {
+      "step": 25,
+      "amount": "1",
+      "unit": "",
+      "name": "bay leaf"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 58,
+    "fields": {
+      "step": 26,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "milk or cream (optional)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 59,
+    "fields": {
+      "step": 27,
+      "amount": "",
+      "unit": "",
+      "name": "salt and black pepper, to taste"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 60,
+    "fields": {
+      "step": 27,
+      "amount": "",
+      "unit": "",
+      "name": "parsley or green onion, for garnish"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 61,
+    "fields": {
+      "step": 28,
+      "amount": "5",
+      "unit": "lb",
+      "name": "chicken thighs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 62,
+    "fields": {
+      "step": 28,
+      "amount": "",
+      "unit": "",
+      "name": "salt and black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 63,
+    "fields": {
+      "step": 29,
+      "amount": "3",
+      "unit": "",
+      "name": "onions, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 64,
+    "fields": {
+      "step": 29,
+      "amount": "",
+      "unit": "",
+      "name": "carrots, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 65,
+    "fields": {
+      "step": 29,
+      "amount": "",
+      "unit": "",
+      "name": "mushrooms, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 66,
+    "fields": {
+      "step": 29,
+      "amount": "",
+      "unit": "",
+      "name": "garlic, minced (plenty)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 67,
+    "fields": {
+      "step": 29,
+      "amount": "",
+      "unit": "",
+      "name": "fresh ginger, minced (plenty)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 68,
+    "fields": {
+      "step": 30,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "wine"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 69,
+    "fields": {
+      "step": 30,
+      "amount": "2",
+      "unit": "qt",
+      "name": "beef stock"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 70,
+    "fields": {
+      "step": 30,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "soy sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 71,
+    "fields": {
+      "step": 30,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "honey"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 72,
+    "fields": {
+      "step": 30,
+      "amount": "",
+      "unit": "pinch",
+      "name": "red pepper flakes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 73,
+    "fields": {
+      "step": 32,
+      "amount": "2",
+      "unit": "lb",
+      "name": "lo mein noodles"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 74,
+    "fields": {
+      "step": 32,
+      "amount": "",
+      "unit": "",
+      "name": "butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 75,
+    "fields": {
+      "step": 32,
+      "amount": "",
+      "unit": "",
+      "name": "green onions, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 76,
+    "fields": {
+      "step": 34,
+      "amount": "16",
+      "unit": "tbsp",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 77,
+    "fields": {
+      "step": 35,
+      "amount": "12",
+      "unit": "oz",
+      "name": "bread flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 78,
+    "fields": {
+      "step": 35,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 79,
+    "fields": {
+      "step": 35,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 80,
+    "fields": {
+      "step": 36,
+      "amount": "2",
+      "unit": "oz",
+      "name": "granulated sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 81,
+    "fields": {
+      "step": 36,
+      "amount": "8",
+      "unit": "oz",
+      "name": "light brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 82,
+    "fields": {
+      "step": 37,
+      "amount": "1",
+      "unit": "large",
+      "name": "egg"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 83,
+    "fields": {
+      "step": 37,
+      "amount": "1",
+      "unit": "large",
+      "name": "egg yolk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 84,
+    "fields": {
+      "step": 37,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "whole milk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 85,
+    "fields": {
+      "step": 37,
+      "amount": "1 1/2",
+      "unit": "tsp",
+      "name": "vanilla extract"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 86,
+    "fields": {
+      "step": 38,
+      "amount": "12",
+      "unit": "oz",
+      "name": "semisweet chocolate chips (or chopped ~68% dark chocolate)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 87,
+    "fields": {
+      "step": 41,
+      "amount": "8 1/2",
+      "unit": "oz",
+      "name": "cake flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 88,
+    "fields": {
+      "step": 41,
+      "amount": "8 1/2",
+      "unit": "oz",
+      "name": "bread flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 89,
+    "fields": {
+      "step": 41,
+      "amount": "1 1/4",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 90,
+    "fields": {
+      "step": 41,
+      "amount": "1 1/2",
+      "unit": "tsp",
+      "name": "baking powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 91,
+    "fields": {
+      "step": 41,
+      "amount": "1 1/2",
+      "unit": "tsp",
+      "name": "coarse sea salt, plus more for sprinkling"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 92,
+    "fields": {
+      "step": 42,
+      "amount": "1 1/4",
+      "unit": "cups",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 93,
+    "fields": {
+      "step": 42,
+      "amount": "10",
+      "unit": "oz",
+      "name": "light brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 94,
+    "fields": {
+      "step": 42,
+      "amount": "8",
+      "unit": "oz",
+      "name": "granulated sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 95,
+    "fields": {
+      "step": 42,
+      "amount": "2",
+      "unit": "large",
+      "name": "eggs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 96,
+    "fields": {
+      "step": 42,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "vanilla extract"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 97,
+    "fields": {
+      "step": 43,
+      "amount": "1 1/4",
+      "unit": "lb",
+      "name": "bittersweet chocolate disks, 60% cacao or higher"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 98,
+    "fields": {
+      "step": 46,
+      "amount": "2 1/4",
+      "unit": "cups",
+      "name": "all-purpose flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 99,
+    "fields": {
+      "step": 46,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 100,
+    "fields": {
+      "step": 46,
+      "amount": "1 1/2",
+      "unit": "tsp",
+      "name": "cornstarch"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 101,
+    "fields": {
+      "step": 46,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 102,
+    "fields": {
+      "step": 47,
+      "amount": "3/4",
+      "unit": "cup",
+      "name": "unsalted butter, melted and cooled 5 minutes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 103,
+    "fields": {
+      "step": 47,
+      "amount": "3/4",
+      "unit": "cup",
+      "name": "packed brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 104,
+    "fields": {
+      "step": 47,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "granulated sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 105,
+    "fields": {
+      "step": 47,
+      "amount": "1",
+      "unit": "large",
+      "name": "egg, room temperature"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 106,
+    "fields": {
+      "step": 47,
+      "amount": "1",
+      "unit": "",
+      "name": "egg yolk, room temperature"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 107,
+    "fields": {
+      "step": 47,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "vanilla extract"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 108,
+    "fields": {
+      "step": 48,
+      "amount": "1 1/4",
+      "unit": "cups",
+      "name": "semi-sweet chocolate chips or chunks"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 109,
+    "fields": {
+      "step": 53,
+      "amount": "8",
+      "unit": "oz",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 110,
+    "fields": {
+      "step": 53,
+      "amount": "1",
+      "unit": "",
+      "name": "ice cube"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 111,
+    "fields": {
+      "step": 54,
+      "amount": "10",
+      "unit": "oz",
+      "name": "all-purpose flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 112,
+    "fields": {
+      "step": 54,
+      "amount": "3/4",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 113,
+    "fields": {
+      "step": 54,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "Diamond Crystal kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 114,
+    "fields": {
+      "step": 55,
+      "amount": "5",
+      "unit": "oz",
+      "name": "granulated sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 115,
+    "fields": {
+      "step": 55,
+      "amount": "2",
+      "unit": "large",
+      "name": "eggs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 116,
+    "fields": {
+      "step": 55,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "vanilla extract"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 117,
+    "fields": {
+      "step": 56,
+      "amount": "5",
+      "unit": "oz",
+      "name": "dark brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 118,
+    "fields": {
+      "step": 56,
+      "amount": "8",
+      "unit": "oz",
+      "name": "semisweet chocolate, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 119,
+    "fields": {
+      "step": 58,
+      "amount": "",
+      "unit": "",
+      "name": "coarse sea salt, for garnish"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 120,
+    "fields": {
+      "step": 59,
+      "amount": "1 1/2",
+      "unit": "lb",
+      "name": "lean beef bottom round, 1-inch cubes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 121,
+    "fields": {
+      "step": 59,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 122,
+    "fields": {
+      "step": 59,
+      "amount": "",
+      "unit": "",
+      "name": "salt and black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 123,
+    "fields": {
+      "step": 60,
+      "amount": "1",
+      "unit": "medium",
+      "name": "yellow onion, diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 124,
+    "fields": {
+      "step": 60,
+      "amount": "3",
+      "unit": "large",
+      "name": "carrots, cut into thick coins"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 125,
+    "fields": {
+      "step": 60,
+      "amount": "2",
+      "unit": "stalks",
+      "name": "celery, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 126,
+    "fields": {
+      "step": 60,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic, minced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 127,
+    "fields": {
+      "step": 60,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "tomato paste"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 128,
+    "fields": {
+      "step": 61,
+      "amount": "4",
+      "unit": "cups",
+      "name": "beef bone broth"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 129,
+    "fields": {
+      "step": 61,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "dried thyme"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 130,
+    "fields": {
+      "step": 61,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "dried rosemary"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 131,
+    "fields": {
+      "step": 62,
+      "amount": "1",
+      "unit": "lb",
+      "name": "baby Yukon Gold potatoes, quartered"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 132,
+    "fields": {
+      "step": 63,
+      "amount": "3 1/2",
+      "unit": "lb",
+      "name": "boneless rib roast"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 133,
+    "fields": {
+      "step": 63,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "Dijon mustard"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 134,
+    "fields": {
+      "step": 63,
+      "amount": "",
+      "unit": "",
+      "name": "kosher salt and black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 135,
+    "fields": {
+      "step": 65,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 136,
+    "fields": {
+      "step": 65,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "extra-virgin olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 137,
+    "fields": {
+      "step": 65,
+      "amount": "7",
+      "unit": "large",
+      "name": "yellow onions, thinly sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 138,
+    "fields": {
+      "step": 66,
+      "amount": "3",
+      "unit": "tbsp",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 139,
+    "fields": {
+      "step": 66,
+      "amount": "2",
+      "unit": "ribs",
+      "name": "celery, diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 140,
+    "fields": {
+      "step": 66,
+      "amount": "2",
+      "unit": "large",
+      "name": "carrots, diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 141,
+    "fields": {
+      "step": 66,
+      "amount": "1",
+      "unit": "large",
+      "name": "yellow onion, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 142,
+    "fields": {
+      "step": 66,
+      "amount": "5",
+      "unit": "cloves",
+      "name": "garlic, smashed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 143,
+    "fields": {
+      "step": 66,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "black peppercorns"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 144,
+    "fields": {
+      "step": 66,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "tomato paste"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 145,
+    "fields": {
+      "step": 67,
+      "amount": "2",
+      "unit": "cups",
+      "name": "dry red wine"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 146,
+    "fields": {
+      "step": 67,
+      "amount": "2",
+      "unit": "qt",
+      "name": "beef stock"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 147,
+    "fields": {
+      "step": 67,
+      "amount": "1/2",
+      "unit": "bunch",
+      "name": "fresh thyme"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 148,
+    "fields": {
+      "step": 67,
+      "amount": "2",
+      "unit": "",
+      "name": "bay leaves"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 149,
+    "fields": {
+      "step": 67,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "Worcestershire sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 150,
+    "fields": {
+      "step": 67,
+      "amount": "",
+      "unit": "",
+      "name": "shirodashi and MSG (optional)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 151,
+    "fields": {
+      "step": 68,
+      "amount": "4",
+      "unit": "",
+      "name": "egg yolks"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 152,
+    "fields": {
+      "step": 68,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "Dijon mustard"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 153,
+    "fields": {
+      "step": 68,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "lemon zest"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 154,
+    "fields": {
+      "step": 68,
+      "amount": "1 1/2",
+      "unit": "tbsp",
+      "name": "lemon juice"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 155,
+    "fields": {
+      "step": 68,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "water"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 156,
+    "fields": {
+      "step": 68,
+      "amount": "1 1/2",
+      "unit": "cups",
+      "name": "neutral oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 157,
+    "fields": {
+      "step": 68,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic, grated"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 158,
+    "fields": {
+      "step": 68,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "fresh horseradish, grated"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 159,
+    "fields": {
+      "step": 68,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "chives, thinly sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 160,
+    "fields": {
+      "step": 68,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "parsley, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 161,
+    "fields": {
+      "step": 69,
+      "amount": "2",
+      "unit": "",
+      "name": "baguettes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 162,
+    "fields": {
+      "step": 69,
+      "amount": "",
+      "unit": "",
+      "name": "unsalted butter, for toasting"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 163,
+    "fields": {
+      "step": 69,
+      "amount": "1/2",
+      "unit": "lb",
+      "name": "sharp provolone, thinly sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 164,
+    "fields": {
+      "step": 70,
+      "amount": "1",
+      "unit": "",
+      "name": "V60-02 paper filter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 165,
+    "fields": {
+      "step": 71,
+      "amount": "15",
+      "unit": "g",
+      "name": "coffee"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 166,
+    "fields": {
+      "step": 72,
+      "amount": "300",
+      "unit": "ml",
+      "name": "water, 93 to 95°C"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 167,
+    "fields": {
+      "step": 76,
+      "amount": "2",
+      "unit": "qt",
+      "name": "water"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 168,
+    "fields": {
+      "step": 76,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 169,
+    "fields": {
+      "step": 76,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 170,
+    "fields": {
+      "step": 76,
+      "amount": "4",
+      "unit": "lb",
+      "name": "russet or Yukon Gold potatoes, peeled, in 2- to 3-inch chunks"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 171,
+    "fields": {
+      "step": 77,
+      "amount": "5",
+      "unit": "tbsp",
+      "name": "olive oil, duck fat, or beef fat"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 172,
+    "fields": {
+      "step": 77,
+      "amount": "",
+      "unit": "",
+      "name": "small handful fresh rosemary, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 173,
+    "fields": {
+      "step": 77,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic, minced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 174,
+    "fields": {
+      "step": 77,
+      "amount": "",
+      "unit": "",
+      "name": "black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 175,
+    "fields": {
+      "step": 80,
+      "amount": "",
+      "unit": "",
+      "name": "small handful fresh parsley, minced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 176,
+    "fields": {
+      "step": 81,
+      "amount": "4",
+      "unit": "cups",
+      "name": "low-sodium chicken stock"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 177,
+    "fields": {
+      "step": 81,
+      "amount": "3",
+      "unit": "tbsp",
+      "name": "tomato paste"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 178,
+    "fields": {
+      "step": 81,
+      "amount": "3",
+      "unit": "",
+      "name": "anchovy fillets (or 1 tbsp fish sauce)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 179,
+    "fields": {
+      "step": 81,
+      "amount": "4",
+      "unit": "packets",
+      "name": "unflavored gelatin"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 180,
+    "fields": {
+      "step": 81,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "soy sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 181,
+    "fields": {
+      "step": 81,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "Worcestershire sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 182,
+    "fields": {
+      "step": 82,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "vegetable oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 183,
+    "fields": {
+      "step": 82,
+      "amount": "3",
+      "unit": "lb",
+      "name": "boneless beef chuck roast, cut into 3 steaks"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 184,
+    "fields": {
+      "step": 82,
+      "amount": "",
+      "unit": "",
+      "name": "kosher salt and black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 185,
+    "fields": {
+      "step": 83,
+      "amount": "10",
+      "unit": "oz",
+      "name": "button mushrooms, quartered"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 186,
+    "fields": {
+      "step": 83,
+      "amount": "2",
+      "unit": "medium",
+      "name": "carrots, bite-sized"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 187,
+    "fields": {
+      "step": 83,
+      "amount": "8",
+      "unit": "oz",
+      "name": "pearl onions"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 188,
+    "fields": {
+      "step": 84,
+      "amount": "1",
+      "unit": "large",
+      "name": "yellow onion, unpeeled, halved"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 189,
+    "fields": {
+      "step": 84,
+      "amount": "2",
+      "unit": "medium",
+      "name": "carrots, whole"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 190,
+    "fields": {
+      "step": 84,
+      "amount": "2",
+      "unit": "small",
+      "name": "ribs celery"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 191,
+    "fields": {
+      "step": 84,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic, unpeeled"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 192,
+    "fields": {
+      "step": 85,
+      "amount": "1",
+      "unit": "cup",
+      "name": "sherry, dry vermouth, or red wine"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 193,
+    "fields": {
+      "step": 86,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "all-purpose flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 194,
+    "fields": {
+      "step": 86,
+      "amount": "2",
+      "unit": "",
+      "name": "bay leaves"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 195,
+    "fields": {
+      "step": 86,
+      "amount": "4",
+      "unit": "sprigs",
+      "name": "thyme"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 196,
+    "fields": {
+      "step": 87,
+      "amount": "1",
+      "unit": "lb",
+      "name": "Yukon Gold potatoes, peeled and cubed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 197,
+    "fields": {
+      "step": 88,
+      "amount": "4",
+      "unit": "oz",
+      "name": "frozen peas"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 198,
+    "fields": {
+      "step": 89,
+      "amount": "2",
+      "unit": "cups",
+      "name": "all-purpose flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 199,
+    "fields": {
+      "step": 89,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "baking powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 200,
+    "fields": {
+      "step": 89,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "fine sea salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 201,
+    "fields": {
+      "step": 89,
+      "amount": "3/4",
+      "unit": "cup",
+      "name": "warm water"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 202,
+    "fields": {
+      "step": 89,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "vegetable oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 203,
+    "fields": {
+      "step": 91,
+      "amount": "1",
+      "unit": "cup",
+      "name": "medium-grain rice"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 204,
+    "fields": {
+      "step": 91,
+      "amount": "1",
+      "unit": "cup",
+      "name": "water"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 205,
+    "fields": {
+      "step": 91,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 206,
+    "fields": {
+      "step": 91,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "cilantro, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 207,
+    "fields": {
+      "step": 91,
+      "amount": "1",
+      "unit": "",
+      "name": "lime, juiced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 208,
+    "fields": {
+      "step": 92,
+      "amount": "2",
+      "unit": "lb",
+      "name": "boneless skinless chicken thighs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 209,
+    "fields": {
+      "step": 92,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 210,
+    "fields": {
+      "step": 92,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "onion powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 211,
+    "fields": {
+      "step": 92,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "garlic powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 212,
+    "fields": {
+      "step": 92,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "ground cumin"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 213,
+    "fields": {
+      "step": 92,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "smoked paprika"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 214,
+    "fields": {
+      "step": 92,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 215,
+    "fields": {
+      "step": 92,
+      "amount": "",
+      "unit": "",
+      "name": "liquid from 1/2 can chipotles in adobo"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 216,
+    "fields": {
+      "step": 93,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "vegetable oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 217,
+    "fields": {
+      "step": 94,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "unsalted butter"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 218,
+    "fields": {
+      "step": 94,
+      "amount": "1",
+      "unit": "",
+      "name": "sweet onion, thinly sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 219,
+    "fields": {
+      "step": 94,
+      "amount": "2",
+      "unit": "",
+      "name": "jalapeños, thinly sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 220,
+    "fields": {
+      "step": 94,
+      "amount": "15",
+      "unit": "oz",
+      "name": "black beans, drained"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 221,
+    "fields": {
+      "step": 94,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "hot sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 222,
+    "fields": {
+      "step": 94,
+      "amount": "3",
+      "unit": "slices",
+      "name": "bacon"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 223,
+    "fields": {
+      "step": 95,
+      "amount": "1",
+      "unit": "",
+      "name": "red bell pepper, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 224,
+    "fields": {
+      "step": 95,
+      "amount": "1",
+      "unit": "",
+      "name": "sweet onion, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 225,
+    "fields": {
+      "step": 95,
+      "amount": "2",
+      "unit": "",
+      "name": "jalapeños, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 226,
+    "fields": {
+      "step": 95,
+      "amount": "2",
+      "unit": "cloves",
+      "name": "garlic, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 227,
+    "fields": {
+      "step": 96,
+      "amount": "1",
+      "unit": "cup",
+      "name": "mayonnaise"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 228,
+    "fields": {
+      "step": 96,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "smoked paprika"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 229,
+    "fields": {
+      "step": 96,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "hot sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 230,
+    "fields": {
+      "step": 96,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "lime juice"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 231,
+    "fields": {
+      "step": 96,
+      "amount": "3",
+      "unit": "cloves",
+      "name": "garlic, grated"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 232,
+    "fields": {
+      "step": 97,
+      "amount": "",
+      "unit": "",
+      "name": "cilantro leaves"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 233,
+    "fields": {
+      "step": 97,
+      "amount": "",
+      "unit": "",
+      "name": "cheddar cheese, grated"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 234,
+    "fields": {
+      "step": 99,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "mild-flavored oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 235,
+    "fields": {
+      "step": 99,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 236,
+    "fields": {
+      "step": 99,
+      "amount": "3",
+      "unit": "",
+      "name": "eggs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 237,
+    "fields": {
+      "step": 99,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "molasses"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 238,
+    "fields": {
+      "step": 99,
+      "amount": "1 1/2",
+      "unit": "cups",
+      "name": "buttermilk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 239,
+    "fields": {
+      "step": 99,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "vanilla extract"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 240,
+    "fields": {
+      "step": 100,
+      "amount": "2",
+      "unit": "cups",
+      "name": "wheat bran"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 241,
+    "fields": {
+      "step": 100,
+      "amount": "1",
+      "unit": "cup",
+      "name": "whole wheat flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 242,
+    "fields": {
+      "step": 100,
+      "amount": "2/3",
+      "unit": "cup",
+      "name": "all-purpose flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 243,
+    "fields": {
+      "step": 100,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "baking powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 244,
+    "fields": {
+      "step": 100,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 245,
+    "fields": {
+      "step": 100,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 246,
+    "fields": {
+      "step": 100,
+      "amount": "2/3",
+      "unit": "cup",
+      "name": "raisins"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 247,
+    "fields": {
+      "step": 102,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "honey"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 248,
+    "fields": {
+      "step": 102,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "butter, melted"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 249,
+    "fields": {
+      "step": 103,
+      "amount": "10",
+      "unit": "lb",
+      "name": "bone-in pork butt (or 6 lb boneless, tied)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 250,
+    "fields": {
+      "step": 103,
+      "amount": "",
+      "unit": "",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 251,
+    "fields": {
+      "step": 104,
+      "amount": "",
+      "unit": "",
+      "name": "yellow or brown mustard"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 252,
+    "fields": {
+      "step": 104,
+      "amount": "",
+      "unit": "",
+      "name": "hot sauce (optional)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 253,
+    "fields": {
+      "step": 104,
+      "amount": "",
+      "unit": "",
+      "name": "pulled pork dry rub"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 254,
+    "fields": {
+      "step": 108,
+      "amount": "",
+      "unit": "",
+      "name": "Eastern North Carolina vinegar barbecue sauce"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 255,
+    "fields": {
+      "step": 108,
+      "amount": "",
+      "unit": "",
+      "name": "potato buns"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 256,
+    "fields": {
+      "step": 108,
+      "amount": "",
+      "unit": "",
+      "name": "coleslaw"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 257,
+    "fields": {
+      "step": 109,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "cumin seed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 258,
+    "fields": {
+      "step": 109,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "coriander seed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 259,
+    "fields": {
+      "step": 109,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "caraway seeds"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 260,
+    "fields": {
+      "step": 109,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "extra-virgin olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 261,
+    "fields": {
+      "step": 109,
+      "amount": "8",
+      "unit": "large",
+      "name": "garlic cloves, sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 262,
+    "fields": {
+      "step": 109,
+      "amount": "1",
+      "unit": "medium",
+      "name": "onion, diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 263,
+    "fields": {
+      "step": 109,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 264,
+    "fields": {
+      "step": 110,
+      "amount": "1",
+      "unit": "cup",
+      "name": "urfa biber"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 265,
+    "fields": {
+      "step": 110,
+      "amount": "3",
+      "unit": "tbsp",
+      "name": "tomato paste"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 266,
+    "fields": {
+      "step": 110,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "red wine vinegar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 267,
+    "fields": {
+      "step": 111,
+      "amount": "4",
+      "unit": "",
+      "name": "lemons, plus juice of 1 more if needed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 268,
+    "fields": {
+      "step": 111,
+      "amount": "40",
+      "unit": "g",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 269,
+    "fields": {
+      "step": 112,
+      "amount": "2",
+      "unit": "",
+      "name": "red bell peppers"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 270,
+    "fields": {
+      "step": 113,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "extra-virgin olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 271,
+    "fields": {
+      "step": 113,
+      "amount": "3",
+      "unit": "large",
+      "name": "garlic cloves, thinly sliced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 272,
+    "fields": {
+      "step": 113,
+      "amount": "1 1/2",
+      "unit": "tsp",
+      "name": "kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 273,
+    "fields": {
+      "step": 114,
+      "amount": "3",
+      "unit": "tbsp",
+      "name": "urfa biber harissa (from above)"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 274,
+    "fields": {
+      "step": 114,
+      "amount": "1",
+      "unit": "tbsp",
+      "name": "dark brown sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 275,
+    "fields": {
+      "step": 114,
+      "amount": "2",
+      "unit": "tsp",
+      "name": "preserved lemon, mashed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 276,
+    "fields": {
+      "step": 114,
+      "amount": "2",
+      "unit": "lb",
+      "name": "beefsteak tomatoes, halved and seeded"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 277,
+    "fields": {
+      "step": 115,
+      "amount": "6",
+      "unit": "large",
+      "name": "eggs"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 278,
+    "fields": {
+      "step": 116,
+      "amount": "",
+      "unit": "",
+      "name": "flat-leaf parsley, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 279,
+    "fields": {
+      "step": 117,
+      "amount": "4 1/2",
+      "unit": "lb",
+      "name": "pork shoulder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 280,
+    "fields": {
+      "step": 117,
+      "amount": "2",
+      "unit": "tbsp",
+      "name": "paprika"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 281,
+    "fields": {
+      "step": 117,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "dried oregano"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 282,
+    "fields": {
+      "step": 117,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 283,
+    "fields": {
+      "step": 117,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 284,
+    "fields": {
+      "step": 117,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "ground cumin"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 285,
+    "fields": {
+      "step": 118,
+      "amount": "1",
+      "unit": "",
+      "name": "yellow onion, diced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 286,
+    "fields": {
+      "step": 118,
+      "amount": "4",
+      "unit": "cloves",
+      "name": "garlic, chopped"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 287,
+    "fields": {
+      "step": 118,
+      "amount": "1",
+      "unit": "",
+      "name": "orange, juiced"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 288,
+    "fields": {
+      "step": 120,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "light olive oil"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 289,
+    "fields": {
+      "step": 120,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "whole celery seed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 290,
+    "fields": {
+      "step": 120,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "whole cumin seed, lightly crushed"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 291,
+    "fields": {
+      "step": 120,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "red pepper flakes"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 292,
+    "fields": {
+      "step": 121,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "apple cider vinegar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 293,
+    "fields": {
+      "step": 121,
+      "amount": "1/4",
+      "unit": "cup",
+      "name": "rice wine vinegar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 294,
+    "fields": {
+      "step": 121,
+      "amount": "3",
+      "unit": "tbsp",
+      "name": "granulated sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 295,
+    "fields": {
+      "step": 121,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "Dijon mustard"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 296,
+    "fields": {
+      "step": 121,
+      "amount": "1",
+      "unit": "tsp",
+      "name": "Diamond Crystal kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 297,
+    "fields": {
+      "step": 121,
+      "amount": "1/4",
+      "unit": "tsp",
+      "name": "black pepper"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 298,
+    "fields": {
+      "step": 122,
+      "amount": "3",
+      "unit": "lb",
+      "name": "cabbage"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 299,
+    "fields": {
+      "step": 122,
+      "amount": "3",
+      "unit": "medium",
+      "name": "carrots"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 300,
+    "fields": {
+      "step": 122,
+      "amount": "1",
+      "unit": "",
+      "name": "yellow onion"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 301,
+    "fields": {
+      "step": 122,
+      "amount": "1/2",
+      "unit": "cup",
+      "name": "granulated sugar"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 302,
+    "fields": {
+      "step": 122,
+      "amount": "1/3",
+      "unit": "cup",
+      "name": "Diamond Crystal kosher salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 303,
+    "fields": {
+      "step": 124,
+      "amount": "7/8",
+      "unit": "cup",
+      "name": "whole-wheat pastry flour"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 304,
+    "fields": {
+      "step": 124,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "baking powder"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 305,
+    "fields": {
+      "step": 124,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "baking soda"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 306,
+    "fields": {
+      "step": 124,
+      "amount": "1/4",
+      "unit": "tsp",
+      "name": "salt"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 307,
+    "fields": {
+      "step": 125,
+      "amount": "1",
+      "unit": "cup",
+      "name": "buttermilk"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 308,
+    "fields": {
+      "step": 125,
+      "amount": "1",
+      "unit": "",
+      "name": "egg"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 309,
+    "fields": {
+      "step": 125,
+      "amount": "1/2",
+      "unit": "tbsp",
+      "name": "honey"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 310,
+    "fields": {
+      "step": 125,
+      "amount": "1/2",
+      "unit": "tsp",
+      "name": "vanilla extract"
+    }
+  },
+  {
+    "model": "dishbook.ingredient",
+    "pk": 311,
+    "fields": {
+      "step": 126,
+      "amount": "",
+      "unit": "",
+      "name": "butter, for cooking"
+    }
   }
 ]
