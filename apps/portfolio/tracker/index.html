@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/tracker/tracker.css?v=3" />
+    <link rel="stylesheet" href="/tracker/tracker.css?v=4" />
   </head>
   <body>
     <div id="boot-screen" class="boot-screen" aria-live="polite">
@@ -349,6 +349,7 @@
         <fieldset class="field fieldset-reset">
           <legend>Exercises</legend>
           <div id="routine-exercise-picker" class="exercise-picker"></div>
+          <button class="text-button picker-create-button" type="button" data-action="new-exercise" data-target="routine">+ New exercise</button>
         </fieldset>
         <p id="routine-form-error" class="form-message" role="alert"></p>
         <div class="modal-actions">
@@ -373,12 +374,63 @@
         <input id="exercise-search" type="search" placeholder="Search exercises" />
       </label>
       <div id="exercise-library" class="exercise-library"></div>
+      <button class="text-button picker-create-button" type="button" data-action="new-exercise" data-target="workout">+ New exercise</button>
+    </dialog>
+
+    <dialog id="exercise-create-dialog" class="modal">
+      <form id="exercise-create-form" method="dialog">
+        <div class="modal-header">
+          <div>
+            <p class="section-kicker">Exercise library</p>
+            <h2>New exercise</h2>
+          </div>
+          <button class="icon-button" type="button" data-close-dialog="exercise-create-dialog" aria-label="Close" title="Close">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </div>
+        <label class="field">
+          <span>Name</span>
+          <input id="exercise-create-name" name="name" maxlength="100" required placeholder="e.g. Chest Press" />
+        </label>
+        <div class="field-grid">
+          <label class="field">
+            <span>Equipment</span>
+            <select id="exercise-create-category" name="category">
+              <option value="barbell">Barbell</option>
+              <option value="dumbbell">Dumbbell</option>
+              <option value="machine" selected>Machine</option>
+              <option value="cable">Cable</option>
+              <option value="bodyweight">Bodyweight</option>
+              <option value="cardio">Cardio</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Muscle group</span>
+            <input id="exercise-create-muscle" name="muscleGroup" maxlength="40" placeholder="Optional, e.g. chest" />
+          </label>
+        </div>
+        <label class="field">
+          <span>Track as</span>
+          <select id="exercise-create-tracking" name="trackingType">
+            <option value="weight_reps">Weight &times; reps</option>
+            <option value="reps">Reps only</option>
+            <option value="duration">Time</option>
+            <option value="distance">Distance</option>
+          </select>
+        </label>
+        <p id="exercise-create-error" class="form-message" role="alert"></p>
+        <div class="modal-actions">
+          <button class="button button-secondary" type="button" data-close-dialog="exercise-create-dialog">Cancel</button>
+          <button class="button button-primary" type="submit">Save exercise</button>
+        </div>
+      </form>
     </dialog>
 
     <div id="rest-timer" class="rest-timer is-hidden" role="timer" aria-live="polite"></div>
     <div id="toast-region" class="toast-region" aria-live="polite"></div>
 
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <script src="/tracker/tracker.js?v=3"></script>
+    <script src="/tracker/tracker.js?v=4"></script>
   </body>
 </html>

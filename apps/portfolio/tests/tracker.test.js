@@ -22,6 +22,7 @@ const path = require("node:path");
 const { STARTER_EXERCISES } = require("../api/_lib/tracker-users");
 const authHandler = require("../api/tracker/auth");
 const habitsHandler = require("../api/tracker/habits");
+const exercisesHandler = require("../api/tracker/exercises");
 const {
   distanceToMeters,
   isDate,
@@ -237,6 +238,41 @@ test("data routes only query the signed-in user's rows", async (t) => {
   await habitsHandler({ method: "GET", query: {}, headers: {} }, anonymous);
   assert.equal(anonymous.statusCode, 401);
   assert.equal(database.queries.length, 1);
+});
+
+test("a custom exercise is added to the signed-in user's library", async (t) => {
+  useTestEnvironment(t);
+  const sessionCookie = await signInAs(t, { sub: "3003", email: "lifter@example.com", email_verified: true });
+  const headers = { cookie: sessionCookie };
+
+  database.queries = [];
+  database.results = [[], [{ id: "11111111-1111-4111-8111-111111111111", name: "Chest Press", category: "machine", muscle_group: "chest", tracking_type: "strength" }]];
+  const created = createResponse();
+  await exercisesHandler({ method: "POST", headers, body: { name: "Chest Press", category: "Machine", muscleGroup: "Chest", trackingType: "weight_reps" } }, created);
+  assert.equal(created.statusCode, 201);
+  assert.deepEqual(created.body.exercise, {
+    id: "11111111-1111-4111-8111-111111111111",
+    name: "Chest Press",
+    category: "machine",
+    muscleGroup: "chest",
+    trackingType: "weight_reps",
+  });
+  assert.deepEqual(database.queries[1], ["google:3003", "Chest Press", "machine", "chest", "strength"]);
+
+  database.results = [[{ id: "11111111-1111-4111-8111-111111111111", name: "Chest Press", category: "machine", muscle_group: "chest", tracking_type: "strength", is_archived: false }]];
+  const duplicate = createResponse();
+  await exercisesHandler({ method: "POST", headers, body: { name: "chest press", category: "machine" } }, duplicate);
+  assert.equal(duplicate.statusCode, 409);
+
+  for (const body of [{ name: "", category: "machine" }, { name: "Press", category: "machine", trackingType: "laps" }]) {
+    const invalid = createResponse();
+    await exercisesHandler({ method: "POST", headers, body }, invalid);
+    assert.equal(invalid.statusCode, 400);
+  }
+
+  const anonymous = createResponse();
+  await exercisesHandler({ method: "POST", headers: {}, body: { name: "Chest Press", category: "machine" } }, anonymous);
+  assert.equal(anonymous.statusCode, 401);
 });
 
 test("a sign-in without a provider account id is refused", async (t) => {

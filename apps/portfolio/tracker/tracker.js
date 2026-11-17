@@ -27,6 +27,8 @@
     routineDialog: document.getElementById("routine-dialog"),
     routineForm: document.getElementById("routine-form"),
     exerciseDialog: document.getElementById("exercise-dialog"),
+    exerciseCreateDialog: document.getElementById("exercise-create-dialog"),
+    exerciseCreateForm: document.getElementById("exercise-create-form"),
     restTimer: document.getElementById("rest-timer"),
   };
 
@@ -35,6 +37,7 @@
   let activeView = "today";
   let habitFilter = "active";
   let activeWorkout = null;
+  let exerciseCreateTarget = "workout";
   let workoutClock = null;
   let restClock = null;
   let restRemaining = 0;
@@ -498,6 +501,7 @@
     document.getElementById("reset-demo").addEventListener("click", resetDemo);
     elements.habitForm.addEventListener("submit", saveHabit);
     elements.routineForm.addEventListener("submit", saveRoutine);
+    elements.exerciseCreateForm.addEventListener("submit", saveNewExercise);
     document.getElementById("archive-habit").addEventListener("click", archiveCurrentHabit);
     document.getElementById("habit-tracking-type").addEventListener("change", syncHabitTargetField);
     document.getElementById("exercise-search").addEventListener("input", renderExerciseLibrary);
@@ -626,6 +630,9 @@
         break;
       case "add-exercise":
         openExerciseDialog();
+        break;
+      case "new-exercise":
+        openExerciseCreateDialog(data.target);
         break;
       case "choose-exercise":
         addExerciseToWorkout(data.id);
@@ -1117,13 +1124,28 @@
   function openRoutineDialog() {
     elements.routineForm.reset();
     document.getElementById("routine-form-error").textContent = "";
-    document.getElementById("routine-exercise-picker").innerHTML = state.exercises.map((exercise) => `
-      <label class="exercise-choice">
-        <input type="checkbox" name="exercise" value="${escapeHtml(exercise.id)}" />
-        <span class="exercise-choice-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exercise.category || "Other")} · ${escapeHtml(exercise.equipment || "No equipment")}</span></span>
-      </label>`).join("");
+    renderRoutinePicker();
     elements.routineDialog.showModal();
     document.getElementById("routine-name").focus();
+  }
+
+  function renderRoutinePicker(checkedIds = []) {
+    const checked = new Set(checkedIds);
+    document.getElementById("routine-exercise-picker").innerHTML = state.exercises.length
+      ? state.exercises.map((exercise) => `
+          <label class="exercise-choice">
+            <input type="checkbox" name="exercise" value="${escapeHtml(exercise.id)}"${checked.has(exercise.id) ? " checked" : ""} />
+            <span class="exercise-choice-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exerciseMeta(exercise))}</span></span>
+          </label>`).join("")
+      : `<div class="empty-state"><p>Your library is empty. Add an exercise below.</p></div>`;
+  }
+
+  function exerciseMeta(exercise) {
+    const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+    return [exercise.category || "Other", exercise.equipment || exercise.muscleGroup || ""]
+      .filter(Boolean)
+      .map((part) => capitalize(String(part)))
+      .join(" · ");
   }
 
   async function saveRoutine(event) {
@@ -1347,13 +1369,74 @@
       return;
     }
     const query = document.getElementById("exercise-search").value.trim().toLowerCase();
-    const exercises = state.exercises.filter((exercise) => !query || `${exercise.name} ${exercise.category} ${exercise.equipment}`.toLowerCase().includes(query));
+    const exercises = state.exercises.filter((exercise) => !query || `${exercise.name} ${exercise.category} ${exercise.equipment || ""} ${exercise.muscleGroup || ""}`.toLowerCase().includes(query));
+    const rawQuery = document.getElementById("exercise-search").value.trim();
     document.getElementById("exercise-library").innerHTML = exercises.length
       ? exercises.map((exercise) => `
           <button class="exercise-option" type="button" data-action="choose-exercise" data-id="${escapeHtml(exercise.id)}">
-            <span class="exercise-option-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exercise.category || "Other")} · ${escapeHtml(exercise.equipment || "No equipment")}</span></span>
+            <span class="exercise-option-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exerciseMeta(exercise))}</span></span>
           </button>`).join("")
-      : `<div class="empty-state"><p>No exercises match that search.</p></div>`;
+      : `<div class="empty-state"><p>No exercises match that search.</p>${rawQuery ? `<button class="text-button" type="button" data-action="new-exercise" data-target="workout">Create “${escapeHtml(rawQuery)}”</button>` : ""}</div>`;
+  }
+
+  // Opens the new-exercise form on top of whichever picker asked for it ("workout" or "routine").
+  function openExerciseCreateDialog(target) {
+    exerciseCreateTarget = target === "routine" ? "routine" : "workout";
+    elements.exerciseCreateForm.reset();
+    document.getElementById("exercise-create-error").textContent = "";
+    const search = exerciseCreateTarget === "workout" ? document.getElementById("exercise-search").value.trim() : "";
+    document.getElementById("exercise-create-name").value = search;
+    elements.exerciseCreateDialog.showModal();
+    document.getElementById("exercise-create-name").focus();
+  }
+
+  async function saveNewExercise(event) {
+    event.preventDefault();
+    const errorField = document.getElementById("exercise-create-error");
+    const payload = {
+      name: document.getElementById("exercise-create-name").value.trim().replace(/\s+/g, " "),
+      category: document.getElementById("exercise-create-category").value,
+      muscleGroup: document.getElementById("exercise-create-muscle").value.trim() || null,
+      trackingType: document.getElementById("exercise-create-tracking").value,
+    };
+    if (!payload.name) {
+      errorField.textContent = "Give the exercise a name.";
+      return;
+    }
+    const duplicate = state.exercises.find((exercise) => exercise.name.toLowerCase() === payload.name.toLowerCase());
+    if (duplicate) {
+      errorField.textContent = `${duplicate.name} is already in your library.`;
+      return;
+    }
+
+    const submit = elements.exerciseCreateForm.querySelector("button[type='submit']");
+    submit.disabled = true;
+    try {
+      let exercise;
+      if (mode === "guest") {
+        exercise = { id: makeId("exercise"), ...payload, defaultRestSeconds: 90 };
+      } else {
+        const data = await apiFetch("/api/tracker/exercises", { method: "POST", body: JSON.stringify(payload) });
+        exercise = data.exercise;
+      }
+      state.exercises.push(exercise);
+      state.exercises.sort((a, b) => `${a.category} ${a.name}`.localeCompare(`${b.category} ${b.name}`));
+      persistGuestState();
+      elements.exerciseCreateDialog.close();
+
+      if (exerciseCreateTarget === "routine") {
+        const checkedIds = [...elements.routineForm.querySelectorAll("input[name='exercise']:checked")].map((input) => input.value);
+        renderRoutinePicker([...checkedIds, exercise.id]);
+        document.getElementById("routine-form-error").textContent = "";
+      } else {
+        addExerciseToWorkout(exercise.id);
+      }
+      toast(`${exercise.name} added to your library.`);
+    } catch (error) {
+      errorField.textContent = error.message;
+    } finally {
+      submit.disabled = false;
+    }
   }
 
   function addExerciseToWorkout(exerciseId) {

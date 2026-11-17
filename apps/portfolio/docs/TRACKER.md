@@ -52,6 +52,8 @@ All payloads and responses use camelCase. Error responses have the shape `{ "err
 | `DELETE` | `/api/tracker/habits?id=<uuid>` | Archive a habit without deleting history |
 | `PUT` | `/api/tracker/habit-entries` | Create or replace one habit/date entry |
 | `DELETE` | `/api/tracker/habit-entries?habitId=<uuid>&entryDate=YYYY-MM-DD` | Delete one entry |
+| `GET` | `/api/tracker/exercises` | List the active exercise library |
+| `POST` | `/api/tracker/exercises` | Add a custom exercise (`name`, `category`, optional `muscleGroup`, `trackingType` of `weight_reps`/`reps`/`duration`/`distance`); a name already in the library returns `409`, and an archived one is restored |
 | `GET` | `/api/tracker/routines` | List routine templates |
 | `POST` | `/api/tracker/routines` | Create a routine template and its exercises |
 | `GET` | `/api/tracker/workouts` | Workout history; use `?id=<uuid>` for nested details and `?limit=20` for summaries |
