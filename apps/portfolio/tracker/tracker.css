@@ -1292,10 +1292,29 @@ textarea::placeholder {
 
 .schedule-mode {
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .schedule-mode button {
   flex: 1;
+  white-space: nowrap;
+}
+
+.interval-fields {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.interval-fields input {
+  width: 72px;
+}
+
+.schedule-hint {
+  margin-top: 8px;
 }
 
 .weekday-picker {

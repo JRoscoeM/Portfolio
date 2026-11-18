@@ -3,6 +3,13 @@
 
   const DEMO_STORAGE_KEY = "daily-log-guest-v1";
   const COLOR_OPTIONS = ["#b7ed55", "#ff806d", "#f3c969", "#78bde8", "#ca8ff0"];
+  // Anchors "every N days" windows for habits that have no start date (older guest data).
+  const INTERVAL_ANCHOR_DATE = "2026-01-05";
+  const SCHEDULE_HINTS = {
+    weekly: "Weeks run Monday to Sunday. It stays on Today until you've done it that week.",
+    interval: "It stays on Today until you hit the goal for the current stretch of days.",
+  };
+
   const WEEKDAYS = [
     { value: 0, short: "S", label: "Sunday" },
     { value: 1, short: "M", label: "Monday" },
@@ -43,6 +50,7 @@
   let restRemaining = 0;
   let selectedScheduleMode = "daily";
   let selectedHabitDays = new Set([0, 1, 2, 3, 4, 5, 6]);
+  let selectedWeeklyTarget = 1;
   let selectedHabitColor = COLOR_OPTIONS[0];
 
   function refreshIcons() {
@@ -682,9 +690,56 @@
     return entry.status === "completed" || entry.status === "complete" || Number(entry.value) >= Number(habit.targetValue || 1);
   }
 
+  // Flexible habits ("once a week", "3 times every 10 days") have a goal per window of days instead of fixed days.
+  function habitGoal(habit) {
+    if (habit.frequencyType === "weekly") {
+      return { count: Number(habit.targetDaysPerWeek || 1), days: 7, unit: "week" };
+    }
+    if (habit.frequencyType === "interval") {
+      return { count: Number(habit.intervalCount || 1), days: Number(habit.intervalDays || 1), unit: "cycle" };
+    }
+    return null;
+  }
+
+  function dayNumber(date) {
+    return Math.round(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000);
+  }
+
+  // First day of the goal window holding `date`: the Monday for weekly goals, otherwise
+  // back-to-back windows of `goal.days` days counted from the habit's start date.
+  function habitWindowStart(habit, goal, date) {
+    if (habit.frequencyType === "weekly") {
+      return shiftDate(date, -((date.getDay() + 6) % 7));
+    }
+    const offset = dayNumber(date) - dayNumber(dateFromKey(habit.startDate || INTERVAL_ANCHOR_DATE));
+    return shiftDate(date, -(((offset % goal.days) + goal.days) % goal.days));
+  }
+
+  function completionsBetween(habit, start, endExclusive) {
+    let count = 0;
+    for (let cursor = new Date(start); dayNumber(cursor) < dayNumber(endExclusive); cursor = shiftDate(cursor, 1)) {
+      if (isHabitComplete(habit, habitEntry(habit, localDateKey(cursor)))) {
+        count += 1;
+      }
+    }
+    return count;
+  }
+
+  function isGoalWindowMet(habit, goal, start) {
+    return completionsBetween(habit, start, shiftDate(start, goal.days)) >= goal.count;
+  }
+
   function isHabitDue(habit, date = new Date()) {
     if (habit.archivedAt) {
       return false;
+    }
+    const goal = habitGoal(habit);
+    if (goal) {
+      // Due until the window's goal is met; a day it was done on still counts as due so it shows as complete.
+      if (isHabitComplete(habit, habitEntry(habit, localDateKey(date)))) {
+        return true;
+      }
+      return completionsBetween(habit, habitWindowStart(habit, goal, date), date) < goal.count;
     }
     if (habit.frequencyType === "specific_days" || habit.frequencyType === "weekdays") {
       return (habit.daysOfWeek || []).map(Number).includes(date.getDay());
@@ -693,6 +748,14 @@
   }
 
   function habitScheduleLabel(habit) {
+    const goal = habitGoal(habit);
+    if (goal && habit.frequencyType === "weekly") {
+      return goal.count === 1 ? "Once a week" : `${goal.count} times a week`;
+    }
+    if (goal) {
+      const times = goal.count === 1 ? "Once" : `${goal.count} times`;
+      return goal.days === 1 ? `${times} a day` : `${times} every ${goal.days} days`;
+    }
     if (habit.frequencyType === "specific_days" || habit.frequencyType === "weekdays") {
       const days = (habit.daysOfWeek || []).map((day) => WEEKDAYS.find((item) => item.value === Number(day))?.label.slice(0, 3)).filter(Boolean);
       return days.length ? days.join(", ") : "No days selected";
@@ -700,7 +763,37 @@
     return "Every day";
   }
 
+  function streakLabel(habit) {
+    return `${calculateStreak(habit)} ${habitGoal(habit)?.unit || "day"} streak`;
+  }
+
+  // Short status line for a habit on Today: goal progress for flexible habits, otherwise the streak.
+  function habitStatusLabel(habit) {
+    const goal = habitGoal(habit);
+    if (!goal) {
+      return streakLabel(habit);
+    }
+    const start = habitWindowStart(habit, goal, new Date());
+    const done = completionsBetween(habit, start, shiftDate(start, goal.days));
+    return `${Math.min(done, goal.count)}/${goal.count} this ${goal.unit} · ${streakLabel(habit)}`;
+  }
+
   function calculateStreak(habit) {
+    const goal = habitGoal(habit);
+    if (goal) {
+      // Counts back whole windows; the current window only adds once it is met and never breaks the streak.
+      let streak = 0;
+      let start = habitWindowStart(habit, goal, new Date());
+      for (let scanned = 0; scanned < 104; scanned += 1) {
+        if (isGoalWindowMet(habit, goal, start)) {
+          streak += 1;
+        } else if (scanned > 0) {
+          break;
+        }
+        start = shiftDate(start, -goal.days);
+      }
+      return streak;
+    }
     let streak = 0;
     let cursor = new Date();
     for (let scanned = 0; scanned < 365; scanned += 1) {
@@ -719,7 +812,29 @@
     return streak;
   }
 
+  function completionRateLabel(habit) {
+    const goal = habitGoal(habit);
+    return goal ? `4-${goal.unit} rate` : "7-day rate";
+  }
+
   function completionRate(habit, days = 7) {
+    const goal = habitGoal(habit);
+    if (goal) {
+      // Share of the last four windows that met the goal; the current window counts only once it is met.
+      let start = habitWindowStart(habit, goal, new Date());
+      let counted = 0;
+      let met = 0;
+      if (isGoalWindowMet(habit, goal, start)) {
+        counted = 1;
+        met = 1;
+      }
+      while (counted < 4) {
+        start = shiftDate(start, -goal.days);
+        counted += 1;
+        met += isGoalWindowMet(habit, goal, start) ? 1 : 0;
+      }
+      return Math.round((met / counted) * 100);
+    }
     let due = 0;
     let complete = 0;
     for (let offset = 0; offset < days; offset += 1) {
@@ -784,7 +899,7 @@
       const target = Number(habit.targetValue || 1);
       const unit = habit.trackingType === "duration" ? (habit.unit || "min") : (habit.unit || "");
       const progress = habit.trackingType === "boolean"
-        ? `<span class="habit-meta">${calculateStreak(habit)} day streak</span>`
+        ? `<span class="habit-meta">${escapeHtml(habitStatusLabel(habit))}</span>`
         : `<div class="habit-progress">
             <button class="stepper-button" type="button" data-action="habit-decrement" data-id="${escapeHtml(habit.id)}" aria-label="Decrease ${escapeHtml(habit.name)}"><i data-lucide="minus" aria-hidden="true"></i></button>
             <span class="progress-value">${formatNumber(value, 1)} / ${formatNumber(target, 1)} ${escapeHtml(unit)}</span>
@@ -797,7 +912,7 @@
           </button>
           <div class="habit-main">
             <p class="habit-name">${escapeHtml(habit.name)}</p>
-            ${habit.trackingType === "boolean" ? progress : `<span class="habit-meta">${escapeHtml(habit.description || `${calculateStreak(habit)} day streak`)}</span>`}
+            ${habit.trackingType === "boolean" ? progress : `<span class="habit-meta">${escapeHtml(habitGoal(habit) ? habitStatusLabel(habit) : habit.description || streakLabel(habit))}</span>`}
           </div>
           ${habit.trackingType === "boolean" ? "" : progress}
         </article>`;
@@ -879,8 +994,8 @@
             </button>
           </div>
           <div class="habit-card-stats">
-            <div><strong>${calculateStreak(habit)}</strong><span>current streak</span></div>
-            <div><strong>${completionRate(habit)}%</strong><span>7-day rate</span></div>
+            <div><strong>${calculateStreak(habit)}</strong><span>${habitGoal(habit) ? `${habitGoal(habit).unit} streak` : "current streak"}</span></div>
+            <div><strong>${completionRate(habit)}%</strong><span>${completionRateLabel(habit)}</span></div>
             <div class="mini-week" aria-label="Last seven days">${weekCells.join("")}</div>
           </div>
         </article>`;
@@ -920,6 +1035,10 @@
       button.classList.toggle("is-active", button.dataset.scheduleMode === scheduleMode);
     });
     document.getElementById("weekday-picker").classList.toggle("is-hidden", scheduleMode !== "specific_days");
+    document.getElementById("interval-fields").classList.toggle("is-hidden", scheduleMode !== "interval");
+    const hint = document.getElementById("schedule-hint");
+    hint.textContent = SCHEDULE_HINTS[scheduleMode] || "";
+    hint.classList.toggle("is-hidden", !hint.textContent);
   }
 
   function syncHabitTargetField() {
@@ -944,7 +1063,11 @@
     document.getElementById("habit-target").value = habit?.targetValue || 1;
     document.getElementById("habit-unit").value = habit?.unit || "";
     selectedHabitColor = habit?.color || COLOR_OPTIONS[0];
-    selectedScheduleMode = habit?.frequencyType === "specific_days" || habit?.frequencyType === "weekdays" ? "specific_days" : "daily";
+    selectedScheduleMode = habit?.frequencyType === "weekdays" ? "specific_days"
+      : ["specific_days", "weekly", "interval"].includes(habit?.frequencyType) ? habit.frequencyType : "daily";
+    selectedWeeklyTarget = Number(habit?.targetDaysPerWeek || 1);
+    document.getElementById("habit-interval-count").value = habit?.intervalCount || 3;
+    document.getElementById("habit-interval-days").value = habit?.intervalDays || 7;
     selectedHabitDays = new Set((habit?.daysOfWeek || [0, 1, 2, 3, 4, 5, 6]).map(Number));
     document.getElementById("archive-habit").classList.toggle("is-hidden", !habit || Boolean(habit.archivedAt));
     syncHabitTargetField();
@@ -953,6 +1076,22 @@
     renderColorPicker();
     elements.habitDialog.showModal();
     document.getElementById("habit-name").focus();
+  }
+
+  function habitScheduleError(payload) {
+    if (payload.frequencyType === "specific_days" && payload.daysOfWeek.length === 0) {
+      return "Choose at least one day.";
+    }
+    if (payload.frequencyType === "interval") {
+      const { intervalCount: count, intervalDays: days } = payload;
+      if (!Number.isInteger(count) || !Number.isInteger(days) || count < 1 || days < 1 || days > 90) {
+        return "Use whole numbers, with at most 90 days.";
+      }
+      if (count > days) {
+        return "Times can't be more than the number of days.";
+      }
+    }
+    return "";
   }
 
   async function saveHabit(event) {
@@ -966,11 +1105,15 @@
       targetValue: trackingType === "boolean" ? 1 : Number(document.getElementById("habit-target").value),
       unit: trackingType === "boolean" ? "check-in" : document.getElementById("habit-unit").value.trim(),
       frequencyType: selectedScheduleMode,
-      daysOfWeek: selectedScheduleMode === "daily" ? [0, 1, 2, 3, 4, 5, 6] : [...selectedHabitDays].sort(),
+      daysOfWeek: selectedScheduleMode === "specific_days" ? [...selectedHabitDays].sort() : [0, 1, 2, 3, 4, 5, 6],
+      targetDaysPerWeek: selectedScheduleMode === "weekly" ? selectedWeeklyTarget : null,
+      intervalCount: selectedScheduleMode === "interval" ? Number(document.getElementById("habit-interval-count").value) : null,
+      intervalDays: selectedScheduleMode === "interval" ? Number(document.getElementById("habit-interval-days").value) : null,
       color: selectedHabitColor,
     };
-    if (!payload.name || (selectedScheduleMode === "specific_days" && payload.daysOfWeek.length === 0)) {
-      document.getElementById("habit-form-error").textContent = payload.name ? "Choose at least one day." : "Give this habit a name.";
+    const scheduleError = habitScheduleError(payload);
+    if (!payload.name || scheduleError) {
+      document.getElementById("habit-form-error").textContent = payload.name ? scheduleError : "Give this habit a name.";
       return;
     }
 
@@ -982,7 +1125,7 @@
           const habit = state.habits.find((item) => item.id === id);
           Object.assign(habit, payload);
         } else {
-          state.habits.push({ id: makeId("habit"), ...payload, archivedAt: null, entries: [] });
+          state.habits.push({ id: makeId("habit"), ...payload, startDate: localDateKey(), archivedAt: null, entries: [] });
         }
         persistGuestState();
       } else {
@@ -1659,7 +1802,7 @@
   function renderHistory() {
     const workouts = [...state.workouts].sort((a, b) => new Date(b.startedAt || b.completedAt) - new Date(a.startedAt || a.completedAt));
     const totalVolume = workouts.reduce((sum, workout) => sum + calculateWorkoutVolume(workout), 0);
-    const bestStreak = state.habits.reduce((best, habit) => Math.max(best, calculateStreak(habit)), 0);
+    const bestStreak = state.habits.filter((habit) => !habitGoal(habit)).reduce((best, habit) => Math.max(best, calculateStreak(habit)), 0);
     document.getElementById("history-highlights").innerHTML = [
       summaryMetric("dumbbell", String(workouts.length), "Recent workouts", "coral"),
       summaryMetric("weight", `${formatNumber(totalVolume)} lb`, "Recent volume", "gold"),

@@ -16,7 +16,7 @@ This is the server side of the habit and workout tracker (Daily Log). Anyone can
 
 ## Neon setup
 
-1. Run [`db/migrations/001_tracker.sql`](../db/migrations/001_tracker.sql) in the Neon SQL editor. It is idempotent and separate from the Snake schema in `db/snake-schema.sql`.
+1. Run [`db/migrations/001_tracker.sql`](../db/migrations/001_tracker.sql), then [`002_habit_intervals.sql`](../db/migrations/002_habit_intervals.sql), in the Neon SQL editor. Both are idempotent and separate from the Snake schema in `db/snake-schema.sql`.
 2. Add the values from [`.env.example`](../.env.example) to local development and to the Vercel project settings.
 3. Generate a session secret with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
 4. Create an OAuth client for at least one provider (below).
@@ -64,6 +64,15 @@ All payloads and responses use camelCase. Error responses have the shape `{ "err
 ### Habit example
 
 The frontend names scheduled weekdays `specific_days`; the database represents the same value as `weekdays`.
+
+`frequencyType` is one of:
+
+- `daily`: due every day.
+- `specific_days`: due on `daysOfWeek` (0 = Sunday).
+- `weekly`: done `targetDaysPerWeek` times per Monday-to-Sunday week ("Once a week" in the form sends `1`).
+- `interval`: done `intervalCount` times in each window of `intervalDays` days (1–90), counted from the habit's start date.
+
+`weekly` and `interval` habits stay on Today until the current window's goal is met, and their streaks count windows rather than days.
 
 ```json
 {

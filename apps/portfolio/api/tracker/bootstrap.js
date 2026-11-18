@@ -137,7 +137,8 @@ module.exports = async function handler(req, res) {
     const [habitRows, entryRows, exerciseRows, routineRows, workoutRows] = await Promise.all([
       services.sql`
         SELECT id, name, description, color, icon, tracking_type, unit, target_value,
-               schedule_type, days_of_week, target_days_per_week, start_date, archived_at
+               schedule_type, days_of_week, target_days_per_week, interval_count, interval_days,
+               start_date, archived_at
         FROM tracker_habits
         WHERE user_id = ${userId}
         ORDER BY archived_at NULLS FIRST, created_at, name

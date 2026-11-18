@@ -275,6 +275,45 @@ test("a custom exercise is added to the signed-in user's library", async (t) => 
   assert.equal(anonymous.statusCode, 401);
 });
 
+test("habits accept once-a-week and x-times-every-y-days schedules", async (t) => {
+  useTestEnvironment(t);
+  const sessionCookie = await signInAs(t, { sub: "4004", email: "habits@example.com", email_verified: true });
+  const headers = { cookie: sessionCookie };
+  const row = (overrides) => ({
+    id: "22222222-2222-4222-8222-222222222222", name: "Habit", description: null, color: null, icon: null,
+    tracking_type: "boolean", unit: null, target_value: 1, schedule_type: "daily", days_of_week: [],
+    target_days_per_week: null, interval_count: null, interval_days: null, start_date: "2026-11-01", archived_at: null,
+    ...overrides,
+  });
+
+  database.queries = [];
+  database.results = [[row({ schedule_type: "weekly", target_days_per_week: 1 })]];
+  const weekly = createResponse();
+  await habitsHandler({ method: "POST", headers, body: { name: "Long run", frequencyType: "weekly", targetDaysPerWeek: 1 } }, weekly);
+  assert.equal(weekly.statusCode, 201);
+  assert.equal(weekly.body.habit.frequencyType, "weekly");
+  assert.equal(weekly.body.habit.targetDaysPerWeek, 1);
+
+  database.queries = [];
+  database.results = [[row({ schedule_type: "interval", interval_count: 3, interval_days: 10 })]];
+  const interval = createResponse();
+  await habitsHandler({ method: "POST", headers, body: { name: "Yoga", frequencyType: "interval", intervalCount: 3, intervalDays: 10 } }, interval);
+  assert.equal(interval.statusCode, 201);
+  assert.equal(interval.body.habit.intervalCount, 3);
+  assert.equal(interval.body.habit.intervalDays, 10);
+  assert.ok(database.queries[0].includes("interval") && database.queries[0].includes(3) && database.queries[0].includes(10));
+
+  for (const body of [
+    { name: "Yoga", frequencyType: "interval", intervalCount: 4, intervalDays: 3 },
+    { name: "Yoga", frequencyType: "interval", intervalCount: 2 },
+    { name: "Yoga", frequencyType: "interval", intervalCount: 1, intervalDays: 0 },
+  ]) {
+    const invalid = createResponse();
+    await habitsHandler({ method: "POST", headers, body }, invalid);
+    assert.equal(invalid.statusCode, 400, JSON.stringify(body));
+  }
+});
+
 test("a sign-in without a provider account id is refused", async (t) => {
   t.mock.method(console, "error", () => {});
   useTestEnvironment(t);

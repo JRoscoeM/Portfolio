@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/tracker/tracker.css?v=4" />
+    <link rel="stylesheet" href="/tracker/tracker.css?v=5" />
   </head>
   <body>
     <div id="boot-screen" class="boot-screen" aria-live="polite">
@@ -295,8 +295,17 @@
           <div class="segmented-control schedule-mode">
             <button class="is-active" type="button" data-schedule-mode="daily">Every day</button>
             <button type="button" data-schedule-mode="specific_days">Specific days</button>
+            <button type="button" data-schedule-mode="weekly">Once a week</button>
+            <button type="button" data-schedule-mode="interval">Custom</button>
           </div>
           <div id="weekday-picker" class="weekday-picker is-hidden" aria-label="Habit days"></div>
+          <div id="interval-fields" class="interval-fields is-hidden">
+            <input id="habit-interval-count" type="number" min="1" max="90" step="1" value="3" aria-label="Times" />
+            <span>times every</span>
+            <input id="habit-interval-days" type="number" min="1" max="90" step="1" value="7" aria-label="Days" />
+            <span>days</span>
+          </div>
+          <p id="schedule-hint" class="muted-copy schedule-hint is-hidden"></p>
         </fieldset>
         <fieldset class="field fieldset-reset">
           <legend>Color</legend>
@@ -431,6 +440,6 @@
     <div id="toast-region" class="toast-region" aria-live="polite"></div>
 
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <script src="/tracker/tracker.js?v=4"></script>
+    <script src="/tracker/tracker.js?v=5"></script>
   </body>
 </html>

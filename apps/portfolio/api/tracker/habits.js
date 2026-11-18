@@ -13,7 +13,7 @@ const {
 } = require("../_lib/tracker-api");
 
 const TRACKING_TYPES = new Set(["boolean", "count", "duration"]);
-const SCHEDULE_TYPES = new Set(["daily", "weekdays", "weekly"]);
+const SCHEDULE_TYPES = new Set(["daily", "weekdays", "weekly", "interval"]);
 
 function parseHabit(body, current = null) {
   const schedule = body.schedule && typeof body.schedule === "object" ? body.schedule : {};
@@ -35,6 +35,12 @@ function parseHabit(body, current = null) {
   const targetDaysPerWeek = targetDaysInput === null || targetDaysInput === undefined || targetDaysInput === ""
     ? null
     : finiteNumber(targetDaysInput, { minimum: 1, maximum: 7, integer: true });
+  const rawIntervalCount = schedule.intervalCount ?? body.intervalCount;
+  const rawIntervalDays = schedule.intervalDays ?? body.intervalDays;
+  const intervalCountInput = rawIntervalCount === undefined && current ? current.interval_count : rawIntervalCount;
+  const intervalDaysInput = rawIntervalDays === undefined && current ? current.interval_days : rawIntervalDays;
+  const intervalCount = finiteNumber(intervalCountInput, { minimum: 1, maximum: 90, integer: true });
+  const intervalDays = finiteNumber(intervalDaysInput, { minimum: 1, maximum: 90, integer: true });
   const startDate = body.startDate === undefined && current
     ? dateOnly(current.start_date)
     : body.startDate || null;
@@ -44,7 +50,8 @@ function parseHabit(body, current = null) {
     !TRACKING_TYPES.has(trackingType) || targetValue === undefined ||
     !SCHEDULE_TYPES.has(scheduleType) || !Array.isArray(daysOfWeek) ||
     !daysOfWeek.every((day) => Number.isInteger(day) && day >= 0 && day <= 6) ||
-    targetDaysPerWeek === undefined || (startDate !== null && !isDate(startDate))
+    targetDaysPerWeek === undefined || intervalCount === undefined || intervalDays === undefined ||
+    (startDate !== null && !isDate(startDate))
   ) {
     return null;
   }
@@ -54,6 +61,9 @@ function parseHabit(body, current = null) {
     return null;
   }
   if (scheduleType === "weekly" && targetDaysPerWeek === null) {
+    return null;
+  }
+  if (scheduleType === "interval" && (intervalCount === null || intervalDays === null || intervalCount > intervalDays)) {
     return null;
   }
 
@@ -68,6 +78,8 @@ function parseHabit(body, current = null) {
     scheduleType,
     daysOfWeek: normalizedDays,
     targetDaysPerWeek: scheduleType === "weekly" ? targetDaysPerWeek : null,
+    intervalCount: scheduleType === "interval" ? intervalCount : null,
+    intervalDays: scheduleType === "interval" ? intervalDays : null,
     startDate,
   };
 }
@@ -75,7 +87,7 @@ function parseHabit(body, current = null) {
 async function findHabit(sql, userId, id) {
   const rows = await sql`
     SELECT id, name, description, color, icon, tracking_type, unit, target_value,
-           schedule_type, days_of_week, target_days_per_week, start_date, archived_at
+           schedule_type, days_of_week, target_days_per_week, interval_count, interval_days, start_date, archived_at
     FROM tracker_habits
     WHERE id = ${id}::uuid AND user_id = ${userId}
     LIMIT 1
@@ -100,7 +112,7 @@ module.exports = async function handler(req, res) {
       const includeArchived = oneQueryValue(req.query && req.query.includeArchived) === "true";
       const rows = await services.sql`
         SELECT id, name, description, color, icon, tracking_type, unit, target_value,
-               schedule_type, days_of_week, target_days_per_week, start_date, archived_at
+               schedule_type, days_of_week, target_days_per_week, interval_count, interval_days, start_date, archived_at
         FROM tracker_habits
         WHERE user_id = ${userId}
           AND (${includeArchived}::boolean OR archived_at IS NULL)
@@ -118,18 +130,18 @@ module.exports = async function handler(req, res) {
       const rows = await services.sql`
         INSERT INTO tracker_habits (
           user_id, name, description, color, icon, tracking_type, unit, target_value,
-          schedule_type, days_of_week, target_days_per_week, start_date
+          schedule_type, days_of_week, target_days_per_week, interval_count, interval_days, start_date
         ) VALUES (
           ${userId}, ${habit.name}, ${habit.description}, ${habit.color}, ${habit.icon},
           ${habit.trackingType}, ${habit.unit}, ${habit.targetValue}, ${habit.scheduleType},
-          ${habit.daysOfWeek}, ${habit.targetDaysPerWeek},
+          ${habit.daysOfWeek}, ${habit.targetDaysPerWeek}, ${habit.intervalCount}, ${habit.intervalDays},
           COALESCE(
             ${habit.startDate}::date,
             (NOW() AT TIME ZONE (SELECT timezone FROM tracker_users WHERE id = ${userId}))::date
           )
         )
         RETURNING id, name, description, color, icon, tracking_type, unit, target_value,
-                  schedule_type, days_of_week, target_days_per_week, start_date, archived_at
+                  schedule_type, days_of_week, target_days_per_week, interval_count, interval_days, start_date, archived_at
       `;
       return res.status(201).json({ habit: mapHabit(rows[0]) });
     }
@@ -163,10 +175,11 @@ module.exports = async function handler(req, res) {
           icon = ${habit.icon}, tracking_type = ${habit.trackingType}, unit = ${habit.unit},
           target_value = ${habit.targetValue}, schedule_type = ${habit.scheduleType},
           days_of_week = ${habit.daysOfWeek}, target_days_per_week = ${habit.targetDaysPerWeek},
+          interval_count = ${habit.intervalCount}, interval_days = ${habit.intervalDays},
           start_date = ${habit.startDate}::date, updated_at = NOW()
       WHERE id = ${id}::uuid AND user_id = ${userId}
       RETURNING id, name, description, color, icon, tracking_type, unit, target_value,
-                schedule_type, days_of_week, target_days_per_week, start_date, archived_at
+                schedule_type, days_of_week, target_days_per_week, interval_count, interval_days, start_date, archived_at
     `;
     return res.status(200).json({ habit: mapHabit(rows[0]) });
   } catch (error) {

@@ -170,6 +170,8 @@ function mapHabit(row, entries = []) {
     frequencyType: row.schedule_type === "weekdays" ? "specific_days" : row.schedule_type,
     daysOfWeek: row.days_of_week || [],
     targetDaysPerWeek: row.target_days_per_week,
+    intervalCount: row.interval_count ?? null,
+    intervalDays: row.interval_days ?? null,
     startDate: dateOnly(row.start_date),
     archived: Boolean(row.archived_at),
     archivedAt: row.archived_at,
