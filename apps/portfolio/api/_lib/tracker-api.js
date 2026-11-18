@@ -87,8 +87,12 @@ function kilogramsToWeight(value, unit) {
   if (value === null || value === undefined) {
     return null;
   }
-  const converted = unit === "lb" ? Number(value) / 0.45359237 : Number(value);
-  return Math.round(converted * 1000) / 1000;
+  if (unit !== "lb") {
+    return Math.round(Number(value) * 1000) / 1000;
+  }
+  // Weights are stored as kg to 3 decimals, so converting back to lb is off by up to ~0.001 lb
+  // (55 lb comes back as 55.00076). Rounding to hundredths recovers what was entered.
+  return Math.round((Number(value) / 0.45359237) * 100) / 100;
 }
 
 function distanceToMeters(value, unit) {

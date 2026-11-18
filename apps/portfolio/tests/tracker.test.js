@@ -66,6 +66,18 @@ test("weight and distance conversions round-trip in owner display units", () => 
   assert.ok(Math.abs(metersToDistance(meters, "mi") - 3.1) < 0.001);
 });
 
+test("weights read back exactly after being stored as kilograms to 3 decimals", () => {
+  // Mirrors the NUMERIC(10, 3) weight_kg column.
+  const stored = (pounds) => Math.round(poundsToKilograms(pounds, "lb") * 1000) / 1000;
+  for (const pounds of [50, 55, 60, 135, 225, 2.5, 52.5, 47.25, 12.34, 999.99]) {
+    assert.equal(kilogramsToWeight(stored(pounds), "lb"), pounds);
+  }
+  for (let pounds = 0; pounds <= 1000; pounds += 0.25) {
+    assert.equal(kilogramsToWeight(stored(pounds), "lb"), pounds, `${pounds} lb`);
+  }
+  assert.equal(kilogramsToWeight(1.125, "kg"), 1.125, "kilograms keep their stored precision");
+});
+
 test("date validation rejects impossible and malformed dates", () => {
   assert.equal(isDate("2026-09-21"), true);
   assert.equal(isDate("2026-02-30"), false);
