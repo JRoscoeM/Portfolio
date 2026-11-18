@@ -9,6 +9,7 @@ const {
   kilogramsToWeight,
   methodNotAllowed,
   metersToDistance,
+  oneQueryValue,
   poundsToKilograms,
   readBody,
   serverError,
@@ -66,10 +67,83 @@ async function loadRoutines(sql, userId, routineId = null) {
   `;
 }
 
+// Validates a routine's name and exercise list. Returns { error } or { name, description, exercises }.
+function parseRoutine(body, profile) {
+  const name = body && cleanText(body.name, 100, { required: true });
+  const description = body && cleanText(body.description, 1000);
+  const exercises = body && body.exercises;
+  if (!body || !name || description === undefined ||
+      !Array.isArray(exercises) || exercises.length > 40) {
+    return { error: "Invalid routine details." };
+  }
+
+  const parsedExercises = [];
+  const positions = new Set();
+  const exerciseIds = new Set();
+  for (let index = 0; index < exercises.length; index += 1) {
+    const item = exercises[index];
+    if (!item || typeof item !== "object") {
+      return { error: `Invalid routine exercise at position ${index + 1}.` };
+    }
+    const targetSets = finiteNumber(item.targetSets, { minimum: 1, maximum: 30, integer: true });
+    const targetRepsMin = finiteNumber(item.targetRepsMin ?? item.targetReps, { minimum: 0, maximum: 1000, integer: true });
+    const targetRepsMax = finiteNumber(item.targetRepsMax ?? item.targetReps, { minimum: 0, maximum: 1000, integer: true });
+    const targetWeight = finiteNumber(item.targetWeight, { minimum: 0, maximum: 100000 });
+    const targetDurationSeconds = finiteNumber(item.targetDurationSeconds, { minimum: 0, maximum: 604800, integer: true });
+    const targetDistance = finiteNumber(item.targetDistance, { minimum: 0, maximum: 100000 });
+    const targetRestSeconds = finiteNumber(item.restSeconds, { minimum: 0, maximum: 3600, integer: true });
+    const position = finiteNumber(item.position ?? index + 1, { minimum: 1, maximum: 100, integer: true });
+    const notes = cleanText(item.notes, 1000);
+
+    if (!isUuid(item.exerciseId) || targetSets === undefined || targetRepsMin === undefined ||
+        targetRepsMax === undefined || targetWeight === undefined || targetDurationSeconds === undefined ||
+        targetDistance === undefined || targetRestSeconds === undefined || position === undefined || positions.has(position) ||
+        notes === undefined ||
+        (targetRepsMin !== null && targetRepsMax !== null && targetRepsMin > targetRepsMax)) {
+      return { error: `Invalid routine exercise at position ${index + 1}.` };
+    }
+    if (exerciseIds.has(item.exerciseId)) {
+      return { error: "Each exercise can only appear once in a routine." };
+    }
+    positions.add(position);
+    exerciseIds.add(item.exerciseId);
+
+    parsedExercises.push({
+      id: crypto.randomUUID(),
+      exerciseId: item.exerciseId,
+      position,
+      notes,
+      targetSets,
+      targetRepsMin,
+      targetRepsMax,
+      targetWeightKg: poundsToKilograms(targetWeight, profile.weight_unit),
+      targetDurationSeconds,
+      targetDistanceMeters: distanceToMeters(targetDistance, profile.distance_unit),
+      targetRestSeconds,
+    });
+  }
+  return { name, description, exercises: parsedExercises };
+}
+
+function insertRoutineExercises(sql, userId, routineId, exercises) {
+  return exercises.map((item) => sql`
+    INSERT INTO tracker_routine_exercises (
+      id, user_id, routine_id, exercise_id, position, notes, target_sets,
+      target_reps_min, target_reps_max, target_weight_kg,
+      target_duration_seconds, target_distance_meters, target_rest_seconds
+    ) VALUES (
+      ${item.id}::uuid, ${userId}, ${routineId}::uuid, ${item.exerciseId}::uuid,
+      ${item.position}, ${item.notes}, ${item.targetSets}, ${item.targetRepsMin},
+      ${item.targetRepsMax}, ${item.targetWeightKg}, ${item.targetDurationSeconds},
+      ${item.targetDistanceMeters}, ${item.targetRestSeconds}
+    )
+  `);
+}
+
 module.exports = async function handler(req, res) {
   noStore(res);
-  if (!["GET", "POST"].includes(req.method)) {
-    return methodNotAllowed(res, ["GET", "POST"]);
+  if (!["GET", "POST", "PATCH"].includes(req.method)) {
+    return methodNotAllowed(res, ["GET", "POST", "PATCH"]);
   }
 
   const services = getTrackerServices(res);
@@ -95,57 +169,31 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ routines: rowsToRoutines(rows, profile) });
     }
 
-    const body = readBody(req);
-    const name = body && cleanText(body.name, 100, { required: true });
-    const description = body && cleanText(body.description, 1000);
-    const exercises = body && body.exercises;
-    if (!body || !name || description === undefined ||
-        !Array.isArray(exercises) || exercises.length > 40) {
-      return res.status(400).json({ error: "Invalid routine details." });
+    let routineId = null;
+    if (req.method === "PATCH") {
+      routineId = oneQueryValue(req.query && req.query.id);
+      if (!isUuid(routineId)) {
+        return res.status(400).json({ error: "A valid routine id is required." });
+      }
     }
 
-    const parsedExercises = [];
-    const positions = new Set();
-    for (let index = 0; index < exercises.length; index += 1) {
-      const item = exercises[index];
-      if (!item || typeof item !== "object") {
-        return res.status(400).json({ error: `Invalid routine exercise at position ${index + 1}.` });
-      }
-      const targetSets = finiteNumber(item.targetSets, { minimum: 1, maximum: 30, integer: true });
-      const targetRepsMin = finiteNumber(item.targetRepsMin ?? item.targetReps, { minimum: 0, maximum: 1000, integer: true });
-      const targetRepsMax = finiteNumber(item.targetRepsMax ?? item.targetReps, { minimum: 0, maximum: 1000, integer: true });
-      const targetWeight = finiteNumber(item.targetWeight, { minimum: 0, maximum: 100000 });
-      const targetDurationSeconds = finiteNumber(item.targetDurationSeconds, { minimum: 0, maximum: 604800, integer: true });
-      const targetDistance = finiteNumber(item.targetDistance, { minimum: 0, maximum: 100000 });
-      const targetRestSeconds = finiteNumber(item.restSeconds, { minimum: 0, maximum: 3600, integer: true });
-      const position = finiteNumber(item.position ?? index + 1, { minimum: 1, maximum: 100, integer: true });
-      const notes = cleanText(item.notes, 1000);
-
-      if (!isUuid(item.exerciseId) || targetSets === undefined || targetRepsMin === undefined ||
-          targetRepsMax === undefined || targetWeight === undefined || targetDurationSeconds === undefined ||
-          targetDistance === undefined || targetRestSeconds === undefined || position === undefined || positions.has(position) ||
-          notes === undefined ||
-          (targetRepsMin !== null && targetRepsMax !== null && targetRepsMin > targetRepsMax)) {
-        return res.status(400).json({ error: `Invalid routine exercise at position ${index + 1}.` });
-      }
-      positions.add(position);
-
-      parsedExercises.push({
-        id: crypto.randomUUID(),
-        exerciseId: item.exerciseId,
-        position,
-        notes,
-        targetSets,
-        targetRepsMin,
-        targetRepsMax,
-        targetWeightKg: poundsToKilograms(targetWeight, profile.weight_unit),
-        targetDurationSeconds,
-        targetDistanceMeters: distanceToMeters(targetDistance, profile.distance_unit),
-        targetRestSeconds,
-      });
+    const routine = parseRoutine(readBody(req), profile);
+    if (routine.error) {
+      return res.status(400).json({ error: routine.error });
     }
 
-    const exerciseIds = Array.from(new Set(parsedExercises.map((item) => item.exerciseId)));
+    if (routineId) {
+      const existing = await services.sql`
+        SELECT id FROM tracker_routines
+        WHERE id = ${routineId}::uuid AND user_id = ${userId} AND is_archived = FALSE
+        LIMIT 1
+      `;
+      if (!existing.length) {
+        return res.status(404).json({ error: "Routine not found." });
+      }
+    }
+
+    const exerciseIds = routine.exercises.map((item) => item.exerciseId);
     if (exerciseIds.length) {
       const availableRows = await services.sql`
         SELECT id
@@ -157,28 +205,34 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    const routineId = crypto.randomUUID();
-    const queries = [
+    if (routineId) {
+      // Replace the exercise list wholesale; nothing else points at routine exercise rows.
+      await services.sql.transaction([
+        services.sql`
+          UPDATE tracker_routines
+          SET name = ${routine.name}, description = ${routine.description}, updated_at = NOW()
+          WHERE id = ${routineId}::uuid AND user_id = ${userId}
+        `,
+        services.sql`
+          DELETE FROM tracker_routine_exercises
+          WHERE routine_id = ${routineId}::uuid AND user_id = ${userId}
+        `,
+        ...insertRoutineExercises(services.sql, userId, routineId, routine.exercises),
+      ]);
+      const rows = await loadRoutines(services.sql, userId, routineId);
+      return res.status(200).json({ routine: rowsToRoutines(rows, profile)[0] });
+    }
+
+    const newRoutineId = crypto.randomUUID();
+    await services.sql.transaction([
       services.sql`
         INSERT INTO tracker_routines (id, user_id, name, description)
-        VALUES (${routineId}::uuid, ${userId}, ${name}, ${description})
+        VALUES (${newRoutineId}::uuid, ${userId}, ${routine.name}, ${routine.description})
       `,
-      ...parsedExercises.map((item) => services.sql`
-        INSERT INTO tracker_routine_exercises (
-          id, user_id, routine_id, exercise_id, position, notes, target_sets,
-          target_reps_min, target_reps_max, target_weight_kg,
-          target_duration_seconds, target_distance_meters, target_rest_seconds
-        ) VALUES (
-          ${item.id}::uuid, ${userId}, ${routineId}::uuid, ${item.exerciseId}::uuid,
-          ${item.position}, ${item.notes}, ${item.targetSets}, ${item.targetRepsMin},
-          ${item.targetRepsMax}, ${item.targetWeightKg}, ${item.targetDurationSeconds},
-          ${item.targetDistanceMeters}, ${item.targetRestSeconds}
-        )
-      `),
-    ];
-    await services.sql.transaction(queries);
+      ...insertRoutineExercises(services.sql, userId, newRoutineId, routine.exercises),
+    ]);
 
-    const rows = await loadRoutines(services.sql, userId, routineId);
+    const rows = await loadRoutines(services.sql, userId, newRoutineId);
     return res.status(201).json({ routine: rowsToRoutines(rows, profile)[0] });
   } catch (error) {
     if (error && error.code === "23505") {

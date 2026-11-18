@@ -56,6 +56,7 @@ All payloads and responses use camelCase. Error responses have the shape `{ "err
 | `POST` | `/api/tracker/exercises` | Add a custom exercise (`name`, `category`, optional `muscleGroup`, `trackingType` of `weight_reps`/`reps`/`duration`/`distance`); a name already in the library returns `409`, and an archived one is restored |
 | `GET` | `/api/tracker/routines` | List routine templates |
 | `POST` | `/api/tracker/routines` | Create a routine template and its exercises |
+| `PATCH` | `/api/tracker/routines?id=<uuid>` | Rename a routine and replace its exercise list (same body as `POST`; each exercise may appear once) |
 | `GET` | `/api/tracker/workouts` | Workout history; use `?id=<uuid>` for nested details and `?limit=20` for summaries |
 | `POST` | `/api/tracker/workouts` | Atomically save a completed nested workout |
 
@@ -111,7 +112,8 @@ Statuses are `complete`, `partial`, or `skipped`. A missing date means no entry 
       "exerciseId": "00000000-0000-4000-8000-000000000000",
       "position": 1,
       "targetSets": 3,
-      "targetReps": 8,
+      "targetRepsMin": 8,
+      "targetRepsMax": 12,
       "targetWeight": 135,
       "restSeconds": 120
     }
@@ -119,7 +121,7 @@ Statuses are `complete`, `partial`, or `skipped`. A missing date means no entry 
 }
 ```
 
-Exercise ids come from `bootstrap.exercises`. `targetWeight` and `targetDistance` use the signed-in user's profile units.
+Exercise ids come from `bootstrap.exercises`. `targetRepsMin`/`targetRepsMax` set a rep range (`targetReps` alone sets both ends to the same number). `targetWeight` and `targetDistance` use the signed-in user's profile units.
 
 ### Completed workout example
 

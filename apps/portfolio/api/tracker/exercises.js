@@ -16,7 +16,9 @@ const TRACKING_TYPES_FROM_API = {
 };
 
 function parseExercise(body) {
-  const name = cleanText(body.name, 100, { required: true });
+  // Collapse inner whitespace so "Chest  Press" is stored, and matched, as "Chest Press".
+  const rawName = cleanText(body.name, 100, { required: true });
+  const name = rawName && rawName.replace(/\s+/g, " ");
   const category = cleanText(body.category, 40, { required: true });
   const muscleGroup = cleanText(body.muscleGroup, 40);
   const trackingType = TRACKING_TYPES_FROM_API[body.trackingType || "weight_reps"];
@@ -58,7 +60,8 @@ module.exports = async function handler(req, res) {
     const existing = await services.sql`
       SELECT id, name, category, muscle_group, tracking_type, is_archived
       FROM tracker_exercises
-      WHERE user_id = ${userId} AND LOWER(name) = LOWER(${exercise.name})
+      WHERE user_id = ${userId}
+        AND LOWER(REGEXP_REPLACE(TRIM(name), '[[:space:]]+', ' ', 'g')) = LOWER(${exercise.name})
       LIMIT 1
     `;
     if (existing.length && !existing[0].is_archived) {

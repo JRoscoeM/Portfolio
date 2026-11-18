@@ -859,6 +859,17 @@ h3 {
   font-weight: 700;
 }
 
+.routine-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.routine-card-header .icon-button {
+  margin: -6px -6px 0 0;
+}
+
 .routine-card h3 {
   margin: 13px 0 8px;
   font-size: 1.08rem;
@@ -1440,6 +1451,75 @@ textarea::placeholder {
   background: var(--surface-2);
 }
 
+.exercise-option:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.exercise-option:disabled:hover {
+  background: transparent;
+}
+
+.exercise-option-status {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.rep-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.rep-range-inputs input {
+  min-width: 0;
+  width: 100%;
+}
+
+.picker-hint {
+  margin-bottom: 8px;
+}
+
+.exercise-choice-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.exercise-choice-row:last-child {
+  border-bottom: 0;
+}
+
+.exercise-choice-row.is-selected {
+  background: var(--surface-2);
+}
+
+.exercise-choice-row.is-last-selected {
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.exercise-choice-row .exercise-choice {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 0;
+}
+
+.exercise-choice-row .rep-range-inputs {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+}
+
+.exercise-choice-row .rep-range-inputs input {
+  width: 46px;
+  min-height: 32px;
+  padding: 4px 6px;
+}
+
 .picker-create-button {
   margin-top: 10px;
 }
@@ -1721,6 +1801,21 @@ textarea::placeholder {
   .heat-cell {
     width: 9px;
     height: 9px;
+  }
+}
+
+@media (max-width: 520px) {
+  .exercise-choice-row {
+    flex-wrap: wrap;
+    padding-right: 0;
+  }
+
+  .exercise-choice-row .exercise-choice {
+    flex-basis: 100%;
+  }
+
+  .exercise-choice-row .rep-range-inputs {
+    padding: 0 12px 10px 40px;
   }
 }
 

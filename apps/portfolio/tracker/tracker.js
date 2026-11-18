@@ -51,6 +51,7 @@
   let selectedScheduleMode = "daily";
   let selectedHabitDays = new Set([0, 1, 2, 3, 4, 5, 6]);
   let selectedWeeklyTarget = 1;
+  let routineTickOrder = [];
   let selectedHabitColor = COLOR_OPTIONS[0];
 
   function refreshIcons() {
@@ -344,6 +345,20 @@
     };
   }
 
+  // Routine exercises carry a rep range; older data (and the guest demo) only has a single `targetReps`.
+  function normalizeRepRange(exercise) {
+    if (exercise.trackingType === "duration" || exercise.trackingType === "distance") {
+      return { targetRepsMin: null, targetRepsMax: null, targetReps: null };
+    }
+    const min = Number(exercise.targetRepsMin ?? exercise.targetReps ?? 8);
+    const max = Math.max(min, Number(exercise.targetRepsMax ?? exercise.targetReps ?? min));
+    return { targetRepsMin: min, targetRepsMax: max, targetReps: min };
+  }
+
+  function formatRepRange(min, max) {
+    return min === max ? `${min}` : `${min}–${max}`;
+  }
+
   function normalizeState(data) {
     const normalized = data || {};
     normalized.profile = normalized.profile || {
@@ -365,7 +380,7 @@
         exerciseId: exercise.exerciseId || exercise.id,
         position: Number(exercise.position || index + 1),
         targetSets: Number(exercise.targetSets || 3),
-        targetReps: Number(exercise.targetReps || exercise.targetRepsMin || 8),
+        ...normalizeRepRange(exercise),
         restSeconds: Number(exercise.restSeconds || 90),
       })),
     }));
@@ -510,6 +525,14 @@
     elements.habitForm.addEventListener("submit", saveHabit);
     elements.routineForm.addEventListener("submit", saveRoutine);
     elements.exerciseCreateForm.addEventListener("submit", saveNewExercise);
+    document.getElementById("exercise-create-tracking").addEventListener("change", syncExerciseCreateRepsField);
+    document.getElementById("routine-exercise-picker").addEventListener("change", handleRoutinePickerChange);
+    document.getElementById("routine-exercise-search").addEventListener("input", filterRoutinePicker);
+    document.getElementById("routine-exercise-search").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+      }
+    });
     document.getElementById("archive-habit").addEventListener("click", archiveCurrentHabit);
     document.getElementById("habit-tracking-type").addEventListener("change", syncHabitTargetField);
     document.getElementById("exercise-search").addEventListener("input", renderExerciseLibrary);
@@ -635,6 +658,9 @@
         break;
       case "new-routine":
         openRoutineDialog();
+        break;
+      case "edit-routine":
+        openRoutineDialog(data.id);
         break;
       case "add-exercise":
         openExerciseDialog();
@@ -1240,7 +1266,12 @@
     } else {
       routineList.innerHTML = state.routines.map((routine, index) => `
         <article class="routine-card">
-          <span class="routine-number">${String(index + 1).padStart(2, "0")}</span>
+          <div class="routine-card-header">
+            <span class="routine-number">${String(index + 1).padStart(2, "0")}</span>
+            <button class="icon-button" type="button" data-action="edit-routine" data-id="${escapeHtml(routine.id)}" aria-label="Edit ${escapeHtml(routine.name)}" title="Edit routine">
+              <i data-lucide="pencil" aria-hidden="true"></i>
+            </button>
+          </div>
           <h3>${escapeHtml(routine.name)}</h3>
           <p>${routine.exercises.length} exercises · ${escapeHtml(routine.exercises.slice(0, 2).map((exercise) => exercise.name).join(" · "))}</p>
           <button class="routine-start" type="button" data-action="start-routine" data-id="${escapeHtml(routine.id)}">Start routine</button>
@@ -1264,23 +1295,176 @@
     return `<div class="training-stat"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`;
   }
 
-  function openRoutineDialog() {
+  const MIXED_REST = "mixed";
+
+  // Opens the routine form empty, or filled from an existing routine when `routineId` is given.
+  function openRoutineDialog(routineId = null) {
+    const routine = routineId ? state.routines.find((item) => item.id === routineId) : null;
     elements.routineForm.reset();
     document.getElementById("routine-form-error").textContent = "";
-    renderRoutinePicker();
+    document.getElementById("routine-exercise-search").value = "";
+    document.getElementById("routine-id").value = routine?.id || "";
+    document.getElementById("routine-dialog-title").textContent = routine ? "Edit routine" : "New routine";
+    document.getElementById("routine-submit").textContent = routine ? "Save routine" : "Create routine";
+    document.getElementById("routine-name").value = routine?.name || "";
+
+    const ranges = new Map();
+    const rests = new Set();
+    for (const item of routine?.exercises || []) {
+      ranges.set(item.exerciseId, { sets: item.targetSets, min: item.targetRepsMin, max: item.targetRepsMax, rest: item.restSeconds });
+      rests.add(Number(item.restSeconds || 90));
+    }
+    const first = routine?.exercises?.[0];
+    if (first) {
+      document.getElementById("routine-sets").value = first.targetSets || 3;
+      const firstWithReps = routine.exercises.find((item) => item.targetRepsMin);
+      if (firstWithReps) {
+        document.getElementById("routine-reps-min").value = firstWithReps.targetRepsMin;
+        document.getElementById("routine-reps-max").value = firstWithReps.targetRepsMax;
+      }
+    }
+    setRoutineRestOptions(rests);
+    renderRoutinePicker(ranges);
+    filterRoutinePicker();
     elements.routineDialog.showModal();
     document.getElementById("routine-name").focus();
   }
 
-  function renderRoutinePicker(checkedIds = []) {
-    const checked = new Set(checkedIds);
+  // When a routine's exercises rest for different lengths, offer to keep each one's own rest.
+  function setRoutineRestOptions(rests) {
+    const select = document.getElementById("routine-rest");
+    select.querySelector(`option[value="${MIXED_REST}"]`)?.remove();
+    if (rests.size > 1) {
+      select.insertAdjacentHTML("afterbegin", `<option value="${MIXED_REST}">Per exercise</option>`);
+      select.value = MIXED_REST;
+      return;
+    }
+    const rest = String([...rests][0] || 90);
+    if (![...select.options].some((option) => option.value === rest)) {
+      select.insertAdjacentHTML("beforeend", `<option value="${rest}">${formatDuration(Number(rest))}</option>`);
+    }
+    select.value = rest;
+  }
+
+  function usesReps(exercise) {
+    return exercise.trackingType !== "duration" && exercise.trackingType !== "distance";
+  }
+
+  function defaultRoutineRepRange() {
+    return {
+      sets: Number(document.getElementById("routine-sets").value) || 3,
+      min: Number(document.getElementById("routine-reps-min").value) || 8,
+      max: Number(document.getElementById("routine-reps-max").value) || 12,
+    };
+  }
+
+  // Ticked exercise ids with their rep ranges, read from the picker, so a re-render can keep them.
+  function readRoutinePicker() {
+    const ranges = new Map();
+    elements.routineForm.querySelectorAll("input[name='exercise']:checked").forEach((input) => {
+      const row = input.closest(".exercise-choice-row");
+      ranges.set(input.value, {
+        sets: Number(row.querySelector("[data-sets]")?.value),
+        min: Number(row.querySelector("[data-rep-min]")?.value),
+        max: Number(row.querySelector("[data-rep-max]")?.value),
+        rest: row.dataset.rest ? Number(row.dataset.rest) : null,
+      });
+    });
+    return ranges;
+  }
+
+  // Ticked exercises sit at the top in the order they were ticked (which is also the routine's order),
+  // followed by the rest of the library.
+  function routinePickerOrder(tickedIds) {
+    const ticked = tickedIds.map((id) => state.exercises.find((exercise) => exercise.id === id)).filter(Boolean);
+    const tickedSet = new Set(tickedIds);
+    return [...ticked, ...state.exercises.filter((exercise) => !tickedSet.has(exercise.id))];
+  }
+
+  function markRoutinePickerGroups() {
+    const rows = [...document.querySelectorAll("#routine-exercise-picker .exercise-choice-row")];
+    const tickedRows = rows.filter((row) => row.querySelector("input[name='exercise']").checked);
+    rows.forEach((row) => {
+      row.classList.toggle("is-selected", tickedRows.includes(row));
+      row.classList.toggle("is-last-selected", row === tickedRows[tickedRows.length - 1] && tickedRows.length < rows.length);
+    });
+  }
+
+  function renderRoutinePicker(ranges = new Map()) {
+    const fallback = defaultRoutineRepRange();
+    routineTickOrder = [...ranges.keys()];
     document.getElementById("routine-exercise-picker").innerHTML = state.exercises.length
-      ? state.exercises.map((exercise) => `
-          <label class="exercise-choice">
-            <input type="checkbox" name="exercise" value="${escapeHtml(exercise.id)}"${checked.has(exercise.id) ? " checked" : ""} />
-            <span class="exercise-choice-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exerciseMeta(exercise))}</span></span>
-          </label>`).join("")
+      ? routinePickerOrder(routineTickOrder).map((exercise) => {
+          const checked = ranges.has(exercise.id);
+          const range = { ...fallback, ...(checked ? ranges.get(exercise.id) : {}) };
+          const name = escapeHtml(exercise.name);
+          const repInputs = usesReps(exercise)
+            ? `<span aria-hidden="true">×</span>
+                <input data-rep-min type="number" min="1" max="100" value="${range.min || fallback.min}" aria-label="${name} minimum reps" />
+                <span aria-hidden="true">–</span>
+                <input data-rep-max type="number" min="1" max="100" value="${range.max || fallback.max}" aria-label="${name} maximum reps" />`
+            : "<span>sets</span>";
+          const targetInputs = `<div class="rep-range-inputs${checked ? "" : " is-hidden"}" aria-label="Targets for ${name}">
+                <input data-sets type="number" min="1" max="30" value="${range.sets || fallback.sets}" aria-label="${name} sets" />
+                ${repInputs}
+              </div>`;
+          return `
+          <div class="exercise-choice-row" data-exercise-id="${escapeHtml(exercise.id)}"${checked && range.rest ? ` data-rest="${Number(range.rest)}"` : ""}>
+            <label class="exercise-choice">
+              <input type="checkbox" name="exercise" value="${escapeHtml(exercise.id)}"${checked ? " checked" : ""} />
+              <span class="exercise-choice-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exerciseMeta(exercise))}</span></span>
+            </label>
+            ${targetInputs}
+          </div>`;
+        }).join("")
       : `<div class="empty-state"><p>Your library is empty. Add an exercise below.</p></div>`;
+    markRoutinePickerGroups();
+  }
+
+  // Moves rows into place without re-rendering, so typed rep ranges are kept.
+  function arrangeRoutinePicker() {
+    const container = document.getElementById("routine-exercise-picker");
+    const rows = new Map([...container.querySelectorAll(".exercise-choice-row")].map((row) => [row.dataset.exerciseId, row]));
+    routinePickerOrder(routineTickOrder).forEach((exercise) => {
+      const row = rows.get(exercise.id);
+      if (row) {
+        container.appendChild(row);
+      }
+    });
+    markRoutinePickerGroups();
+  }
+
+  // Ticking moves an exercise to the end of the selected group and shows its rep range, starting from the default.
+  function handleRoutinePickerChange(event) {
+    const checkbox = event.target.closest("input[name='exercise']");
+    if (!checkbox) {
+      return;
+    }
+    routineTickOrder = routineTickOrder.filter((id) => id !== checkbox.value);
+    if (checkbox.checked) {
+      routineTickOrder.push(checkbox.value);
+    }
+    const row = checkbox.closest(".exercise-choice-row");
+    const targets = row.querySelector(".rep-range-inputs");
+    if (checkbox.checked) {
+      const fallback = defaultRoutineRepRange();
+      targets.querySelector("[data-sets]").value = fallback.sets;
+      if (targets.querySelector("[data-rep-min]")) {
+        targets.querySelector("[data-rep-min]").value = fallback.min;
+        targets.querySelector("[data-rep-max]").value = fallback.max;
+      }
+    } else {
+      delete row.dataset.rest;
+    }
+    targets.classList.toggle("is-hidden", !checkbox.checked);
+    arrangeRoutinePicker();
+  }
+
+  function repRangeError(min, max) {
+    if (!Number.isInteger(min) || !Number.isInteger(max) || min < 1 || max > 100) {
+      return "Reps must be whole numbers from 1 to 100.";
+    }
+    return min > max ? "The rep range's low end can't be above its high end." : "";
   }
 
   function exerciseMeta(exercise) {
@@ -1293,42 +1477,69 @@
 
   async function saveRoutine(event) {
     event.preventDefault();
-    const exerciseIds = [...elements.routineForm.querySelectorAll("input[name='exercise']:checked")].map((input) => input.value);
+    const ranges = readRoutinePicker();
     const payload = {
       name: document.getElementById("routine-name").value.trim(),
-      exercises: exerciseIds.map((exerciseId, index) => ({
-        exerciseId,
-        position: index + 1,
-        targetSets: Number(document.getElementById("routine-sets").value),
-        targetReps: Number(document.getElementById("routine-reps").value),
-        restSeconds: Number(document.getElementById("routine-rest").value),
-      })),
+      exercises: [...ranges].map(([exerciseId, range], index) => {
+        const exercise = state.exercises.find((candidate) => candidate.id === exerciseId) || {};
+        const reps = usesReps(exercise);
+        const restChoice = document.getElementById("routine-rest").value;
+        return {
+          exerciseId,
+          position: index + 1,
+          targetSets: range.sets,
+          targetRepsMin: reps ? range.min : null,
+          targetRepsMax: reps ? range.max : null,
+          restSeconds: restChoice === MIXED_REST ? range.rest || 90 : Number(restChoice),
+        };
+      }),
     };
+    const errorField = document.getElementById("routine-form-error");
     if (!payload.name || !payload.exercises.length) {
-      document.getElementById("routine-form-error").textContent = payload.name ? "Choose at least one exercise." : "Give the routine a name.";
+      errorField.textContent = payload.name ? "Choose at least one exercise." : "Give the routine a name.";
       return;
+    }
+    for (const item of payload.exercises) {
+      const setsError = Number.isInteger(item.targetSets) && item.targetSets >= 1 && item.targetSets <= 30
+        ? ""
+        : "Sets must be a whole number from 1 to 30.";
+      const error = setsError || (item.targetRepsMin === null ? "" : repRangeError(item.targetRepsMin, item.targetRepsMax));
+      if (error) {
+        const name = state.exercises.find((candidate) => candidate.id === item.exerciseId)?.name || "An exercise";
+        errorField.textContent = `${name}: ${error}`;
+        return;
+      }
     }
     const submit = elements.routineForm.querySelector("button[type='submit']");
     submit.disabled = true;
     try {
+      const routineId = document.getElementById("routine-id").value;
+      const duplicateName = state.routines.find((routine) => routine.id !== routineId && routine.name.toLowerCase() === payload.name.toLowerCase());
+      if (duplicateName) {
+        throw new Error(`You already have a routine called ${duplicateName.name}.`);
+      }
       if (mode === "guest") {
-        state.routines.push({
-          id: makeId("routine"),
-          name: payload.name,
-          notes: "",
-          exercises: payload.exercises.map((item) => {
-            const exercise = state.exercises.find((candidate) => candidate.id === item.exerciseId);
-            return { ...item, name: exercise.name, trackingType: exercise.trackingType };
-          }),
+        const exercises = payload.exercises.map((item) => {
+          const exercise = state.exercises.find((candidate) => candidate.id === item.exerciseId);
+          return { ...item, name: exercise.name, trackingType: exercise.trackingType, targetReps: item.targetRepsMin };
         });
+        const existing = state.routines.find((routine) => routine.id === routineId);
+        if (existing) {
+          Object.assign(existing, { name: payload.name, exercises });
+        } else {
+          state.routines.push({ id: makeId("routine"), name: payload.name, notes: "", exercises });
+        }
         persistGuestState();
       } else {
-        await apiFetch("/api/tracker/routines", { method: "POST", body: JSON.stringify(payload) });
+        await apiFetch(`/api/tracker/routines${routineId ? `?id=${encodeURIComponent(routineId)}` : ""}`, {
+          method: routineId ? "PATCH" : "POST",
+          body: JSON.stringify(payload),
+        });
         await reloadOwnerData();
       }
       elements.routineDialog.close();
       renderAll();
-      toast("Routine created.");
+      toast(routineId ? "Routine updated." : "Routine created.");
     } catch (error) {
       document.getElementById("routine-form-error").textContent = error.message;
     } finally {
@@ -1349,7 +1560,8 @@
         trackingType: template.trackingType,
         position: index + 1,
         targetSets: template.targetSets,
-        targetReps: template.targetReps,
+        targetRepsMin: template.targetRepsMin,
+        targetRepsMax: template.targetRepsMax,
         restSeconds: template.restSeconds,
       })),
     };
@@ -1365,6 +1577,9 @@
     const trackingType = options.trackingType || libraryExercise.trackingType || "weight_reps";
     const previous = lastExercisePerformance(exerciseId);
     const setCount = Number(options.targetSets || 3);
+    const repsMin = options.targetRepsMin ?? options.targetReps ?? null;
+    const repsMax = options.targetRepsMax ?? repsMin;
+    const targetText = repsMin ? `Target: ${setCount} × ${formatRepRange(repsMin, repsMax)} reps` : "";
     return {
       exerciseId,
       name: options.name || libraryExercise.name || "Exercise",
@@ -1373,12 +1588,13 @@
       restSeconds: Number(options.restSeconds || libraryExercise.defaultRestSeconds || 90),
       notes: "",
       previousText: previous.text,
+      targetText,
       sets: Array.from({ length: setCount }, (_, index) => ({
         position: index + 1,
         setType: "working",
         weight: trackingType === "weight_reps" ? previous.sets[index]?.weight ?? null : null,
         weightUnit: state.profile.weightUnit || "lb",
-        reps: trackingType === "weight_reps" || trackingType === "reps" ? previous.sets[index]?.reps ?? Number(options.targetReps || 8) : null,
+        reps: trackingType === "weight_reps" || trackingType === "reps" ? previous.sets[index]?.reps ?? Number(repsMin || 8) : null,
         durationSeconds: null,
         distance: null,
         distanceUnit: state.profile.distanceUnit || "mi",
@@ -1441,7 +1657,7 @@
     return `
       <article class="workout-exercise">
         <div class="exercise-heading">
-          <div><h2>${escapeHtml(exercise.name)}</h2><p>${escapeHtml(exercise.previousText)}</p></div>
+          <div><h2>${escapeHtml(exercise.name)}</h2><p>${escapeHtml([exercise.targetText, exercise.previousText].filter(Boolean).join(" · "))}</p></div>
           <button class="icon-button" type="button" data-action="remove-exercise" data-exercise-index="${exerciseIndex}" aria-label="Remove ${escapeHtml(exercise.name)}" title="Remove exercise"><i data-lucide="trash-2" aria-hidden="true"></i></button>
         </div>
         <table class="set-table">
@@ -1507,19 +1723,64 @@
     document.getElementById("exercise-search").focus();
   }
 
+  // Exercise names compare case- and spacing-insensitively, so "Chest press" and "chest  Press" are one exercise.
+  function exerciseNameKey(name) {
+    return String(name || "").trim().replace(/\s+/g, " ").toLowerCase();
+  }
+
+  function findExerciseByName(name) {
+    const key = exerciseNameKey(name);
+    return state.exercises.find((exercise) => exerciseNameKey(exercise.name) === key) || null;
+  }
+
+  function exerciseMatches(exercise, query) {
+    const words = exerciseNameKey(query).split(" ").filter(Boolean);
+    const haystack = `${exercise.name} ${exercise.category || ""} ${exercise.equipment || ""} ${exercise.muscleGroup || ""}`.toLowerCase();
+    return words.every((word) => haystack.includes(word));
+  }
+
+  function noMatchMarkup(query, target) {
+    const existing = findExerciseByName(query);
+    const create = query && !existing
+      ? `<button class="text-button" type="button" data-action="new-exercise" data-target="${target}">Create “${escapeHtml(query.trim())}”</button>`
+      : "";
+    return `<p>No exercises match that search.</p>${create}`;
+  }
+
   function renderExerciseLibrary() {
     if (!state) {
       return;
     }
-    const query = document.getElementById("exercise-search").value.trim().toLowerCase();
-    const exercises = state.exercises.filter((exercise) => !query || `${exercise.name} ${exercise.category} ${exercise.equipment || ""} ${exercise.muscleGroup || ""}`.toLowerCase().includes(query));
     const rawQuery = document.getElementById("exercise-search").value.trim();
+    const exercises = state.exercises.filter((exercise) => exerciseMatches(exercise, rawQuery));
+    const inWorkout = new Set((activeWorkout?.exercises || []).map((exercise) => exercise.exerciseId));
     document.getElementById("exercise-library").innerHTML = exercises.length
-      ? exercises.map((exercise) => `
-          <button class="exercise-option" type="button" data-action="choose-exercise" data-id="${escapeHtml(exercise.id)}">
+      ? exercises.map((exercise) => {
+          const added = inWorkout.has(exercise.id);
+          return `
+          <button class="exercise-option" type="button" data-action="choose-exercise" data-id="${escapeHtml(exercise.id)}"${added ? " disabled" : ""}>
             <span class="exercise-option-text"><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(exerciseMeta(exercise))}</span></span>
-          </button>`).join("")
-      : `<div class="empty-state"><p>No exercises match that search.</p>${rawQuery ? `<button class="text-button" type="button" data-action="new-exercise" data-target="workout">Create “${escapeHtml(rawQuery)}”</button>` : ""}</div>`;
+            ${added ? '<span class="exercise-option-status">In workout</span>' : ""}
+          </button>`;
+        }).join("")
+      : `<div class="empty-state">${noMatchMarkup(rawQuery, "workout")}</div>`;
+  }
+
+  // Hides picker rows that don't match, so ticks and rep ranges on hidden rows are kept.
+  function filterRoutinePicker() {
+    const query = document.getElementById("routine-exercise-search").value.trim();
+    let visible = 0;
+    document.querySelectorAll("#routine-exercise-picker .exercise-choice-row").forEach((row) => {
+      const exercise = state.exercises.find((item) => item.id === row.querySelector("input[name='exercise']").value);
+      const show = !exercise || exerciseMatches(exercise, query);
+      row.classList.toggle("is-hidden", !show);
+      visible += show ? 1 : 0;
+    });
+    const empty = document.getElementById("routine-exercise-empty");
+    const noMatches = Boolean(query) && visible === 0;
+    empty.innerHTML = noMatches ? noMatchMarkup(query, "routine") : "";
+    empty.classList.toggle("is-hidden", !noMatches);
+    document.getElementById("routine-exercise-picker").classList.toggle("is-hidden", noMatches);
   }
 
   // Opens the new-exercise form on top of whichever picker asked for it ("workout" or "routine").
@@ -1527,10 +1788,23 @@
     exerciseCreateTarget = target === "routine" ? "routine" : "workout";
     elements.exerciseCreateForm.reset();
     document.getElementById("exercise-create-error").textContent = "";
-    const search = exerciseCreateTarget === "workout" ? document.getElementById("exercise-search").value.trim() : "";
+    const search = document.getElementById(exerciseCreateTarget === "workout" ? "exercise-search" : "routine-exercise-search").value.trim();
     document.getElementById("exercise-create-name").value = search;
+    if (exerciseCreateTarget === "routine") {
+      const fallback = defaultRoutineRepRange();
+      document.getElementById("exercise-create-reps-min").value = fallback.min;
+      document.getElementById("exercise-create-reps-max").value = fallback.max;
+    }
+    syncExerciseCreateRepsField();
     elements.exerciseCreateDialog.showModal();
     document.getElementById("exercise-create-name").focus();
+  }
+
+  // The rep range applies to the routine being built, so it only shows there, and only for rep-based exercises.
+  function syncExerciseCreateRepsField() {
+    const tracking = document.getElementById("exercise-create-tracking").value;
+    const show = exerciseCreateTarget === "routine" && usesReps({ trackingType: tracking });
+    document.getElementById("exercise-create-reps-field").classList.toggle("is-hidden", !show);
   }
 
   async function saveNewExercise(event) {
@@ -1546,9 +1820,19 @@
       errorField.textContent = "Give the exercise a name.";
       return;
     }
-    const duplicate = state.exercises.find((exercise) => exercise.name.toLowerCase() === payload.name.toLowerCase());
+    const duplicate = findExerciseByName(payload.name);
     if (duplicate) {
-      errorField.textContent = `${duplicate.name} is already in your library.`;
+      errorField.textContent = `${duplicate.name} is already in your library. Search for it instead.`;
+      return;
+    }
+    const repRange = {
+      min: Number(document.getElementById("exercise-create-reps-min").value),
+      max: Number(document.getElementById("exercise-create-reps-max").value),
+    };
+    const wantsRange = exerciseCreateTarget === "routine" && usesReps(payload);
+    const rangeError = wantsRange ? repRangeError(repRange.min, repRange.max) : "";
+    if (rangeError) {
+      errorField.textContent = rangeError;
       return;
     }
 
@@ -1568,8 +1852,11 @@
       elements.exerciseCreateDialog.close();
 
       if (exerciseCreateTarget === "routine") {
-        const checkedIds = [...elements.routineForm.querySelectorAll("input[name='exercise']:checked")].map((input) => input.value);
-        renderRoutinePicker([...checkedIds, exercise.id]);
+        const ranges = readRoutinePicker();
+        ranges.set(exercise.id, wantsRange ? repRange : defaultRoutineRepRange());
+        document.getElementById("routine-exercise-search").value = "";
+        renderRoutinePicker(ranges);
+        filterRoutinePicker();
         document.getElementById("routine-form-error").textContent = "";
       } else {
         addExerciseToWorkout(exercise.id);
@@ -1584,6 +1871,11 @@
 
   function addExerciseToWorkout(exerciseId) {
     if (!activeWorkout) {
+      return;
+    }
+    const existing = activeWorkout.exercises.find((exercise) => exercise.exerciseId === exerciseId);
+    if (existing) {
+      toast(`${existing.name} is already in this workout. Add a set to it instead.`, true);
       return;
     }
     activeWorkout.exercises.push(buildActiveExercise(exerciseId, { position: activeWorkout.exercises.length + 1 }));

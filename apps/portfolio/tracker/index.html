@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/tracker/tracker.css?v=5" />
+    <link rel="stylesheet" href="/tracker/tracker.css?v=8" />
   </head>
   <body>
     <div id="boot-screen" class="boot-screen" aria-live="polite">
@@ -326,25 +326,30 @@
         <div class="modal-header">
           <div>
             <p class="section-kicker">Training template</p>
-            <h2>New routine</h2>
+            <h2 id="routine-dialog-title">New routine</h2>
           </div>
           <button class="icon-button" type="button" data-close-dialog="routine-dialog" aria-label="Close" title="Close">
             <i data-lucide="x" aria-hidden="true"></i>
           </button>
         </div>
+        <input id="routine-id" type="hidden" />
         <label class="field">
           <span>Name</span>
           <input id="routine-name" name="name" maxlength="80" required placeholder="e.g. Upper A" />
         </label>
         <div class="field-grid field-grid-three">
           <label class="field">
-            <span>Sets</span>
+            <span>Default sets</span>
             <input id="routine-sets" name="targetSets" type="number" min="1" max="12" value="3" required />
           </label>
-          <label class="field">
-            <span>Reps</span>
-            <input id="routine-reps" name="targetReps" type="number" min="1" max="100" value="8" required />
-          </label>
+          <div class="field">
+            <span>Default reps</span>
+            <div class="rep-range-inputs">
+              <input id="routine-reps-min" type="number" min="1" max="100" value="8" required aria-label="Default minimum reps" />
+              <span aria-hidden="true">–</span>
+              <input id="routine-reps-max" type="number" min="1" max="100" value="12" required aria-label="Default maximum reps" />
+            </div>
+          </div>
           <label class="field">
             <span>Rest</span>
             <select id="routine-rest" name="restSeconds">
@@ -357,13 +362,19 @@
         </div>
         <fieldset class="field fieldset-reset">
           <legend>Exercises</legend>
+          <p class="muted-copy picker-hint">Each exercise you tick gets its own sets and reps, starting from the defaults.</p>
+          <label class="search-field">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <input id="routine-exercise-search" type="search" placeholder="Search exercises" aria-label="Search exercises" />
+          </label>
           <div id="routine-exercise-picker" class="exercise-picker"></div>
+          <div id="routine-exercise-empty" class="empty-state is-hidden"></div>
           <button class="text-button picker-create-button" type="button" data-action="new-exercise" data-target="routine">+ New exercise</button>
         </fieldset>
         <p id="routine-form-error" class="form-message" role="alert"></p>
         <div class="modal-actions">
           <button class="button button-secondary" type="button" data-close-dialog="routine-dialog">Cancel</button>
-          <button class="button button-primary" type="submit">Create routine</button>
+          <button id="routine-submit" class="button button-primary" type="submit">Create routine</button>
         </div>
       </form>
     </dialog>
@@ -428,6 +439,14 @@
             <option value="distance">Distance</option>
           </select>
         </label>
+        <div id="exercise-create-reps-field" class="field is-hidden">
+          <span>Rep range for this routine</span>
+          <div class="rep-range-inputs">
+            <input id="exercise-create-reps-min" type="number" min="1" max="100" value="8" aria-label="Minimum reps" />
+            <span aria-hidden="true">–</span>
+            <input id="exercise-create-reps-max" type="number" min="1" max="100" value="12" aria-label="Maximum reps" />
+          </div>
+        </div>
         <p id="exercise-create-error" class="form-message" role="alert"></p>
         <div class="modal-actions">
           <button class="button button-secondary" type="button" data-close-dialog="exercise-create-dialog">Cancel</button>
@@ -440,6 +459,6 @@
     <div id="toast-region" class="toast-region" aria-live="polite"></div>
 
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <script src="/tracker/tracker.js?v=5"></script>
+    <script src="/tracker/tracker.js?v=8"></script>
   </body>
 </html>

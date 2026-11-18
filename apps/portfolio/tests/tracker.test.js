@@ -23,6 +23,7 @@ const { STARTER_EXERCISES } = require("../api/_lib/tracker-users");
 const authHandler = require("../api/tracker/auth");
 const habitsHandler = require("../api/tracker/habits");
 const exercisesHandler = require("../api/tracker/exercises");
+const routinesHandler = require("../api/tracker/routines");
 const {
   distanceToMeters,
   isDate,
@@ -264,6 +265,14 @@ test("a custom exercise is added to the signed-in user's library", async (t) => 
   await exercisesHandler({ method: "POST", headers, body: { name: "chest press", category: "machine" } }, duplicate);
   assert.equal(duplicate.statusCode, 409);
 
+  database.queries = [];
+  database.results = [[], [{ id: "44444444-4444-4444-8444-444444444444", name: "Cable Fly", category: "cable", muscle_group: null, tracking_type: "strength" }]];
+  const spaced = createResponse();
+  await exercisesHandler({ method: "POST", headers, body: { name: "  Cable    Fly ", category: "cable" } }, spaced);
+  assert.equal(spaced.statusCode, 201);
+  assert.ok(database.queries[0].includes("Cable Fly"), "the duplicate lookup uses the collapsed name");
+  assert.equal(database.queries[1][1], "Cable Fly", "the collapsed name is what gets stored");
+
   for (const body of [{ name: "", category: "machine" }, { name: "Press", category: "machine", trackingType: "laps" }]) {
     const invalid = createResponse();
     await exercisesHandler({ method: "POST", headers, body }, invalid);
@@ -312,6 +321,72 @@ test("habits accept once-a-week and x-times-every-y-days schedules", async (t) =
     await habitsHandler({ method: "POST", headers, body }, invalid);
     assert.equal(invalid.statusCode, 400, JSON.stringify(body));
   }
+});
+
+test("routine exercises save a rep range and reject an inverted one", async (t) => {
+  useTestEnvironment(t);
+  const sessionCookie = await signInAs(t, { sub: "5005", email: "routines@example.com", email_verified: true });
+  const headers = { cookie: sessionCookie };
+  const exerciseId = "33333333-3333-4333-8333-333333333333";
+  const exercise = (range) => ({ exerciseId, position: 1, targetSets: 3, restSeconds: 90, ...range });
+
+  database.queries = [];
+  database.results = [[{ weight_unit: "lb", distance_unit: "mi" }], [{ id: exerciseId }]];
+  const created = createResponse();
+  await routinesHandler({ method: "POST", headers, body: { name: "Push", exercises: [exercise({ targetRepsMin: 8, targetRepsMax: 12 })] } }, created);
+  assert.equal(created.statusCode, 201);
+  const insert = database.queries.find((values) => values.includes(exerciseId) && values.includes(12));
+  assert.ok(insert, "the routine exercise insert carries the rep range");
+  assert.ok(insert.indexOf(8) < insert.indexOf(12));
+
+  database.results = [[{ weight_unit: "lb", distance_unit: "mi" }]];
+  const inverted = createResponse();
+  await routinesHandler({ method: "POST", headers, body: { name: "Push", exercises: [exercise({ targetRepsMin: 12, targetRepsMax: 8 })] } }, inverted);
+  assert.equal(inverted.statusCode, 400);
+});
+
+test("a routine can be edited, replacing its exercises", async (t) => {
+  useTestEnvironment(t);
+  const sessionCookie = await signInAs(t, { sub: "6006", email: "editor@example.com", email_verified: true });
+  const headers = { cookie: sessionCookie };
+  const routineId = "55555555-5555-4555-8555-555555555555";
+  const benchId = "66666666-6666-4666-8666-666666666666";
+  const flyId = "77777777-7777-4777-8777-777777777777";
+  const body = {
+    name: "Push (heavy)",
+    exercises: [
+      { exerciseId: flyId, position: 1, targetSets: 3, targetRepsMin: 12, targetRepsMax: 15, restSeconds: 60 },
+      { exerciseId: benchId, position: 2, targetSets: 4, targetRepsMin: 4, targetRepsMax: 6, restSeconds: 180 },
+    ],
+  };
+  const profile = [{ weight_unit: "lb", distance_unit: "mi" }];
+
+  database.queries = [];
+  database.results = [profile, [{ id: routineId }], [{ id: flyId }, { id: benchId }]];
+  const updated = createResponse();
+  await routinesHandler({ method: "PATCH", headers, query: { id: routineId }, body }, updated);
+  assert.equal(updated.statusCode, 200);
+  const rename = database.queries.find((values) => values.includes("Push (heavy)"));
+  assert.ok(rename && rename.includes(routineId) && rename.includes("google:6006"));
+  const inserts = database.queries.filter((values) => values.includes(routineId) && (values.includes(flyId) || values.includes(benchId)));
+  assert.equal(inserts.length, 2, "both exercises are re-inserted");
+  assert.ok(inserts[0].includes(flyId), "exercises keep the submitted order");
+
+  database.results = [profile, []];
+  const missing = createResponse();
+  await routinesHandler({ method: "PATCH", headers, query: { id: routineId }, body }, missing);
+  assert.equal(missing.statusCode, 404);
+
+  database.results = [profile];
+  const repeated = createResponse();
+  const twice = { ...body, exercises: [body.exercises[0], { ...body.exercises[0], position: 2 }] };
+  await routinesHandler({ method: "PATCH", headers, query: { id: routineId }, body: twice }, repeated);
+  assert.equal(repeated.statusCode, 400);
+
+  database.results = [profile];
+  const noId = createResponse();
+  await routinesHandler({ method: "PATCH", headers, query: {}, body }, noId);
+  assert.equal(noId.statusCode, 400);
 });
 
 test("a sign-in without a provider account id is refused", async (t) => {
